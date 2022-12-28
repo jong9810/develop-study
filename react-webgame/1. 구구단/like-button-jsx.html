@@ -1,0 +1,50 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>like button</title>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+<!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  'use strict';
+
+  class LikeButton extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {liked: false};
+    }
+
+    render() {
+      {if (this.state.liked) {
+        return 'You liked this.';
+      }}
+
+      // babel이 jsx코드를 찾아서 React.createElement를 적용해준다.
+      // return React.createElement('button', {onClick: () => this.setState({liked: true})}, 'Like');
+      // jsx에서는 if문과 for문을 사용할 수 없다.
+      // 따라서, 조건문 대신 삼항연산자를 사용하고 반복문 대신 [1,2,3].map((i) => {return i;}) 형식으로 코드를 작성한다.
+      // return 안에는 태그가 하나만 와야 한다. 
+      // 만약 형제 태그를 여러 개 반환하려면 빈 태그(fragment)나 div태그로 형제 태그 전체를 감싸주어야 한다.
+      return (
+        <div>
+          <button onClick={()=>this.setState({liked:true})}>
+            {this.state.liked ? 'Liked' : 'Like!'}
+          </button>
+          <input type="text"/>
+        </div>
+      )
+    }
+  }
+</script>
+<script type="text/babel">
+  // 회사의 코드가 17버전인지 18버전인지 구분할 수 있어야 함.
+  ReactDOM.render(<LikeButton/>, document.querySelector('#root')); // React 17버전 코드
+  // ReactDOM.createRoot(document.querySelector('#root')).render(<LikeButton />); // React 18버전 코드
+</script>
+</body>
+</html>
