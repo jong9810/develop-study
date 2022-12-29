@@ -39,9 +39,21 @@
   // 자식(or 자손)만 선택해야할 경우 : querySelector('div>span')
   // querySelector의 인자로는 태그 이름 뿐만 아니라 id(#), class(.) 속성도 줄 수 있다.
   // id 속성은 html에서 고유하기 때문에 복잡한 태그인 경우 querySelector의 인자로 id값만을 주면 된다.
-  const $input = document.querySelector('input');
-  console.log($input);
-  const $button = document.querySelector('button');
+  // const $input = document.querySelector('input');
+  // console.log($input);
+  // const $button = document.querySelector('button');
+
+  // 태그.addEventListener('이벤트 이름', 리스너함수) : 이벤트가 발생될 때마다 리스너함수를 호출해준다.
+  // 리스너 함수에는 함수의 리턴값이 아닌 함수 자체를 인자로 주어야 하기 때문에 '함수이름()'(x) '함수이름'(o)
+  // 콜백함수 : 어떠한 동작이 수행된 후에 연이어 호출되는 함수
+  document.querySelector('input').addEventListener('input', (event) => {
+    console.log('글자 입력 : ', event.target.value);
+  });
+
+  const onClick = function(){
+    console.log('버튼 클릭');
+  }
+  document.querySelector('button').addEventListener('click', onClick);
 </script>
 
 </body>
