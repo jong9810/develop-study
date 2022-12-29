@@ -63,8 +63,8 @@
       newWord = event.target.value;
     }
 
-    document.querySelector('input').addEventListener('input', onInput);
-    document.querySelector('button').addEventListener('click', onClick);
+    $input.addEventListener('input', onInput);
+    $button.addEventListener('click', onClick);
 
   // 나만의 변수명 정하는 규칙 : $가 앞에 붙은 변수는 태그를 가르키고 $$는 태그 여러 개를 가르킨다.
   // querySelector의 인자로 'div span'이라고 주면 div의 자손 태그인 span 태그를 선택해준다.
@@ -86,5 +86,5 @@
   </script>
 
 </body>
-  
+
 </html>
