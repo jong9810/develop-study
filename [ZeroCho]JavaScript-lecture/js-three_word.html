@@ -9,65 +9,42 @@
 
 <body>
   <div><span id="order">1</span>번째 참가자</div>
-  <div>이번 차례 목숨 : <span id="life"></span>개</div>
   <input type="text" />
   <button>입력</button>
   <script>
     // 변수 선언부
     const $order = document.querySelector('#order');
-    const $life = document.querySelector('#life');
     const $input = document.querySelector('input');
     const $button = document.querySelector('button');
     const number = parseInt(prompt('참가 인원은 몇 명입니까? '));
-    const maxLife = parseInt(prompt('한 차례당 목숨 개수는 몇 개로 정하시겠습니까? '));
     let letter; // 참가자가 말한 단어의 글자 수
-
-    $life.textContent = maxLife;
 
     // 함수 선언부
     const onInput = (event) => {
       letter = event.target.value.length;
     }
     const onClick = () => {
-      const order = Number($order.textContent);
-      let life = maxLife;
-      while (life > 0) {
-        if (letter === 3) { // 단어가 세 글자인가?
-          // 세 글자 O
-          if (order + 1 > number) {
-            $order.textContent = 1;
-          }
-          else {
-            $order.textContent = order + 1;
-          }
-          $input.value = '';
-          $input.focus();
-          life = maxLife;
-          break;
-        }
-        else { // 세 글자 X
-          const tryAgain = confirm('다시 입력하시겠습니까?');
-          if(tryAgain){
-            life -= 1;
-            $life.textContent = life;
-            break;
-          }
-          continue;
+      let order = Number($order.textContent);
+      if (letter === 3) { // 세 글자 O
+        if (order + 1 > number) {
+          $order.textContent = 1;
+        } else {
+          $order.textContent = order + 1;
         }
       }
-      alert('게임 종료');
+      else { // 세 글자 X
+        const tryAgain = confirm('다시 도전하시겠습니까?');
+        if(!tryAgain){
+          alert(order + '번 참가자가 포기하셨습니다. 게임종료!')
+        }
+      }
+      $input.value = '';
+      $input.focus();
     }
 
     // 명령 실행부
     $input.addEventListener('input', onInput);
     $button.addEventListener('click', onClick);
-
-
-
-
-
-
-
   </script>
 
 </body>
