@@ -1,0 +1,127 @@
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>야구게임</title>
+  <style>
+    * {
+      margin: 5px;
+    }
+
+    input {
+      width: 70px;
+      margin-right: 10px
+    }
+
+    #input {
+      margin-left: 45px;
+      margin-right: 5px
+    }
+
+    button {
+      margin-left: 20px;
+      margin-right: 20px;
+      width: 60px
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <input type="text" id="input" />
+    <button>입력</button>
+    목숨 : <span id="life">10</span>개
+  </div>
+  <hr />
+  <div class="row">
+    <p>
+      (<span id="order">0</span>)
+      <input readonly id="input-0" type="number" />
+      <span id="strike-0">0</span>스트라이크<span id="ball-0">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">1</span>)
+      <input readonly id="input-1" type="number" />
+      <span id="strike-1">0</span>스트라이크<span id="ball-1">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">2</span>)
+      <input readonly id="input-2" type="number" />
+      <span id="strike-2">0</span>스트라이크<span id="ball-2">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">3</span>)
+      <input readonly id="input-3" type="number" />
+      <span id="strike-3">0</span>스트라이크<span id="ball-3">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">4</span>)
+      <input readonly id="input-4" type="number" />
+      <span id="strike-4">0</span>스트라이크<span id="ball-4">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">5</span>)
+      <input readonly id="input-5" type="number" />
+      <span id="strike-5">0</span>스트라이크<span id="ball-5">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">6</span>)
+      <input readonly id="input-6" type="number" />
+      <span id="strike-6">0</span>스트라이크<span id="ball-6">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">7</span>)
+      <input readonly id="input-7" type="number" />
+      <span id="strike-7">0</span>스트라이크<span id="ball-7">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">8</span>)
+      <input readonly id="input-8" type="number" />
+      <span id="strike-8">0</span>스트라이크<span id="ball-8">0</span>볼
+    </p>
+  </div>
+  <div>
+    <p>
+      (<span id="order">9</span>)
+      <input readonly id="input-9" type="number" />
+      <span id="strike-9">0</span>스트라이크<span id="ball-9">0</span>볼
+    </p>
+  </div>
+  <script>
+    const answer = '1234'; // 정답
+    let input = ''; // 플레이어가 입력한 수
+    let balls = 0; // 볼 개수
+    let strikes = 0; // 스트라이크 개수
+    let order = 0; // 몇 번째 차례인지
+    let life = 10; // 목숨이 몇 개 남았는지
+
+
+    document.querySelector('#input').addEventListener('input', (event) => {
+      input = event.target.value;
+    });
+    document.querySelector('button').addEventListener('click', () => {
+      document.querySelector('#input-0').value = input;
+    });
+
+  </script>
+</body>
+
+</html>
