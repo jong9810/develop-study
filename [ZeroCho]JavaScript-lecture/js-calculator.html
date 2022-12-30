@@ -6,16 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>계산기</title>
   <style>
-    * {box-sizing:border-box;}
-    button {width:50px; height:50px; margin:5px;}
-    #operator {width:50px; height:50px; margin:5px;text-align:center;}
-    #result {width:180px; height:50px; margin:5px; text-align:right;}
+    * {
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+    }
+
+    #operator {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      text-align: center;
+    }
+
+    #result {
+      width: 180px;
+      height: 50px;
+      margin: 5px;
+      text-align: right;
+    }
   </style>
 </head>
 
 <body>
-    <input readonly id="operator"/>
-    <input readonly id="result" type="number" />
+  <input readonly id="operator" />
+  <input readonly id="result" type="number" />
   <div class="row">
     <button id="num-7">7</button>
     <button id="num-8">8</button>
@@ -48,85 +67,76 @@
     let numTwo = '';
     const $operator = document.querySelector('#operator');
     const $result = document.querySelector('#result');
-    
-    document.querySelector('#num-0').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '0';
-      }else{
-        numOne += '0';
-      }
-    });
-    document.querySelector('#num-1').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '1';
-      }else{
-        numOne += '1';
-      }
-    });
-    document.querySelector('#num-2').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '2';
-      }else{
-        numOne += '2';
-      }
-    });
-    document.querySelector('#num-3').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '3';
-      }else{
-        numOne += '3';
-      }
-    });
-    document.querySelector('#num-4').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '4';
-      }else{
-        numOne += '4';
-      }
-    });
-    document.querySelector('#num-5').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '5';
-      }else{
-        numOne += '5';
-      }
-    });
-    document.querySelector('#num-6').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '6';
-      }else{
-        numOne += '6';
-      }
-    });
-    document.querySelector('#num-7').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '7';
-      }else{
-        numOne += '7';
-      }
-    });
-    document.querySelector('#num-8').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '8';
-      }else{
-        numOne += '8';
-      }
-    });
-    document.querySelector('#num-9').addEventListener('click',()=>{
-      if(operator){
-        numTwo += '9';
-      }else{
-        numOne += '9';
-      }
-    });
-    document.querySelector('#plus').addEventListener('click',()=>{});
-    document.querySelector('#minus').addEventListener('click',()=>{});
-    document.querySelector('#multiply').addEventListener('click',()=>{});
-    document.querySelector('#divide').addEventListener('click',()=>{});
-    document.querySelector('#clear').addEventListener('click',()=>{});
-    document.querySelector('#calculate').addEventListener('click',()=>{});
 
+    const onClickNumber = (_number) => {
+      return () => {
+        if (operator) {
+          numTwo += _number;
+        } else {
+          numOne += _number;
+        }
+        $result.value += _number;
+      };
+    }
+    const onClickOperator = (_operate) => {
+      return () => {
+        if (numOne) {
+          operator += _operate;
+        } else {
+          alert('첫 번째 숫자를 입력해주세요.')
+        }
+        $operator.value += _operate;
+        $result.value = '';
+      }
+    }
+    const onClickCalculate = () => {
+      return () => {
+        if (numTwo) {
+          if (operator === '+') {
+            $result.value = Number(numOne) + Number(numTwo);
+          } else if (operator === '-') {
+            $result.value = Number(numOne) - Number(numTwo);
+          } else if (operator === '*') {
+            $result.value = Number(numOne) * Number(numTwo);
+          } else if (operator === '/') {
+            $result.value = Number(numOne) / Number(numTwo);
+          }
+          $operator.value = '';
+        } else {
+          alert('두 번째 숫자를 입력하세요.')
+        }
+      }
+    }
+    const onClickClear = () => {
+      return () => {
+        numOne = '';
+        numTwo = '';
+        operator = '';
+        $result.value = '';
+        $operator.value = '';
+      }
+    }
+    document.querySelector('#num-0').addEventListener('click', onClickNumber('0'));
+    document.querySelector('#num-1').addEventListener('click', onClickNumber('1'));
+    document.querySelector('#num-2').addEventListener('click', onClickNumber('2'));
+    document.querySelector('#num-3').addEventListener('click', onClickNumber('3'));
+    document.querySelector('#num-4').addEventListener('click', onClickNumber('4'));
+    document.querySelector('#num-5').addEventListener('click', onClickNumber('5'));
+    document.querySelector('#num-6').addEventListener('click', onClickNumber('6'));
+    document.querySelector('#num-7').addEventListener('click', onClickNumber('7'));
+    document.querySelector('#num-8').addEventListener('click', onClickNumber('8'));
+    document.querySelector('#num-9').addEventListener('click', onClickNumber('9'));
+    document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+    document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+    document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+    document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+    document.querySelector('#clear').addEventListener('click', onClickClear());
+    document.querySelector('#calculate').addEventListener('click', onClickCalculate());
 
+    // 반복되는 코드가 나오는 경우 함수를 만드는 것이 좋다.
+    // 함수를 만들 때 코드에서 달라지는 부분을 매개변수로 정하면 된다.
+    // addEventListener() 함수의 두 번째 인자로는 함수를 넣어주어야 한다.
+    // onClickNumber() 함수를 호출했을 때 원하는 동작을 함수로 반환하면 정상적으로 작동하게 된다.
 
 
   </script>
