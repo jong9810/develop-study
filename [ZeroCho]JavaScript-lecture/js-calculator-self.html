@@ -65,7 +65,6 @@
     let numOne = '';
     let operator = '';
     let numTwo = '';
-    let result = 0;
     const $operator = document.querySelector('#operator');
     const $result = document.querySelector('#result');
     const onClickNumber = (event) => {
@@ -107,22 +106,21 @@
       if (numTwo) {
         switch (operator) {
           case '+':
-            result = Number(numOne) + Number(numTwo);
+            $result.value = Number(numOne) + Number(numTwo);
             break;
           case '-':
-            result = numOne - numTwo;
+            $result.value = numOne - numTwo;
             break;
           case '*':
-            result = numOne * numTwo;
+            $result.value = numOne * numTwo;
             break;
           case '/':
-            result = numOne / numTwo;
+            $result.value = numOne / numTwo;
             break;
           default:
             break;
         }
-        $result.value = result;
-        numOne = String(result);
+        numOne = String($result.value);
         numTwo = '';
         operator = '';
         $operator.value = '';
