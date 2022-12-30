@@ -68,12 +68,21 @@
     const $operator = document.querySelector('#operator');
     const $result = document.querySelector('#result');
 
+    // if문 중첩 제거하는 과정
+    // 1. if문 다음에 나오는 공통된 절차를 각 분기점 내부에 넣는다.
+    // 2. 분기점에서 짧은 절차부터 실행하게 if문을 수정한다.
+    // 3. 짧은 절차가 끝나면 return(함수 내부의 경우)이나 break(반복문 내부의 경우)로 중단한다.
+    // 4. else를 제거한다.
     const onClickNumber = (event) => {
-      if (operator) {
-        numTwo += event.target.textContent;
-      } else {
+      if (!operator) {
         numOne += event.target.textContent;
+        $result.value += event.target.textContent;
+        return;
       }
+      if (!numTwo) {
+        $result.value = '';
+      }
+      numTwo += event.target.textContent;
       $result.value += event.target.textContent;
     }
 
@@ -84,7 +93,6 @@
         alert('첫 번째 숫자를 입력해주세요.')
       }
       $operator.value += event.target.textContent;
-      $result.value = '';
     }
 
     document.querySelector('#num-0').addEventListener('click', onClickNumber);
@@ -135,7 +143,7 @@
     // 반복되는 코드가 나오는 경우 함수를 만드는 것이 좋다.
     // 함수를 만들 때 코드에서 달라지는 부분을 매개변수로 정하면 된다.
     // addEventListener() 함수의 두 번째 인자로는 함수를 넣어주어야 한다.
-    // onClickNumber() 함수를 호출했을 때 원하는 동작을 함수로 반환하면 정상적으로 작동하게 된다.
+    // onClickNumber(파라미터) 함수를 호출했을 때 원하는 동작을 함수로 반환하면 정상적으로 작동하게 된다. (고차함수)
 
     // 화살표 함수인 경우, 중괄호 바로 다음 return이 오면 중괄호와 return을 생략해도 된다.
     // 함수를 리턴하는 함수 : 고차원 함수(high order function)
