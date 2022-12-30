@@ -9,6 +9,7 @@
 
 <body>
   <div><span id="order">1</span>번째 참가자</div>
+  <div>제시어 : <span id="word"></span></div>
   <input type="text" />
   <button>입력</button>
   <script>
@@ -16,26 +17,34 @@
     const $order = document.querySelector('#order');
     const $input = document.querySelector('input');
     const $button = document.querySelector('button');
+    const $word = document.querySelector('#word');
     const number = parseInt(prompt('참가 인원은 몇 명입니까? '));
+    let word; // 제시어
+    let newWord; // 참가자가 새로 말한 단어
     let letter; // 참가자가 말한 단어의 글자 수
 
     // 함수 선언부
     const onInput = (event) => {
+      newWord = event.target.value;
       letter = event.target.value.length;
     }
     const onClick = () => {
       let order = Number($order.textContent);
-      if (letter === 3) { // 세 글자 O
-        if (order + 1 > number) {
+      if (!word || (word[word.length - 1] === newWord[0] && newWord.length === 3)) {
+        // 첫 번째 차례이거나 단어가 올바르다.
+        word = newWord;
+        $word.textContent = newWord;
+        if(order + 1 > number){
           $order.textContent = 1;
-        } else {
+        }
+        else {
           $order.textContent = order + 1;
         }
       }
-      else { // 세 글자 X
-        const tryAgain = confirm('다시 도전하시겠습니까?');
+      else { // 첫 번째 차례가 아니고 단어가 올바르지 않다.
+        const tryAgain = confirm('다시 입력하세요.');
         if(!tryAgain){
-          alert(order + '번 참가자가 포기하셨습니다. 게임종료!')
+          alert(order + '번 참가자가 게임을 포기하셨습니다. 게임종료!');
         }
       }
       $input.value = '';
