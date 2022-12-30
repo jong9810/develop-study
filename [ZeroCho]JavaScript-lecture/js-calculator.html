@@ -68,54 +68,25 @@
     const $operator = document.querySelector('#operator');
     const $result = document.querySelector('#result');
 
-    const onClickNumber = (_number) => {
-      return () => {
-        if (operator) {
-          numTwo += _number;
-        } else {
-          numOne += _number;
-        }
-        $result.value += _number;
-      };
-    }
-    const onClickOperator = (_operate) => {
-      return () => {
-        if (numOne) {
-          operator += _operate;
-        } else {
-          alert('첫 번째 숫자를 입력해주세요.')
-        }
-        $operator.value += _operate;
-        $result.value = '';
+    const onClickNumber = (_number) => () => {
+      if (operator) {
+        numTwo += _number;
+      } else {
+        numOne += _number;
       }
+      $result.value += _number;
     }
-    const onClickCalculate = () => {
-      return () => {
-        if (numTwo) {
-          if (operator === '+') {
-            $result.value = Number(numOne) + Number(numTwo);
-          } else if (operator === '-') {
-            $result.value = Number(numOne) - Number(numTwo);
-          } else if (operator === '*') {
-            $result.value = Number(numOne) * Number(numTwo);
-          } else if (operator === '/') {
-            $result.value = Number(numOne) / Number(numTwo);
-          }
-          $operator.value = '';
-        } else {
-          alert('두 번째 숫자를 입력하세요.')
-        }
+
+    const onClickOperator = (_operate) => () => {
+      if (numOne) {
+        operator += _operate;
+      } else {
+        alert('첫 번째 숫자를 입력해주세요.')
       }
+      $operator.value += _operate;
+      $result.value = '';
     }
-    const onClickClear = () => {
-      return () => {
-        numOne = '';
-        numTwo = '';
-        operator = '';
-        $result.value = '';
-        $operator.value = '';
-      }
-    }
+
     document.querySelector('#num-0').addEventListener('click', onClickNumber('0'));
     document.querySelector('#num-1').addEventListener('click', onClickNumber('1'));
     document.querySelector('#num-2').addEventListener('click', onClickNumber('2'));
@@ -130,15 +101,49 @@
     document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
     document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
     document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
-    document.querySelector('#clear').addEventListener('click', onClickClear());
-    document.querySelector('#calculate').addEventListener('click', onClickCalculate());
+    document.querySelector('#calculate').addEventListener('click', () => {
+      if (numTwo) {
+        switch (operator) {
+          case '+':
+            $result.value = Number(numOne) + Number(numTwo);
+            break;
+          case '-':
+            $result.value = Number(numOne) - Number(numTwo);
+            break;
+          case '*':
+            $result.value = Number(numOne) * Number(numTwo);
+            break;
+          case '/':
+            $result.value = Number(numOne) / Number(numTwo);
+            break;
+          default:
+            break;
+        }
+        $operator.value = '';
+      } else {
+        alert('두 번째 숫자를 입력하세요.')
+      }
+    });
+    document.querySelector('#clear').addEventListener('click', () => {
+      numOne = '';
+      numTwo = '';
+      operator = '';
+      $result.value = '';
+      $operator.value = '';
+    });
 
     // 반복되는 코드가 나오는 경우 함수를 만드는 것이 좋다.
     // 함수를 만들 때 코드에서 달라지는 부분을 매개변수로 정하면 된다.
     // addEventListener() 함수의 두 번째 인자로는 함수를 넣어주어야 한다.
     // onClickNumber() 함수를 호출했을 때 원하는 동작을 함수로 반환하면 정상적으로 작동하게 된다.
 
+    // 화살표 함수인 경우, 중괄호 바로 다음 return이 오면 중괄호와 return을 생략해도 된다.
+    // 함수를 리턴하는 함수 : 고차원 함수(high order function)
+    // 고차원 함수에서 중괄호와 리턴이 생략된 경우가 많으니 눈에 익혀두자.
+    // 고차 함수는 함수끼리의 중복을 막기 위해 사용한다.
 
+    // addEventListener() 함수에서 첫 번째 인자로 준 액션이 입력되면 두 번째 인자의 함수를 브라우저가 실행해준다.
+    // 그 때 브라우저가 실행하는 함수에 (event) 객체를 만들어서 인자로 넣어준다. ex) event.target.value 와 같은 속성 사용 가능
   </script>
 </body>
 
