@@ -31,8 +31,10 @@
       numbers.splice(index, 1);
     }
 
+    // 함수 선언부
     const tries = [];
-    function checkInput(input) { // 입력한 값을 검사하는 함수
+    let out = 0;
+    function checkInput(input) { // 입력한 값이 올바른지 검사하는 함수
       if (input.length !== answer.length) { // 입력한 값이 정답의 길이와 같지 않으면
         return alert('숫자의 개수를 확인해주세요.');
       }
@@ -44,6 +46,10 @@
       }
       return true;
     }
+    function defeated() {
+      const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`); // 패배 메시지 텍스트를 만들어준다.
+      $logs.appendChild(message); // logs 태그에 추가해준다.
+    }
 
     $form.addEventListener('submit', (event) => {
       event.preventDefault(); // 기본 동작 막기
@@ -51,7 +57,6 @@
       $input.value = '';
       $input.focus();
       if (!checkInput(value)) { // 입력값이 올바르지 않다면
-
         return;
       }
       // 입력값이 올바르다면
@@ -59,9 +64,8 @@
         $logs.textContent = '홈런!';
         return;
       }
-      if (tries.length >= 9) {
-        const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`); // 패배 메시지 텍스트를 만들어준다.
-        $logs.appendChild(message); // logs 태그에 추가해준다.
+      if (tries.length >= 9) { // 10번째 시도라면
+        defeated();
         return;
       }
 
@@ -78,7 +82,16 @@
           }
         }
       }
-      $logs.append(`${value} : ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+      if (strike === 0 && ball === 0) {
+        out++;
+        $logs.append(`(${tries.length + 1}) ${value} : ${out}아웃!!`, document.createElement('br'));
+      } else {
+        $logs.append(`(${tries.length + 1}) ${value} : ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+      }
+      if (out >= 3) {
+        defeated();
+        return;
+      }
       tries.push(value);
     })
 
