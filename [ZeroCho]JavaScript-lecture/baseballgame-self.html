@@ -105,12 +105,12 @@
     </p>
   </div>
   <script>
-    let array = Array(9).fill().map((item, index) => index + 1)
-    let answer = ''; // 정답
-    while(array.length > 9-4){
+    const array = Array(9).fill().map((item, index) => index + 1)
+    const answer = []; // 정답
+    while(answer.length < 4){
       const num = Math.floor(Math.random() * array.length);
-      const newArr = array.splice(num,1);
-      answer += String(newArr[0]);
+      answer.push(String(array[num]));
+      array.splice(num,1);
     }
     let input = ''; // 플레이어가 입력한 수
     let balls = 0; // 볼 개수
