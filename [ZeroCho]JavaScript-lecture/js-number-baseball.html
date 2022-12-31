@@ -20,16 +20,21 @@
     const $logs = document.querySelector('#logs');
 
     // 랜덤한 숫자 4개 추출하는 코드
+    /*
     const numbers = [];
     for (let i = 0; i < 10; i++) {
       numbers.push(i);
     }
+    */
+    const numbers = Array(10).fill().map((el, idx) => idx);
     const answer = [];
     for (let i = 0; i < 4; i++) {
       const index = Math.floor(Math.random() * numbers.length);
       answer.push(numbers[index]);
       numbers.splice(index, 1);
     }
+    
+    
 
     // 함수 선언부
     const tries = [];
@@ -113,7 +118,37 @@
     // appendChild : 반드시 createTextNode로 텍스트를 만든 후에 그 값을 전달해주어야 한다. 여러 개 추가도 불가능. 잘 안 쓰임
     // append : appendChild의 단점을 보완한 메서드로, 여러개 추가가 가능하고 문자열인 경우에는 createTextNode로 생성하지 않아도 된다.
 
-    // foreach문
+    // 배열에 대한 반복문 역할을 하는 메서드 종류, forEach(), map(), fill()
+    // 배열 메서드들은 성능은 for문보다 좀 떨어지지만 연달아 사용할 수 있어서 코드의 가독성을 더 높일 수 있다.
+    
+    // forEach()메서드 : 배열의 모든 원소에 대해 for문을 실행해준다. 인수로는 함수를 주고 그 함수의 인수로는 배열의 원소와 인덱스를 준다.
+    /* 
+    const answer = [3,1,4,6];
+    const value = '3214';
+    let strike = 0;
+    let ball = 0;
+    answer.forEach((element, i) => {
+      const index = value.indexOf(element);
+      if(index > -1){
+        if(index === i){
+          strike++;
+        } else {
+          ball++;
+        }
+      }
+    })
+    */
+
+   // map()메서드 : 배열을 어떻게 바꿀지 함수로 정의해서 인수로 주면 결과를 보여줌. 원본은 안 바뀜
+   /*
+   const array = [1,2,3,4];
+   array.map((element, index)=>{
+    return element * 2;
+   })
+   */
+
+   // Array(9) : 길이가 9인 빈 배열을 만들어줌
+   // Array(9).fill(0) : 배열을 0 으로 채워줌.
   </script>
 </body>
 
