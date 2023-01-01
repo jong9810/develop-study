@@ -38,11 +38,28 @@
     const $result = document.querySelector('#result');
     const $bonus = document.querySelector('#bonus');
 
+    const colorize = (number, $tag)=>{
+      if(number>=40){
+          $tag.style.backgroundColor = 'blue';
+          $tag.style.color = 'white';
+        } else if(number >= 30){
+          $tag.style.backgroundColor = 'green';
+          $tag.style.color = 'white';
+        } else if(number >= 20){
+          $tag.style.backgroundColor = 'yellow';
+        } else if(number >= 10){
+          $tag.style.backgroundColor = 'orange';
+        } else{
+          $tag.style.backgroundColor = 'red';
+          $tag.style.color = 'white';
+        }
+    }
     const showBall = (number, $target, time) => {
       setTimeout(() => {
         const $ball = document.createElement('div');
         $ball.className = 'ball';
         $ball.textContent = number;
+        colorize(number, $ball);
         $target.append($ball);
       }, time * 1000);
     }
