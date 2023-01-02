@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>가위바위보 게임</title>
   <style>
-    # {
+    #computer {
       width: 142px;
       height: 200px;
     }
@@ -28,7 +28,8 @@
     const $rock = document.querySelector('#rock');
     const $paper = document.querySelector('#paper');
     const IMG_URL = './rsp.png';
-
+    $computer.style.background = `url(${IMG_URL}) 0 0`;
+    $computer.style.backgroundSize = 'auto 200px';
 
   </script>
 </body>
