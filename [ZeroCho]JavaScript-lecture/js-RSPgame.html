@@ -115,22 +115,22 @@
     const checkResult = (diff) => {
       let message;
       if (diff === 0) { // diff가 0이면 비김
-        message = '무승부';
+        message = '무승부!';
       } else if ([2, -1].includes(diff)) { // diff가 2나 -1이면 이김
-        message = '플레이어 승, 컴퓨터 패배';
+        message = '플레이어 승!';
         score += 1;
       } else if ([1, -2].includes(diff)) { // diff가 1이나 -2이면 짐
-        message = '플레이어 패배, 컴퓨터 승';
+        message = '컴퓨터 승!';
         compScore += 1;
       }
       $score.textContent = `${message} 플레이어 점수 : ${score}, 컴퓨터 점수 : ${compScore}`;
-      if (score === 3) {
+      if (score >= 3) {
         alert('플레이어가 최종 승리하였습니다.');
         $scissors.removeEventListener('click', clickButton);
         $rock.removeEventListener('click', clickButton);
         $paper.removeEventListener('click', clickButton);
         gameOver = true;
-      } else if (compScore === 3) {
+      } else if (compScore >= 3) {
         alert('컴퓨터가 최종 승리하였습니다.');
         $scissors.removeEventListener('click', clickButton);
         $rock.removeEventListener('click', clickButton);
