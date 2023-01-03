@@ -1,0 +1,64 @@
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반응속도 체크</title>
+  <style>
+    #screen {
+      width: 900px;
+      height: 600px;
+      text-align: center;
+      user-select: none;
+    }
+
+    #screen.waiting {
+      background-color: aqua;
+    }
+
+    #screen.ready {
+      background-color: red;
+      color: white;
+    }
+
+    #screen.now {
+      background-color: greenyellow;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="screen" class="waiting">클릭해서 시작하세요.</div>
+  <div id="result"></div>
+  <script>
+    const $screen = document.querySelector('#screen');
+    const $result = document.querySelector('#result');
+
+    $screen.addEventListener('click', (event) => {
+      if (event.target.classList.contains('waiting')) {
+        $screen.className = 'ready';
+        $result.textContent = '';
+        let timeoutId = setTimeout(() => {
+          $screen.className = 'now';
+        }, 1000);
+      } else if (event.target.classList.contains('ready')) {
+        $screen.className = 'waiting';
+        $result.textContent = `너무 성급했습니다.`;
+
+      } else if (event.target.classList.contains('now')) {
+        $screen.className = 'waiting';
+        $result.textContent = ``; // 걸린 시간 표시
+
+      }
+    });
+
+
+    // html class 속성은 띄어쓰기를 통해 여러 클래스를 줄 수 있다. ex) <div class="waiting ready now"></div> : waiting, ready, now 클래스
+    // 위와 같이 여러 클래스를 적용하는 경우, 태그.classList를 통해 접근할 수 있다 (유사 배열로 반환해줌).
+    // 태그.classList.contains('클래스');를 하면 특정 태그의 특정 클래스가 있다면 true, 없다면 false를 반환함.
+
+  </script>
+</body>
+
+</html>
