@@ -50,15 +50,9 @@
     $screen.addEventListener("click", (event) => {
       if (event.target.classList.contains("waiting")) {
         // 화면 변경
-        $result.textContent = ``;
         event.target.classList.remove("waiting");
         event.target.classList.add("ready");
         event.target.textContent = "초록색이 되면 클릭하세요.";
-        // self-check : 상위 5개 기록 표시하기
-        const topFive = records.sort((a, b) => a - b).slice(0, 5);
-        console.log(topFive);
-        topFive.forEach(() => { });
-
         // 랜덤 타이머 시작
         timeoutId = setTimeout(() => {
           event.target.classList.replace("ready", "now");
@@ -69,7 +63,7 @@
         // 화면 변경
         event.target.classList.replace("ready", "waiting");
         event.target.textContent = "클릭해서 시작하세요.";
-        $result.textContent = `너무 성급하시군요~`;
+        event.target.textContent = `너무 성급하시군요~`;
         // 랜덤 타이머 종료
         clearTimeout(timeoutId);
       } else if (event.target.classList.contains("now")) {
@@ -82,7 +76,12 @@
         // 현재 반응 속도와 평균 반응속도 계산해서 표시
         records.push(record);
         const average = records.reduce((a, c) => a + c) / records.length;
-        $result.innerHTML = `반응속도 : ${record}ms <br/>평균 반응속도 : ${average}ms<br/>`;
+        $result.textContent = `반응속도 : ${record}ms, 평균 반응속도 : ${average}ms`;
+        // self-check : 상위 5개 기록 표시하기
+        const topFive = records.sort((a, b) => a - b).slice(0, 5);
+        topFive.forEach((el, idx) => {
+          $result.append(document.createElement('br'), `${idx + 1}위 : ${el}ms`);
+        });
         // 시작, 끝 시간 초기화는 하지 않아도 되지만 오류가 발생할 가능성을 줄이기 위해 한다.
         startTime = null;
         finishTime = null;
