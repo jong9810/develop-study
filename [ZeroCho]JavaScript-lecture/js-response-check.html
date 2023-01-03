@@ -41,7 +41,7 @@
         $result.textContent = '';
         let timeoutId = setTimeout(() => {
           $screen.className = 'now';
-        }, 1000);
+        }, Math.random() * 2000 + 500); // 0.1 <= time < 2
       } else if (event.target.classList.contains('ready')) {
         $screen.className = 'waiting';
         $result.textContent = `너무 성급했습니다.`;
