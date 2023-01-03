@@ -1,0 +1,135 @@
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>틱택토 게임</title>
+  <style>
+    button {
+      width: 70px;
+      height: 70px;
+      margin: 3px;
+      font-size: 18pt;
+    }
+
+    #restart {
+      font-size: 12px;
+      width: 70px;
+      height: 30px;
+    }
+
+    .player1 {
+      color: red;
+    }
+
+    .player2 {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td><button class="btn" id="00"></button></td>
+      <td><button class="btn" id="01"></button></td>
+      <td><button class="btn" id="02"></button></td>
+    </tr>
+    <tr>
+      <td><button class="btn" id="10"></button></td>
+      <td><button class="btn" id="11"></button></td>
+      <td><button class="btn" id="12"></button></td>
+    </tr>
+    <tr>
+      <td><button class="btn" id="20"></button></td>
+      <td><button class="btn" id="21"></button></td>
+      <td><button class="btn" id="22"></button></td>
+    </tr>
+  </table>
+  <p><span id="result"></span></p>
+  <button id="restart">다시하기</button>
+  <script>
+    // 변수 선언부
+    const $result = document.querySelector('#result');
+    const $restart = document.querySelector('#restart');
+    const $$buttons = document.querySelectorAll('.btn');
+    // 게임판 2차원 배열을 선언하고 map 함수로 초기화
+    const board = [];
+    for (let i = 0; i < 3; i++) {
+      board.push([]);
+      for (let j = 0; j < 3; j++) {
+        board[i].push(0);
+      }
+    }
+    let order = 1;
+    const scoreTable = {
+      'O': 1,
+      'X': -1,
+    };
+
+    // 함수 선언부
+    let rowSum = []; // 가로 합
+    let colSum = []; // 세로 합
+    let diagSum = []; // 대각선 합
+    const onClick = (event) => {
+      const XY = event.target.id.split('').map((el, idx) => Number(el));
+      console.log(rowSum);
+
+      // 가로 합 구하는 부분
+
+      // 세로 합 구하는 부분
+
+      // 대각선 합 구하는 부분
+
+      // 승패 판별하는 부분
+
+
+
+      // 차례가 9번 진행되었는데도 승패가 갈리지 않으면 무승부 처리
+      if (order >= 9) {
+        $result.textContent = '무승부 -_-';
+        event.target.textContent = 'O';
+        board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
+        event.target.className = 'player1';
+        return;
+      }
+      // 차례에 따라 O, X를 클릭한 버튼에 표시하고 버튼 이벤트 제거
+      if (order % 2 === 1) {
+        event.target.textContent = 'O';
+        event.target.className = 'player1';
+      } else if (order % 2 === 0) {
+        event.target.textContent = 'X';
+        event.target.className = 'player2';
+      }
+      order += 1;
+      board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
+      event.target.removeEventListener('click', onClick);
+    }
+
+    // 이벤트 선언부
+    $$buttons.forEach((el, idx) => {
+      el.addEventListener('click', onClick);
+    });
+    $restart.addEventListener('click', () => {
+      // 모든 버튼 클릭 이벤트 다시 활성화
+      $$buttons.forEach((el, idx) => {
+        el.addEventListener('click', onClick);
+        el.textContent = '';
+      });
+      // 게임판 초기화
+      const board = [];
+      for (let i = 0; i < 3; i++) {
+        board.push([]);
+        for (let j = 0; j < 3; j++) {
+          board[i].push(0);
+        }
+      }
+      order = 1;
+      $result.textContent = '';
+    });
+
+  </script>
+</body>
+
+</html>
