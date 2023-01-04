@@ -1,77 +1,86 @@
 <html lang="ko">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>틱택토 게임</title>
-  <style>
-    table {
-      border-collapse: collapse;
-    }
-
-    td {
-      border: 1px solid black;
-      width: 40px;
-      height: 40px;
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
-  <script>
-    const { body, createElement } = document; // === const body = document.body; : 구조분해 할당 (destructuring)
-    const $table = createElement('table');
-    const $result = createElement('div');
-    const data = [];
-    for (let i = 0; i < 3; i++) {
-      data.push([]);
-    }
-    let turn = 'O';
-    for (let i = 0; i < 3; i++) {
-      const $tr = createElement('tr');
-      for (let j = 0; j < 3; j++) {
-        const $td = createElement('td');
-        $td.addEventListener('click', (event) => {
-          // 칸에 글자가 있나?
-          if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
-          event.target.textContent = turn;
-          // 승부확인
-
-          if (turn === 'O') {
-            turn = 'X';
-          } else if (turn === 'X') {
-            turn = 'O';
-          }
-        })
-        $tr.append($td);
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>틱택토 게임</title>
+    <style>
+      table {
+        border-collapse: collapse;
       }
-      $table.append($tr);
-    }
-    body.append($table);
-    body.append($result);
 
-    // 객체에 대한 구조분해 할당
-    // 변수명과 어떤 객체(document 등) 안의 속성, 메서드의 이름이 같은 경우 구조분해 할당을 사용할 수 있다.
-    // 예시와 같이 여러 개의 변수를 선언할 때 코드 길이를 대폭 줄일 수 있다.
-    // ex)
-    // const { body, createElement } = document;
-    // ===
-    // const body = document.body; const createElement = document.createElement;
+      td {
+        border: 1px solid black;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
 
-    // 배열에 대한 구조분해 할당
-    // ex)
-    // const arr = [1, 2, 3];
-    // const [one, two, three] = arr;
-    // ===
-    // const one = arr[0]; const two = arr[1]; const three = arr[2];
-    // two를 사용하지 않으려면
-    // const [one, , three] =arr; // two를 스킵하고 one, three만 선언.
+  <body>
+    <script>
+      const { body } = document; // === const body = document.body; : 구조분해 할당 (destructuring)
+      const $table = document.createElement("table");
+      const $result = document.createElement("div");
+      const rows = [];
+      let turn = "O";
 
-    // 
+      // 함수 선언부
+      const callback = (event) => {
+        // 칸에 글자가 있나?
+        if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
+        event.target.textContent = turn;
+        // 승부확인
 
-  </script>
-</body>
+        turn = turn === "O" ? "x" : "O"; // 차례가 'O'이면 'X' 표시, 'X'이면 'O' 표시
+      };
 
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement("tr");
+        const cells = [];
+        for (let j = 0; j < 3; j++) {
+          const $td = document.createElement("td");
+          $td.addEventListener("click", callback);
+          $tr.append($td);
+          cells.push($td);
+        }
+        $table.append($tr);
+        rows.push(cells);
+      }
+      body.append($table);
+      body.append($result);
+
+      // 객체에 대한 구조분해 할당
+      // 변수명과 어떤 객체(document 등) 안의 속성, 메서드의 이름이 같은 경우 구조분해 할당을 사용할 수 있다.
+      // 예시와 같이 여러 개의 변수를 선언할 때 코드 길이를 대폭 줄일 수 있다.
+      // ex)
+      // const { body } = document;
+      // ===
+      // const body = document.body;
+      // ex)
+      /* a, b, c, e를 구조분해 할당하고 싶다면, 
+      const obj = {
+        a: 'hello',
+        b: {
+          c: 'hi',
+          d: { e: 'wow' },
+        },
+      };
+      const { a, b, b: { c }, b: { d: { e } } } = obj;
+      */
+
+      // 배열에 대한 구조분해 할당
+      // ex)
+      // const arr = [1, 2, 3];
+      // const [one, two, three] = arr;
+      // ===
+      // const one = arr[0]; const two = arr[1]; const three = arr[2];
+      // two를 사용하지 않으려면
+      // const [one, , three] =arr; // two를 스킵하고 one, three만 선언.
+
+      //
+
+    </script>
+  </body>
 </html>
