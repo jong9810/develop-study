@@ -21,17 +21,18 @@
 
 <body>
   <script>
-    let turn = 'O';
+    const { body, createElement } = document; // === const body = document.body; : 구조분해 할당 (destructuring)
+    const $table = createElement('table');
+    const $result = createElement('div');
     const data = [];
     for (let i = 0; i < 3; i++) {
       data.push([]);
     }
-    const $table = document.createElement('table');
-    document.body.append($table);
+    let turn = 'O';
     for (let i = 0; i < 3; i++) {
-      const $tr = document.createElement('tr');
+      const $tr = createElement('tr');
       for (let j = 0; j < 3; j++) {
-        const $td = document.createElement('td');
+        const $td = createElement('td');
         $td.addEventListener('click', (event) => {
           // 칸에 글자가 있나?
           if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
@@ -48,6 +49,25 @@
       }
       $table.append($tr);
     }
+    body.append($table);
+    body.append($result);
+
+    // 객체에 대한 구조분해 할당
+    // 변수명과 어떤 객체(document 등) 안의 속성, 메서드의 이름이 같은 경우 구조분해 할당을 사용할 수 있다.
+    // 예시와 같이 여러 개의 변수를 선언할 때 코드 길이를 대폭 줄일 수 있다.
+    // ex)
+    // const { body, createElement } = document;
+    // ===
+    // const body = document.body; const createElement = document.createElement;
+
+    // 배열에 대한 구조분해 할당
+    // ex)
+    // const arr = [1, 2, 3];
+    // const [one, two, three] = arr;
+    // ===
+    // const one = arr[0]; const two = arr[1]; const three = arr[2];
+    // two를 사용하지 않으려면
+    // const [one, , three] =arr; // two를 스킵하고 one, three만 선언.
 
     // 
 
