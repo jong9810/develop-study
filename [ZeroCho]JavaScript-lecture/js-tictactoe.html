@@ -21,10 +21,10 @@
   <body>
     <script>
       const { body } = document; // === const body = document.body; : 구조분해 할당 (destructuring)
-      const $table = document.createElement("table");
-      const $result = document.createElement("div");
+      const $table = document.createElement('table');
+      const $result = document.createElement('div');
       const rows = [];
-      let turn = "O";
+      let turn = 'O';
 
       // 함수 선언부
       const checkWinner = (target) => {
@@ -81,12 +81,13 @@
         // 승부 판단하기
         if (checkWinner(event.target)) {
           $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener('click', callback); // 버튼 이벤트 제거
           return;
         }
         // 무승부 검사, 이미 위 '승부 판단하기'에서 승부가 난 경우에는 return하기 때문에 승부가 나지 않은 상황에만 아래 코드 실행.
         let draw = true; // 먼저 무승부라고 가정하고
-        rows.forEach((row, ri) => {
-          rows.forEach((cell, ci) => {
+        rows.forEach((row) => {
+          row.forEach((cell) => {
             // rows 배열 안 태그.textContent 중에서 하나라도 빈 경우
             if (!cell.textContent) {
               draw = false; // 무승부가 아니라고 판단
@@ -94,24 +95,25 @@
           });
         });
         if (draw) {
-          $result.textContent = "무승부~";
+          $result.textContent = '무승부~';
           return;
         }
-        turn = turn === "O" ? "x" : "O"; // 차례가 'O'이면 'X' 표시, 'X'이면 'O' 표시
+        turn = turn === 'O' ? 'X' : 'O'; // 차례가 'O'이면 'X' 표시, 'X'이면 'O' 표시
       };
 
+      // 테이블, 게임판 데이터 만듦.
       for (let i = 0; i < 3; i++) {
-        const $tr = document.createElement("tr");
+        const $tr = document.createElement('tr');
         const cells = [];
         for (let j = 0; j < 3; j++) {
-          const $td = document.createElement("td");
+          const $td = document.createElement('td');
           $tr.append($td);
           cells.push($td);
         }
         $table.append($tr);
         rows.push(cells);
       }
-      $table.addEventListener("click", callback);
+      $table.addEventListener('click', callback);
       body.append($table);
       body.append($result);
 
