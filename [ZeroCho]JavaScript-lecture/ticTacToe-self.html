@@ -69,45 +69,24 @@
     };
 
     // 함수 선언부
-    const onClick = (event) => {
-      const XY = event.target.id.split('').map((el, idx) => Number(el));
-      // 차례가 9번 진행되었는데도 승패가 갈리지 않으면 무승부 처리
-      if (order >= 9) {
-        $result.textContent = '무승부 -_-';
-        event.target.textContent = 'O';
-        board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
-        event.target.className = 'player1';
-        return;
-      }
-      // 차례에 따라 O, X를 클릭한 버튼에 표시하고 버튼 이벤트 제거
-      if (order % 2 === 1) {
-        event.target.textContent = 'O';
-        event.target.className = 'player1';
-      } else if (order % 2 === 0) {
-        event.target.textContent = 'X';
-        event.target.className = 'player2';
-      }
-      order += 1;
-      board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
-      event.target.removeEventListener('click', onClick);
-      // 가로, 세로, 대각선 합 구하기
+    const calculateSum = (_board) => { // 가로, 세로, 대각선 합 구하는 함수
       const sum = {
         'rowSum': [],
         'colSum': [],
         'diagSum': [],
       }
       let dSum1 = 0; let dSum2 = 0;
-      for (let i = 0; i < board.length; i++) {
+      for (let i = 0; i < _board.length; i++) {
         let rSum = 0; let cSum = 0;
-        for (let j = 0; j < board[i].length; j++) {
-          rSum += board[i][j]; // 각 행의 합
-          cSum += board[j][i]; // 각 열의 합
+        for (let j = 0; j < _board[i].length; j++) {
+          rSum += _board[i][j]; // 각 행의 합
+          cSum += _board[j][i]; // 각 열의 합
           // 대각선 합
           if (i === j) {
-            dSum1 += board[i][j];
+            dSum1 += _board[i][j];
           }
           if ((i + j) === 2) {
-            dSum2 += board[i][j];
+            dSum2 += _board[i][j];
           }
         }
         sum.rowSum.push(rSum);
@@ -115,7 +94,12 @@
       }
       sum.diagSum.push(dSum1);
       sum.diagSum.push(dSum2);
-      // 승패 판별하는 부분
+
+      return sum;
+    }
+    // 승패 판별하는 함수
+    const checkResult = (_XY) => {
+      const sum = calculateSum(board);
       if (sum.rowSum.includes(3) || sum.colSum.includes(3) || sum.diagSum.includes(3)) {
         $result.textContent = 'O가 승리하였습니다!';
         $$buttons.forEach((el, idx) => {
@@ -128,13 +112,32 @@
           el.removeEventListener('click', onClick);
         });
         return;
+      } else if (order > 9) { // 차례가 9번 진행되었는데도 승패가 갈리지 않으면 무승부 처리
+        $result.textContent = '무승부 -_-';
+        event.target.textContent = 'O';
+        board[_XY[0]][_XY[1]] = scoreTable[event.target.textContent];
+        event.target.className = 'player1';
+        return;
       }
+    }
+    const onClick = (event) => { // 칸 버튼 클릭했을 때 동작
+      const XY = event.target.id.split('').map((el, idx) => Number(el)); // 클릭한 칸 버튼 좌표
+      // 차례에 따라 O, X를 클릭한 버튼에 표시하고 버튼 이벤트 제거
+      if (order % 2 === 1) {
+        event.target.textContent = 'O';
+        event.target.className = 'player1';
+      } else if (order % 2 === 0) {
+        event.target.textContent = 'X';
+        event.target.className = 'player2';
+      }
+      order += 1;
+      board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
+      event.target.removeEventListener('click', onClick);
+      checkResult(XY); // 게임판 가로, 세로, 대각선 합 구하고, 승패 판정
     }
 
     // 이벤트 선언부
-    $$buttons.forEach((el, idx) => {
-      el.addEventListener('click', onClick);
-    });
+    $$buttons.forEach((el, idx) => { el.addEventListener('click', onClick); });
     $restart.addEventListener('click', () => {
       // 모든 버튼 클릭 이벤트 다시 활성화
       $$buttons.forEach((el, idx) => {
@@ -150,7 +153,6 @@
       order = 1;
       $result.textContent = '';
     });
-
   </script>
 </body>
 
