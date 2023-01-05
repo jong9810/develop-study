@@ -1,61 +1,60 @@
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쿵쿵따 게임</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>쿵쿵따 게임</title>
-</head>
+  <body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어 : <span id="word"></span></div>
+    <input type="text" />
+    <button>입력</button>
+    <script>
+      // 변수 선언부
+      const number = parseInt(prompt('참가 인원은 몇 명입니까? '));
+      if (number) {
+        const $order = document.querySelector('#order');
+        const $input = document.querySelector('input');
+        const $button = document.querySelector('button');
+        const $word = document.querySelector('#word');
+        let word = ''; // 제시어
+        let newWord; // 참가자가 새로 말한 단어
 
-<body>
-  <div><span id="order">1</span>번째 참가자</div>
-  <div>제시어 : <span id="word"></span></div>
-  <input type="text" />
-  <button>입력</button>
-  <script>
-    // 변수 선언부
-    const number = parseInt(prompt('참가 인원은 몇 명입니까? '));
-    if (number) {
-      const $order = document.querySelector('#order');
-      const $input = document.querySelector('input');
-      const $button = document.querySelector('button');
-      const $word = document.querySelector('#word');
-      let word = ''; // 제시어
-      let newWord; // 참가자가 새로 말한 단어
+        // 함수 선언부
+        const onInput = (event) => {
+          newWord = event.target.value;
+        };
+        const onClick = () => {
+          let order = Number($order.textContent);
+          if (
+            (!word || word[word.length - 1] === newWord[0]) &&
+            newWord.length === 3
+          ) {
+            // 첫 번째 차례이거나 단어가 올바르다.
+            word = newWord;
+            $word.textContent = newWord;
+            if (order + 1 > number) {
+              $order.textContent = 1;
+            } else {
+              $order.textContent = order + 1;
+            }
+          } else {
+            // 첫 번째 차례가 아니고 단어가 올바르지 않다.
+            const tryAgain = confirm('다시 입력하세요.');
+            if (!tryAgain) {
+              alert(order + '번 참가자가 게임을 포기하셨습니다. 게임종료!');
+            }
+          }
+          $input.value = '';
+          $input.focus();
+        };
 
-      // 함수 선언부
-      const onInput = (event) => {
-        newWord = event.target.value;
+        // 명령 실행부
+        $input.addEventListener('input', onInput);
+        $button.addEventListener('click', onClick);
       }
-      const onClick = () => {
-        let order = Number($order.textContent);
-        if ((!word || (word[word.length - 1] === newWord[0])) && newWord.length === 3) {
-          // 첫 번째 차례이거나 단어가 올바르다.
-          word = newWord;
-          $word.textContent = newWord;
-          if (order + 1 > number) {
-            $order.textContent = 1;
-          }
-          else {
-            $order.textContent = order + 1;
-          }
-        }
-        else { // 첫 번째 차례가 아니고 단어가 올바르지 않다.
-          const tryAgain = confirm('다시 입력하세요.');
-          if (!tryAgain) {
-            alert(order + '번 참가자가 게임을 포기하셨습니다. 게임종료!');
-          }
-        }
-        $input.value = '';
-        $input.focus();
-      }
-
-      // 명령 실행부
-      $input.addEventListener('input', onInput);
-      $button.addEventListener('click', onClick);
-    }
-  </script>
-
-</body>
-
+    </script>
+  </body>
 </html>

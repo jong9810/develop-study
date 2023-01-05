@@ -9,82 +9,77 @@
 5-2. 올바르지 않다면 틀렸다고 표시하고 게임을 종료한다.
 6. 절차 4로 되돌아간다. -->
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>끝말잇기</title>
+    <style></style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>끝말잇기</title>
-  <style>
+  <body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어 : <span id="word"></span></div>
+    <input type="text" />
+    <button>입력</button>
+    <script>
+      // 변수 선언부
+      const number = parseInt(prompt('몇 명이 참가하나요? '), 10);
+      const $button = document.querySelector('button'); // 입력 버튼 태그
+      const $input = document.querySelector('input'); // input 태그
+      const $word = document.querySelector('#word'); // 제시어 보여줄 span 태그
+      const $order = document.querySelector('#order'); // 몇 번째 사람의 차례인지 보여주는 span 태그
+      let word; // 제시어
+      let newWord; // 새로 입력한 단어
 
-  </style>
-</head>
-
-<body>
-  <!--태그의 id 속성은 고유한 값으로 주는 것이 좋다. js에서 id는 하나의 값만 가진다고 여기기 때문-->
-  <!--id와 비슷한 속성으로 class가 있는데 class는 같은 값을 여러 번 주어도 상관없다.-->
-  <!--class 속성은 띄어쓰기를 통해 여러 값을 부여할 수도 있다.-->
-  <div><span id="order">1</span>번째 참가자</div>
-  <div>제시어 : <span id="word"></span></div>
-  <input type="text" />
-  <button>입력</button>
-  <script>
-    // 변수 선언부
-    const number = parseInt(prompt('몇 명이 참가하나요? '), 10);
-    const $button = document.querySelector('button'); // 입력 버튼 태그
-    const $input = document.querySelector('input'); // input 태그
-    const $word = document.querySelector('#word'); // 제시어 보여줄 span 태그
-    const $order = document.querySelector('#order'); // 몇 번째 사람의 차례인지 보여주는 span 태그
-    let word; // 제시어
-    let newWord; // 새로 입력한 단어
-
-    // 함수 선언부
-    const onClick = function () {
-      if (!word || (word[word.length - 1] === newWord[0])) { // 제시어가 비어있거나 단어가 올바른가?
-        // 비어있거나 단어가 올바르다.
-        word = newWord;
-        $word.textContent = word;
-        const order = Number($order.textContent);
-        if (order + 1 > number) {
-          $order.textContent = 1;
+      // 함수 선언부
+      const onClick = function () {
+        // 제시어가 비어있거나 단어가 올바른가?
+        if (!word || word[word.length - 1] === newWord[0]) {
+          // 비어있거나 단어가 올바르다.
+          word = newWord;
+          $word.textContent = word;
+          const order = Number($order.textContent);
+          if (order + 1 > number) {
+            $order.textContent = 1;
+          } else {
+            $order.textContent = order + 1;
+          }
+        } else {
+          // 비어있지 않고 단어가 올바르지 않다.
+          alert($order.textContent + '번 참가자가 틀렸습니다.');
         }
-        else {
-          $order.textContent = order + 1;
-        }
-      }
-      else {
-        // 비어있지 않고 단어가 올바르지 않다.
-        alert($order.textContent + '번 참가자가 틀렸습니다.');
-      }
-      $input.value = '';
-      $input.focus();
-    }
-    const onInput = (event) => {
-      newWord = event.target.value;
-    }
+        $input.value = '';
+        $input.focus();
+      };
+      const onInput = (event) => {
+        newWord = event.target.value;
+      };
 
-    $input.addEventListener('input', onInput);
-    $button.addEventListener('click', onClick);
+      $input.addEventListener('input', onInput);
+      $button.addEventListener('click', onClick);
 
-  // 나만의 변수명 정하는 규칙 : $가 앞에 붙은 변수는 태그를 가르키고 $$는 태그 여러 개를 가르킨다.
-  // querySelector의 인자로 'div span'이라고 주면 div의 자손 태그인 span 태그를 선택해준다.
-  // 자식 태그 : 부모 태그 바로 아래에 포함된 태그, 자손 태그 : 자식 아래에 모든 태그를 포함
-  // 자식(or 자손)만 선택해야할 경우 : querySelector('div>span')
-  // querySelector의 인자로는 태그 이름 뿐만 아니라 id(#), class(.) 속성도 줄 수 있다.
-  // id 속성은 html에서 고유하기 때문에 복잡한 태그인 경우 querySelector의 인자로 id값만을 주면 된다.
-  // const $input = document.querySelector('input');
-  // console.log($input);
-  // const $button = document.querySelector('button');
+      //태그의 id 속성은 고유한 값으로 주는 것이 좋다. js에서 id는 하나의 값만 가진다고 여기기 때문
+      // id와 비슷한 속성으로 class가 있는데 class는 같은 값을 여러 번 주어도 상관없다.
+      // class 속성은 띄어쓰기를 통해 여러 값을 부여할 수도 있다.
 
-  // 태그.addEventListener('이벤트 이름', 리스너함수) : 이벤트가 발생될 때마다 리스너함수를 호출해준다.
-  // 리스너 함수에는 함수의 리턴값이 아닌 함수 자체를 인자로 주어야 하기 때문에 '함수이름()'(x) '함수이름'(o)
-  // 콜백함수 : 어떠한 동작이 수행된 후에 연이어 호출되는 함수
+      // 나만의 변수명 정하는 규칙 : $가 앞에 붙은 변수는 태그를 가르키고 $$는 태그 여러 개를 가르킨다.
+      // querySelector의 인자로 'div span'이라고 주면 div의 자손 태그인 span 태그를 선택해준다.
+      // 자식 태그 : 부모 태그 바로 아래에 포함된 태그, 자손 태그 : 자식 아래에 모든 태그를 포함
+      // 자식(or 자손)만 선택해야할 경우 : querySelector('div>span')
+      // querySelector의 인자로는 태그 이름 뿐만 아니라 id(#), class(.) 속성도 줄 수 있다.
+      // id 속성은 html에서 고유하기 때문에 복잡한 태그인 경우 querySelector의 인자로 id값만을 주면 된다.
+      // const $input = document.querySelector('input');
+      // console.log($input);
+      // const $button = document.querySelector('button');
 
-  // 태그의 내용에 접근할 때
-  // 1. 태그.textContext = 값; -> 대부분의 태그(button, div, span 등)
-  // 2. 태그.value = 값; -> input, select, textarea 등 입력을 받는 특수한 태그
-  </script>
+      // 태그.addEventListener('이벤트 이름', 리스너함수) : 이벤트가 발생될 때마다 리스너함수를 호출해준다.
+      // 리스너 함수에는 함수의 리턴값이 아닌 함수 자체를 인자로 주어야 하기 때문에 '함수이름()'(x) '함수이름'(o)
+      // 콜백함수 : 어떠한 동작이 수행된 후에 연이어 호출되는 함수
 
-</body>
-
+      // 태그의 내용에 접근할 때
+      // 1. 태그.textContext = 값; -> 대부분의 태그(button, div, span 등)
+      // 2. 태그.value = 값; -> input, select, textarea 등 입력을 받는 특수한 태그
+    </script>
+  </body>
 </html>

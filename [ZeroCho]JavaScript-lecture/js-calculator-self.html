@@ -103,7 +103,10 @@
       if (numOne) { // 숫자 1이 있다면
         operator = event.target.textContent;
         $operator.value = event.target.textContent;
-      } else if (event.target.textContent === '-') {
+      } else if (
+        (event.target.textContent === '-') || 
+        (event.target.textContent === '+')) 
+      {
         numOne += event.target.textContent;
         $result.value += event.target.textContent;
       } else {

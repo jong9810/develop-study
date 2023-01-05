@@ -69,10 +69,10 @@
     const $result = document.querySelector('#result');
 
     // if문 중첩 제거하는 과정
-    // 1. if문 다음에 나오는 공통된 절차를 각 분기점 내부에 넣는다.
-    // 2. 분기점에서 짧은 절차부터 실행하게 if문을 수정한다.
-    // 3. 짧은 절차가 끝나면 return(함수 내부의 경우)이나 break(반복문 내부의 경우)로 중단한다.
-    // 4. else를 제거한다.
+    // (1) if문 다음에 나오는 공통된 절차를 각 분기점 내부에 넣는다.
+    // (2) 분기점에서 짧은 절차부터 실행하게 if문을 수정한다.
+    // (3) 짧은 절차가 끝나면 return(함수 내부의 경우)이나 break(반복문 내부의 경우)로 중단한다.
+    // (4) else를 제거한다.
     const onClickNumber = (event) => {
       if (!operator) {
         numOne += event.target.textContent;
@@ -87,11 +87,19 @@
     }
 
     const onClickOperator = (event) => {
-      if (numOne) {
-        operator += event.target.textContent;
-      } else {
-        alert('첫 번째 숫자를 입력해주세요.')
+      if (!numOne) {
+        alert('첫 번째 숫자를 입력해주세요.');
+        return;
       }
+      if (numTwo) {
+        alert('초기화해주세요.');
+        return;
+      }
+      if (operator) {
+        alert('두 번째 숫자를 입력해주세요.');
+        return;
+      }
+      operator += event.target.textContent;
       $operator.value += event.target.textContent;
     }
 
@@ -152,7 +160,7 @@
 
     // addEventListener() 함수에서 첫 번째 인자로 준 액션이 입력되면 두 번째 인자의 함수를 브라우저가 실행해준다.
     // 그 때 브라우저가 실행하는 함수에 (event) 객체를 만들어서 인자로 넣어준다. ex) event.target.value 와 같은 속성 사용 가능
-    
+
     /* if문 중첩 제거하기 예제
     let a = false;
     let b = true;
@@ -183,7 +191,6 @@
 
       return result;
     }*/
-
   </script>
 </body>
 

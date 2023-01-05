@@ -1,175 +1,172 @@
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로또 추첨기</title>
+    <style>
+      .ball {
+        display: inline-block;
+        border: 1px solid black;
+        border-radius: 20px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        margin-right: 20px;
+      }
+      #myResult {
+        font-size: 15pt;
+        margin: 5px;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>로또 추첨기</title>
-  <style>
-    .ball {
-      display: inline-block;
-      border: 1px solid black;
-      border-radius: 20px;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      margin-right: 20px;
-    }
-    #myResult{
-      font-size:15pt;
-      margin:5px;
-    }
-  </style>
-</head>
+  <body>
+    <div id="result">추첨 결과는?</div>
+    <div id="bonus">보너스 :</div>
+    <form>
+      <input placeholder="(숫자) (숫자) ..." type="text" />
+      <button>입력</button>
+      <div id="myResult"></div>
+    </form>
+    <script>
+      // 피셔 예이츠 셔플 : 배열의 원소를 전부 다 섞어서 랜덤한 순서로 만드는 알고리즘
+      const candidate = Array(45)
+        .fill()
+        .map((v, i) => i + 1); // 1~45번까지의 공을 저장하는 배열
+      const shuffle = [];
+      while (candidate.length > 0) {
+        const random = Math.floor(Math.random() * candidate.length);
+        const spliceArray = candidate.splice(random, 1);
+        const value = spliceArray[0];
+        shuffle.push(value);
+      }
+      // shuffle 배열의 인덱스 0~7 공을 뽑고 정렬
+      const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b); // 배열을 오름차순으로 정렬
+      const bonus = shuffle[6];
+      const $result = document.querySelector('#result');
+      const $bonus = document.querySelector('#bonus');
+      const $form = document.querySelector('form');
+      const $input = document.querySelector('input');
+      const $myResult = document.querySelector('#myResult');
+      let input = [];
 
-<body>
-  <div id="result">추첨 결과는? </div>
-  <div id="bonus">보너스 : </div>
-  <form>
-    <input placeholder="(숫자) (숫자) ..." type="text"/>
-    <button>입력</button>
-    <div id="myResult"></div>
-  </form>
-  <script>
-    // 피셔 예이츠 셔플 : 배열의 원소를 전부 다 섞어서 랜덤한 순서로 만드는 알고리즘
-    const candidate = Array(45).fill().map((v, i) => i + 1); // 1~45번까지의 공을 저장하는 배열
-    const shuffle = [];
-    while (candidate.length > 0) {
-      const random = Math.floor(Math.random() * candidate.length);
-      const spliceArray = candidate.splice(random, 1);
-      const value = spliceArray[0];
-      shuffle.push(value);
-    }
-    // shuffle 배열의 인덱스 0~7 공을 뽑고 정렬
-    const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b); // 배열을 오름차순으로 정렬
-    const bonus = shuffle[6];
-    const $result = document.querySelector('#result');
-    const $bonus = document.querySelector('#bonus');
-    const $form = document.querySelector('form');
-    const $input = document.querySelector('input');
-    const $myResult = document.querySelector('#myResult');
-    let input = [];
-
-    // 함수 정의하는 부분
-    const colorize = (number, $tag)=>{
-      if(number>=40){
+      // 함수 정의하는 부분
+      const colorize = (number, $tag) => {
+        if (number >= 40) {
           $tag.style.backgroundColor = 'blue';
           $tag.style.color = 'white';
-        } else if(number >= 30){
+        } else if (number >= 30) {
           $tag.style.backgroundColor = 'green';
           $tag.style.color = 'white';
-        } else if(number >= 20){
+        } else if (number >= 20) {
           $tag.style.backgroundColor = 'yellow';
-        } else if(number >= 10){
+        } else if (number >= 10) {
           $tag.style.backgroundColor = 'orange';
-        } else{
+        } else {
           $tag.style.backgroundColor = 'red';
           $tag.style.color = 'white';
         }
-    }
-    const showBall = (number, $target, time) => {
-      setTimeout(() => {
-        const $ball = document.createElement('div');
-        $ball.className = 'ball';
-        $ball.textContent = number;
-        colorize(number, $ball);
-        $target.append($ball);
-      }, time * 1000);
-    }
-    const checkInput = (_input) => {
-      // 1~45범위가 아니라면 _input에서 제거
-      for(let i=0; i<_input.length; i++){
-        if(_input[i]>45 || _input[i] < 1){
-          _input.splice(i, 1);
-          i -= 1;
+      };
+      const showBall = (number, $target, time) => {
+        setTimeout(() => {
+          const $ball = document.createElement('div');
+          $ball.className = 'ball';
+          $ball.textContent = number;
+          colorize(number, $ball);
+          $target.append($ball);
+        }, time * 1000);
+      };
+      const checkInput = (_input) => {
+        // 1~45범위가 아니라면 _input에서 제거
+        for (let i = 0; i < _input.length; i++) {
+          if (_input[i] > 45 || _input[i] < 1) {
+            _input.splice(i, 1);
+            i -= 1;
+          }
         }
-      }
-      if(new Set(_input).size !== 6) {// 1~45 범위의 중복되지 않은 숫자 6개가 아니라면
-        alert('1~45 범위의 6개의 숫자로 중복되지 않게 입력해주세요.');
-      }else{ // 숫자가 올바르다면
-        _input = Array.from(new Set(_input));
-        $myResult.append(`${_input} : `);
-        compareValue(_input);
-      }
-      $input.value = '';
-      $input.focus();
-    }
-    const compareValue = (_input) => {
-      let count = 0; // 맞는 숫자 카운트
-      let bonusCount = 0; // 보너스가 맞는지 카운트
-      for(let i=0; i<winBalls.length; i++){
-        if(_input.includes(winBalls[i])){
-          count += 1;
+        if (new Set(_input).size !== 6) {
+          // 1~45 범위의 중복되지 않은 숫자 6개가 아니라면
+          alert('1~45 범위의 6개의 숫자로 중복되지 않게 입력해주세요.');
+        } else {
+          // 숫자가 올바르다면
+          _input = Array.from(new Set(_input));
+          $myResult.append(`${_input} : `);
+          compareValue(_input);
         }
-      }
-      if(_input.includes(bonus)){
-        bonusCount += 1;
-      }
-      showResult(count, bonusCount);
-    }
-    const showResult = (_count, _bonusCount) => {
-      if(_count === 6){
-        $myResult.append(`1등!!!`, document.createElement('br'));
-      }else if(_count === 5 && _bonusCount === 1) {
-        $myResult.append(`2등!!`, document.createElement('br'));
-      }else if((_count + _bonusCount) === 5){
-        $myResult.append(`3등!`, document.createElement('br'));
-      }else if((_count + _bonusCount) === 4){
-        $myResult.append(`4등.`, document.createElement('br'));
-      }else if((_count + _bonusCount) === 3){
-        $myResult.append(`5등..`, document.createElement('br'));
-      }else {
-        $myResult.append(`낙첨...`, document.createElement('br'));
-      }
-    }
-    const onInput = (event) => {
-      event.preventDefault();
-      input = $input.value.split(' ').map((el, idx) => Number(el));
-      checkInput(input);
-    }
+        $input.value = '';
+        $input.focus();
+      };
+      const compareValue = (_input) => {
+        let count = 0; // 맞는 숫자 카운트
+        let bonusCount = 0; // 보너스가 맞는지 카운트
+        for (let i = 0; i < winBalls.length; i++) {
+          if (_input.includes(winBalls[i])) {
+            count += 1;
+          }
+        }
+        if (_input.includes(bonus)) {
+          bonusCount += 1;
+        }
+        showResult(count, bonusCount);
+      };
+      const showResult = (_count, _bonusCount) => {
+        if (_count === 6) {
+          $myResult.append(`1등!!!`, document.createElement('br'));
+        } else if (_count === 5 && _bonusCount === 1) {
+          $myResult.append(`2등!!`, document.createElement('br'));
+        } else if (_count + _bonusCount === 5) {
+          $myResult.append(`3등!`, document.createElement('br'));
+        } else if (_count + _bonusCount === 4) {
+          $myResult.append(`4등.`, document.createElement('br'));
+        } else if (_count + _bonusCount === 3) {
+          $myResult.append(`5등..`, document.createElement('br'));
+        } else {
+          $myResult.append(`낙첨...`, document.createElement('br'));
+        }
+      };
+      const onInput = (event) => {
+        event.preventDefault();
+        input = $input.value.split(' ').map((el, idx) => Number(el));
+        checkInput(input);
+      };
 
-    // 로또 추첨 번호를 보여주는 코드
-    for (let i = 0; i < winBalls.length; i++) {
-      showBall(winBalls[i], $result, i + 1);
-    }
-    /* //var 로 동일한 코드 만들면 (var 변수는 함수에만 고정되므로)
+      // 로또 추첨 번호를 보여주는 코드
+      for (let i = 0; i < winBalls.length; i++) {
+        showBall(winBalls[i], $result, i + 1);
+      }
+      /* //var 로 동일한 코드 만들면 (var 변수는 함수에만 고정되므로)
     for (var i =0; i < winBalls.length; i++) {
       (function(j) {
         showBall(winBalls[j], $result, j+1)
       })(i);
     }
     */
-    showBall(bonus, $bonus, winBalls.length+1);
+      showBall(bonus, $bonus, winBalls.length + 1);
 
-    $form.addEventListener('submit', onInput);
+      $form.addEventListener('submit', onInput);
 
+      // slice, map 메서드는 원본을 변화시키지 않고 결과를 출력해준다.
+      // sort는 원본을 바꿈.
+      // 원본을 바꾸지 않고 정렬을 하고 싶은 경우 array.slice().sort((a,b)=>a-b);를 하면 된다.
+      // array.slice()를 하면 원본과 값이 똑같은 새로운 배열을 반환해주기 때문.
+      // sort 인자로 함수를 주는데 양수, 음수, 0이냐에 따라 결과가 다름.
+      // 문자열이 저장된 배열을 정렬하는 경우에는 array.slice().sort((a,b) => {a[0].charCodeAt() - b[0].charCodeAt()}) : 첫 글자만 비교
+      // array.slice().sort((a,b) => a.localeCompare(b)) : 사전 순서대로(오름차순) 정렬
+      // array.slice().sort((a,b) => b.localeCompare(a)) : 사전 순서의 반대로(내림차순) 정렬
 
-    // slice, map 메서드는 원본을 변화시키지 않고 결과를 출력해준다.
-    // sort는 원본을 바꿈.
-    // 원본을 바꾸지 않고 정렬을 하고 싶은 경우 array.slice().sort((a,b)=>a-b);를 하면 된다.
-    // array.slice()를 하면 원본과 값이 똑같은 새로운 배열을 반환해주기 때문.
-    // sort 인자로 함수를 주는데 양수, 음수, 0이냐에 따라 결과가 다름.
-    // 문자열이 저장된 배열을 정렬하는 경우에는 array.slice().sort((a,b) => {a[0].charCodeAt() - b[0].charCodeAt()}) : 첫 글자만 비교
-    // array.slice().sort((a,b) => a.localeCompare(b)) : 사전 순서대로(오름차순) 정렬
-    // array.slice().sort((a,b) => b.localeCompare(a)) : 사전 순서의 반대로(내림차순) 정렬
+      // 함수 스코프(var), 블록 스코프(let, const)?
+      // 스코프 : 변수에 접근 가능한 범위
+      // 함수 스코프 : 함수 안에서 선언된 변수는 함수 바깥에서는 접근할 수 없다. 나머지 if, for, while, switch 안에서 선언된 var 변수는 {}바깥에서도 접근 가능!
+      // 블록 스코프 : 변수에 접근 가능한 범위가 {}기준으로 정해진다. {}안에서 선언된 변수는 {}바깥에서는 접근 불가능하다.
+      // let, const는 {}바깥에서는 접근이 불가능하고 블럭 안에 고정된다.
+      // var는 function 바깥에서만 접근 불가능하고 함수 이외의 블럭에는 고정이 안된다.
 
-    // 함수 스코프(var), 블록 스코프(let, const)?
-    // 스코프 : 변수에 접근 가능한 범위
-    // 함수 스코프 : 함수 안에서 선언된 변수는 함수 바깥에서는 접근할 수 없다. 나머지 if, for, while, switch 안에서 선언된 var 변수는 {}바깥에서도 접근 가능!
-    // 블록 스코프 : 변수에 접근 가능한 범위가 {}기준으로 정해진다. {}안에서 선언된 변수는 {}바깥에서는 접근 불가능하다.
-    // let, const는 {}바깥에서는 접근이 불가능하고 블럭 안에 고정된다.
-    // var는 function 바깥에서만 접근 불가능하고 함수 이외의 블럭에는 고정이 안된다.
-
-    // 클로저(closure) : 함수와 함수 바깥에 있는 변수와의 관계 => variable(함수 스코프), 비동기 함수(setTImeout)가 만나면 클로저 문제가 발생한다.
-    // var i로 for문을 실행하는 경우, i가 함수 스코프 이므로 for문을 빠르게 통과하기 때문에 비동기 코드의 경우에는 이상한 결과를 출력해주었다.
-    // 따라서, 이 문제를 해결하기 위해서는 i 변수를 함수 안에 있는 변수로 만들어 주면 된다. (i를 함수의 인수로 주고, 함수 안에서 i를 j로 받아서 사용)
-    // var은 옛날 코드에는 사용되었기 때문에 알아두긴 해야하지만 코드를 작성할 때는 사용하지 않는 것이 좋다. (let, const만 사용)
-    
-    // 
-  </script>
-
-
-</body>
-
+      // 클로저(closure) : 함수와 함수 바깥에 있는 변수와의 관계 => variable(함수 스코프), 비동기 함수(setTImeout)가 만나면 클로저 문제가 발생한다.
+      // var i로 for문을 실행하는 경우, i가 함수 스코프 이므로 for문을 빠르게 통과하기 때문에 비동기 코드의 경우에는 이상한 결과를 출력해주었다.
+      // 따라서, 이 문제를 해결하기 위해서는 i 변수를 함수 안에 있는 변수로 만들어 주면 된다. (i를 함수의 인수로 주고, 함수 안에서 i를 j로 받아서 사용)
+      // var은 옛날 코드에는 사용되었기 때문에 알아두긴 해야하지만 코드를 작성할 때는 사용하지 않는 것이 좋다. (let, const만 사용)
+    </script>
+  </body>
 </html>
