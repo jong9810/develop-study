@@ -1,159 +1,124 @@
 <html lang="ko">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>틱택토 게임</title>
-  <style>
-    button {
-      width: 70px;
-      height: 70px;
-      margin: 3px;
-      font-size: 18pt;
-    }
-
-    #restart {
-      font-size: 12px;
-      width: 70px;
-      height: 30px;
-    }
-
-    .player1 {
-      color: red;
-    }
-
-    .player2 {
-      color: blue;
-    }
-  </style>
-</head>
-
-<body>
-  <table>
-    <tr>
-      <td><button class="btn" id="00"></button></td>
-      <td><button class="btn" id="01"></button></td>
-      <td><button class="btn" id="02"></button></td>
-    </tr>
-    <tr>
-      <td><button class="btn" id="10"></button></td>
-      <td><button class="btn" id="11"></button></td>
-      <td><button class="btn" id="12"></button></td>
-    </tr>
-    <tr>
-      <td><button class="btn" id="20"></button></td>
-      <td><button class="btn" id="21"></button></td>
-      <td><button class="btn" id="22"></button></td>
-    </tr>
-  </table>
-  <p><span id="result"></span></p>
-  <button id="restart">다시하기</button>
-  <script>
-    // 변수 선언부
-    const $result = document.querySelector('#result');
-    const $restart = document.querySelector('#restart');
-    const $$buttons = document.querySelectorAll('.btn');
-    // 게임판 2차원 배열을 선언하고 map 함수로 초기화
-    let board = [];
-    for (let i = 0; i < 3; i++) {
-      board.push([]);
-      for (let j = 0; j < 3; j++) {
-        board[i].push(0);
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>틱택토 게임</title>
+    <style>
+      table {
+        border-collapse: collapse;
       }
-    }
-    let order = 1;
-    const scoreTable = {
-      'O': 1,
-      'X': -1,
-    };
+      td {
+        width: 80px;
+        height: 80px;
+        border: 2px black solid;
+        text-align: center;
+        font-size: 30px;
+      }
+    </style>
+  </head>
 
-    // 함수 선언부
-    const calculateSum = (_board) => { // 가로, 세로, 대각선 합 구하는 함수
-      const sum = {
-        'rowSum': [],
-        'colSum': [],
-        'diagSum': [],
-      }
-      let dSum1 = 0; let dSum2 = 0;
-      for (let i = 0; i < _board.length; i++) {
-        let rSum = 0; let cSum = 0;
-        for (let j = 0; j < _board[i].length; j++) {
-          rSum += _board[i][j]; // 각 행의 합
-          cSum += _board[j][i]; // 각 열의 합
-          // 대각선 합
-          if (i === j) {
-            dSum1 += _board[i][j];
-          }
-          if ((i + j) === 2) {
-            dSum2 += _board[i][j];
-          }
-        }
-        sum.rowSum.push(rSum);
-        sum.colSum.push(cSum);
-      }
-      sum.diagSum.push(dSum1);
-      sum.diagSum.push(dSum2);
-
-      return sum;
-    }
-    // 승패 판별하는 함수
-    const checkResult = (_XY) => {
-      const sum = calculateSum(board);
-      if (sum.rowSum.includes(3) || sum.colSum.includes(3) || sum.diagSum.includes(3)) {
-        $result.textContent = 'O가 승리하였습니다!';
-        $$buttons.forEach((el, idx) => {
-          el.removeEventListener('click', onClick);
-        });
-        return;
-      } else if (sum.rowSum.includes(-3) || sum.colSum.includes(-3) || sum.diagSum.includes(-3)) {
-        $result.textContent = 'X가 승리하였습니다!';
-        $$buttons.forEach((el, idx) => {
-          el.removeEventListener('click', onClick);
-        });
-        return;
-      } else if (order > 9) { // 차례가 9번 진행되었는데도 승패가 갈리지 않으면 무승부 처리
-        $result.textContent = '무승부 -_-';
-        event.target.textContent = 'O';
-        board[_XY[0]][_XY[1]] = scoreTable[event.target.textContent];
-        event.target.className = 'player1';
-        return;
-      }
-    }
-    const onClick = (event) => { // 칸 버튼 클릭했을 때 동작
-      const XY = event.target.id.split('').map((el, idx) => Number(el)); // 클릭한 칸 버튼 좌표
-      // 차례에 따라 O, X를 클릭한 버튼에 표시하고 버튼 이벤트 제거
-      if (order % 2 === 1) {
-        event.target.textContent = 'O';
-        event.target.className = 'player1';
-      } else if (order % 2 === 0) {
-        event.target.textContent = 'X';
-        event.target.className = 'player2';
-      }
-      order += 1;
-      board[XY[0]][XY[1]] = scoreTable[event.target.textContent];
-      event.target.removeEventListener('click', onClick);
-      checkResult(XY); // 게임판 가로, 세로, 대각선 합 구하고, 승패 판정
-    }
-
-    // 이벤트 선언부
-    $$buttons.forEach((el, idx) => { el.addEventListener('click', onClick); });
-    $restart.addEventListener('click', () => {
-      // 모든 버튼 클릭 이벤트 다시 활성화
-      $$buttons.forEach((el, idx) => {
-        el.addEventListener('click', onClick);
-        el.textContent = '';
-      });
-      // 게임판 초기화
+  <body>
+    <script>
+      // 변수 선언부
+      const { body } = document;
+      const $result = document.createElement('div');
+      const $restart = document.createElement('button');
+      $restart.textContent = '다시하기';
+      // 테이블, 게임판 생성
+      const $table = document.createElement('table');
+      const board = [];
       for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement('tr');
+        const rows = [];
         for (let j = 0; j < 3; j++) {
-          board[i][j] = 0;
+          const $td = document.createElement('td');
+          rows.push($td);
+          $tr.append($td);
         }
+        board.push(rows);
+        $table.append($tr);
       }
-      order = 1;
-      $result.textContent = '';
-    });
-  </script>
-</body>
+      body.append($table);
+      body.append($result);
+      body.append($restart);
 
+      // 승자가 있는지 확인하는 함수
+      let turn = 'X';
+      const checkWinner = ($target) => {
+        // 클릭한 칸의 인덱스 변수로 선언
+        const rowIndex = $target.parentNode.rowIndex;
+        const cellIndex = $target.cellIndex;
+        const currentTurn = $target.textContent;
+        let hasWinner = false;
+        // 가로줄 검사
+        if (
+          board[rowIndex][0].textContent === currentTurn &&
+          board[rowIndex][1].textContent === currentTurn &&
+          board[rowIndex][2].textContent === currentTurn
+        ) {
+          hasWinner = true;
+        }
+        // 세로줄 검사
+        if (
+          board[0][cellIndex].textContent === currentTurn &&
+          board[1][cellIndex].textContent === currentTurn &&
+          board[2][cellIndex].textContent === currentTurn
+        ) {
+          hasWinner = true;
+        }
+        // 대각선 검사
+        if (
+          board[0][0].textContent === currentTurn &&
+          board[1][1].textContent === currentTurn &&
+          board[2][2].textContent === currentTurn
+        ) {
+          hasWinner = true;
+        }
+        if (
+          board[0][2].textContent === currentTurn &&
+          board[1][1].textContent === currentTurn &&
+          board[2][0].textContent === currentTurn
+        ) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
+      // 칸을 클릭했을 때 동작
+      const onClick = (event) => {
+        if (event.target.textContent) {
+          return; // 클릭한 칸에 글자가 있으면 onClick 탈출
+        }
+        if (turn === 'O') {
+          turn = 'X';
+          event.target.style.color = 'red';
+        } else if (turn === 'X') {
+          turn = 'O';
+          event.target.style.color = 'blue';
+        }
+        event.target.textContent = turn;
+        // 승자가 있으면 결과 표시, onClick이벤트 제거, onClick 탈출
+        if (checkWinner(event.target)) {
+          $result.textContent = `${turn}님이 승리했습니다!`;
+          $table.removeEventListener('click', onClick);
+          return;
+        }
+        // 승자가 없고, 빈 칸이 없으면 무승부 처리
+        const draw = board.flat().every(($td) => $td.textContent);
+        if (draw) {
+          $result.textContent = '무승부~';
+          $table.removeEventListener('click', onClick);
+          return;
+        }
+      };
+      // 다시하기 버튼 클릭했을 때 동작
+      const restartGame = () => {
+        turn = 'X';
+        body.remove($table);
+      };
+
+      $table.addEventListener('click', onClick);
+      $restart.addEventListener('click', restartGame);
+    </script>
+  </body>
 </html>

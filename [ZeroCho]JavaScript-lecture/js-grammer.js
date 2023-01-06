@@ -374,4 +374,80 @@ switch(조건식){
 // 각각의 변수(스코프 별로 정리되어서 표시해줌)들에 저장된 값을 확인할 수도 있다.
 
 // 7. 틱택토 게임
+
+// 객체에 대한 구조분해 할당
+// 변수명과 어떤 객체(document 등) 안의 속성, 메서드의 이름이 같은 경우 구조분해 할당을 사용할 수 있다.
+// 예시와 같이 여러 개의 변수를 선언할 때 코드 길이를 대폭 줄일 수 있다.
+// ex)
+// const { body } = document;
+// ===
+// const body = document.body;
+// ex)
+/* a, b, c, e를 구조분해 할당하고 싶다면,
+const obj = {
+  a: 'hello',
+  b: {
+    c: 'hi',
+    d: { e: 'wow' },
+  },
+};
+const { a, b, b: { c }, b: { d: { e } } } = obj;
+*/
+
+// 배열에 대한 구조분해 할당
+// ex)
+// const arr = [1, 2, 3];
+// const [one, two, three] = arr;
+// ===
+// const one = arr[0]; const two = arr[1]; const three = arr[2];
+// two를 사용하지 않으려면
+// const [one, , three] =arr; // two를 스킵하고 one, three만 선언.
+
+// 이벤트 버블링 : 기본값
+// html은 body>table>tr>td 태그에서 td태그를 클릭하면 body, table, tr, td 모두에서 이벤트가 발생한다.
+// 따라서 td를 눌렀을 때 $table.addEventListener('click', onClick); 코드도 $td.addEventListener('click', onClick); 과 동일하게 동작함.
+
+// event.currentTarget
+// 만약 td를 클릭했을 때, td가 아니라 table 태그에 동작을 넣고 싶으면 event.target이 아니라, event.currentTarget을 하면 됨.
+// event.currentTarget은 addEventListener()를 붙인 태그를 가르킨다.
+
+// event.stopPropagation()
+// 이벤트 버블링 현상을 막기 위한 메서드
+// event.preventDefault()와 같은 방식으로 사용하면 된다.
+
+// 이벤트 캡쳐링 (<-> 이벤트 버블링)
+// 부모 태그를 클릭했을 때, 자식한테도 이벤트가 발생하게 하는 것(잘 안쓰임)
+// addEventListener(입력, 함수, useCapture) : useCapture 인수 자리에 true를 주면 캡쳐링을 사용할 수 있다.
+// ex) 팝업이 떴을 때, 팝업 바깥쪽을 클릭하면 팝업이 사라지게 할 때 이벤트 캡쳐링을 쓰면 된다.
+
+// 태그.parentNode : 태그의 부모 태그를 선택해줌.
+// 태그.children : 태그의 자식 태그를 모두 반환해줌. (유사 배열로 반환 -> 인덱스로 접근 가능)
+// td.cellIndex : 해당 태그가 테이블에서 몇 열에 있는지 알려줌. td태그 속성
+// tr.rowIndex : 해당 태그가 테이블에서 몇 행에 있는지 알려줌. tr태그 속성
+
+// 유사배열 : 배열처럼 보이지만 실제로는 객체인 것.
+// 유사배열은 배열과 달리 forEach나 map 메서드를 사용하지 못한다.
+// Array.from(유사배열)을 하면 유사배열을 배열로 변환해줌.
+
+// 1차원 배열.every() : 함수를 인수로 주고, 배열의 각각의 원소를 함수에 넣어서 판별.
+// 함수에 넣은 결과가 배열의 원소 모두 다 true이어야만 true, 하나라도 false인 경우 false를 반환. (1차원 배열에만 가능)
+// ex)
+// rows.flat().every((td) => td.textContent); // : rows 배열의 모든 원소에 텍스트가 들어있으면 true, 하나라도 비어있으면 false
+
+// flat() : 다차원 배열의 차원을 하나 낮춰주는 배열 메서드
+
+// some() : every()의 반대
+// 배열의 원소가 하나라도 true인 경우 true, 모두 false인 경우 false.
+// every()와 some()은 결과가 판정되면 바로 메서드를 빠져나감.
+// some()은 하나라도 true면 true, every()는 모두 true여야 true!!!
+
+// forEach('함수')에서 함수 안에서 return을 해도 forEach는 빠져나오지 않는다. forEach문을 빠져나오는 방법은 거의 없다?
+
+// 8.
+//
+
+// 9.
+//
+
+// 10.
 //

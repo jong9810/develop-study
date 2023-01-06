@@ -29,8 +29,8 @@
       // 함수 선언부
       const checkWinner = (target) => {
         // 승부 판단하기
-        const { rowIndex } = target.parentNode; // 행 인덱스
-        const cellIndex = target.cellIndex; // 열 인덱스
+        const { rowIndex } = target.parentNode; // 행 인덱스, target.parentNode : tr
+        const cellIndex = target.cellIndex; // 열 인덱스, target : td
         /* 위의 두 줄 코드와 같지만 반복문을 써서 인덱스를 찾음
         let rowIndex;
         let cellIndex;
@@ -105,7 +105,7 @@
           $result.textContent = '무승부~';
           return;
         }
-        turn = turn === 'O' ? 'X' : 'O'; // 차례가 'O'이면 'X' 표시, 'X'이면 'O' 표시
+        turn = turn === 'O' ? 'X' : 'O'; // 차례가 'O'이면 'X', 아니면 'O'
       };
 
       // 테이블, 게임판 데이터 만듦.
