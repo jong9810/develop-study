@@ -1,0 +1,146 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>틱택토 게임</title>
+    <style>
+      button {
+        width: 115px;
+        height: 30px;
+        margin: 5px;
+      }
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        border: 1px solid black;
+        width: 80px;
+        height: 80px;
+        text-align: center;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      const { body } = document;
+      const $table = document.createElement('table');
+      const $result = document.createElement('div');
+      const rows = [];
+      const player = prompt('차례를 O나 X로 입력하세요.'); // 플레이어 차례
+      const comp = player === 'O' ? 'X' : 'O'; // 컴퓨터 차례
+      const fontColor = {
+        X: 'red',
+        O: 'blue',
+      };
+
+      // 함수 선언부
+      const compTurn = () => {
+        const compTarget = []; // 컴퓨터가 선택할 수 있는 칸 배열
+        rows.flat().forEach(($target) => {
+          if (!$target.textContent) {
+            compTarget.push($target);
+          }
+        });
+        if (compTarget.length === 0) {
+          return rows[0][0];
+        }
+        const $compSelect =
+          compTarget[Math.floor(Math.random() * compTarget.length)];
+        setTimeout(() => {
+          $compSelect.style.color = fontColor[comp];
+          $compSelect.textContent = comp;
+        }, Math.floor(Math.random() * 1000 + 500));
+        return $compSelect;
+      };
+      const checkWinner = (target) => {
+        // 승부 판단하기
+        const { rowIndex } = target.parentNode; // 행 인덱스
+        const { cellIndex } = target; // 열 인덱스
+        // 승자가 있는가?
+        let hasWinner = false;
+        // 가로줄 검사
+        if (
+          rows[rowIndex][0].textContent === target.textContent &&
+          rows[rowIndex][1].textContent === target.textContent &&
+          rows[rowIndex][2].textContent === target.textContent
+        ) {
+          hasWinner = true;
+        }
+        // 세로줄 검사
+        if (
+          rows[0][cellIndex].textContent === target.textContent &&
+          rows[1][cellIndex].textContent === target.textContent &&
+          rows[2][cellIndex].textContent === target.textContent
+        ) {
+          hasWinner = true;
+        }
+        // 대각선 검사
+        if (
+          rows[0][0].textContent === target.textContent &&
+          rows[1][1].textContent === target.textContent &&
+          rows[2][2].textContent === target.textContent
+        ) {
+          hasWinner = true;
+        }
+        if (
+          rows[0][2].textContent === target.textContent &&
+          rows[1][1].textContent === target.textContent &&
+          rows[2][0].textContent === target.textContent
+        ) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
+      const callback = (event) => {
+        // 칸에 글자가 있나?
+        if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
+        event.target.textContent = player;
+        event.target.style.color = fontColor[player];
+        // 승부 판단하기
+        if (checkWinner(event.target)) {
+          $result.textContent = `플레이어 승리!`;
+          $table.removeEventListener('click', callback); // 테이블 이벤트 제거
+          return;
+        }
+        if (checkWinner(compTurn())) {
+          $result.textContent = `컴퓨터 승리!`;
+          $table.removeEventListener('click', callback); // 테이블 이벤트 제거
+          return;
+        }
+        const draw = rows.flat().every((td) => td.textContent);
+        if (draw) {
+          $result.textContent = '무승부~';
+          return;
+        }
+      };
+
+      // 테이블, 게임판 데이터 만듦.
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement('tr');
+        const cells = [];
+        for (let j = 0; j < 3; j++) {
+          const $td = document.createElement('td');
+          $tr.append($td);
+          cells.push($td);
+        }
+        $table.append($tr);
+        rows.push(cells);
+      }
+      $table.addEventListener('click', callback);
+      body.append($table);
+      body.append($result);
+      if (player === 'X') {
+        compTurn();
+      }
+      // 셀프체크 1 : 컴퓨터가 비어있는 칸 중 랜덤으로 고르게 하기
+      // 셀프체크 2 : 컴퓨터가 생각하는 척하는 시간을 타이머로 설정하기
+
+      // setTimeout()을 사용할 때는 데이터와 화면 변경 코드 모두 setTimeout()메서드 안에 인수로 주는 것이 좋다.
+      // 그래야 화면과 결과가 동시에 출력됨.
+    </script>
+  </body>
+</html>
