@@ -30,94 +30,10 @@
       const $table = document.createElement('table');
       const $result = document.createElement('div');
       const rows = [];
-      const player = prompt('차례를 O나 X로 입력하세요.'); // 플레이어 차례
-      const comp = player === 'O' ? 'X' : 'O'; // 컴퓨터 차례
       const fontColor = {
         X: 'red',
         O: 'blue',
       };
-
-      // 함수 선언부
-      const compTurn = () => {
-        const compTarget = []; // 컴퓨터가 선택할 수 있는 칸 배열
-        rows.flat().forEach(($target) => {
-          if (!$target.textContent) {
-            compTarget.push($target);
-          }
-        });
-        if (compTarget.length === 0) {
-          return rows[0][0];
-        }
-        const $compSelect =
-          compTarget[Math.floor(Math.random() * compTarget.length)];
-        setTimeout(() => {
-          $compSelect.style.color = fontColor[comp];
-          $compSelect.textContent = comp;
-        }, Math.floor(Math.random() * 1000 + 500));
-        return $compSelect;
-      };
-      const checkWinner = (target) => {
-        // 승부 판단하기
-        const { rowIndex } = target.parentNode; // 행 인덱스
-        const { cellIndex } = target; // 열 인덱스
-        // 승자가 있는가?
-        let hasWinner = false;
-        // 가로줄 검사
-        if (
-          rows[rowIndex][0].textContent === target.textContent &&
-          rows[rowIndex][1].textContent === target.textContent &&
-          rows[rowIndex][2].textContent === target.textContent
-        ) {
-          hasWinner = true;
-        }
-        // 세로줄 검사
-        if (
-          rows[0][cellIndex].textContent === target.textContent &&
-          rows[1][cellIndex].textContent === target.textContent &&
-          rows[2][cellIndex].textContent === target.textContent
-        ) {
-          hasWinner = true;
-        }
-        // 대각선 검사
-        if (
-          rows[0][0].textContent === target.textContent &&
-          rows[1][1].textContent === target.textContent &&
-          rows[2][2].textContent === target.textContent
-        ) {
-          hasWinner = true;
-        }
-        if (
-          rows[0][2].textContent === target.textContent &&
-          rows[1][1].textContent === target.textContent &&
-          rows[2][0].textContent === target.textContent
-        ) {
-          hasWinner = true;
-        }
-        return hasWinner;
-      };
-      const callback = (event) => {
-        // 칸에 글자가 있나?
-        if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
-        event.target.textContent = player;
-        event.target.style.color = fontColor[player];
-        // 승부 판단하기
-        if (checkWinner(event.target)) {
-          $result.textContent = `플레이어 승리!`;
-          $table.removeEventListener('click', callback); // 테이블 이벤트 제거
-          return;
-        }
-        if (checkWinner(compTurn())) {
-          $result.textContent = `컴퓨터 승리!`;
-          $table.removeEventListener('click', callback); // 테이블 이벤트 제거
-          return;
-        }
-        const draw = rows.flat().every((td) => td.textContent);
-        if (draw) {
-          $result.textContent = '무승부~';
-          return;
-        }
-      };
-
       // 테이블, 게임판 데이터 만듦.
       for (let i = 0; i < 3; i++) {
         const $tr = document.createElement('tr');
@@ -130,14 +46,108 @@
         $table.append($tr);
         rows.push(cells);
       }
-      $table.addEventListener('click', callback);
       body.append($table);
       body.append($result);
+
+      // 함수 선언부
+      // 승자가 있는지 무승부인지 확인하는 함수
+      const checkWinner = ($target) => {
+        // 인수의 좌표
+        const { rowIndex } = $target.parentNode;
+        const { cellIndex } = $target;
+        let winOrDraw = false; // 승부가 났거나 비겼으면 true로 변경
+        const draw = rows.flat().every((td) => td.textContent);
+        // 인수가 이겼는지
+        // 가로줄 검사
+        if (
+          rows[rowIndex][0].textContent === $target.textContent &&
+          rows[rowIndex][1].textContent === $target.textContent &&
+          rows[rowIndex][2].textContent === $target.textContent
+        ) {
+          winOrDraw = true;
+        }
+        // 세로줄 검사
+        else if (
+          rows[0][cellIndex].textContent === $target.textContent &&
+          rows[1][cellIndex].textContent === $target.textContent &&
+          rows[2][cellIndex].textContent === $target.textContent
+        ) {
+          winOrDraw = true;
+        }
+        // 대각선 검사
+        else if (
+          rows[0][0].textContent === $target.textContent &&
+          rows[1][1].textContent === $target.textContent &&
+          rows[2][2].textContent === $target.textContent
+        ) {
+          winOrDraw = true;
+        } else if (
+          rows[0][2].textContent === $target.textContent &&
+          rows[1][1].textContent === $target.textContent &&
+          rows[2][0].textContent === $target.textContent
+        ) {
+          winOrDraw = true;
+        }
+        // 무승부인지 검사
+        else if (draw) {
+          winOrDraw = true;
+          $result.textContent = '무승부~';
+        }
+        return winOrDraw;
+      };
+      // 컴퓨터의 차례를 구현해주는 함수
+      const compTurn = () => {
+        // 비어있는 칸 중 랜덤으로 컴퓨터가 선택
+        const $$compPossible = [];
+        rows.flat().forEach((td) => {
+          if (!td.textContent) {
+            $$compPossible.push(td);
+            console.log(td);
+          }
+        });
+        const randIndex = Math.floor(Math.random() * $$compPossible.length);
+        const $compSelect = $$compPossible[randIndex];
+        console.log($compSelect);
+        // 컴퓨터 선택을 칸에 표시
+        $compSelect.textContent = comp;
+        $compSelect.style.color = fontColor[comp];
+        // 컴퓨터가 이겼는지 판단
+        if (checkWinner($compSelect) && !$result.textContent) {
+          $result.textContent = '컴퓨터 승리!';
+          $table.removeEventListener('click', onClick);
+          return;
+        }
+      };
+      // 플레이어가 칸 클릭했을 때 실행하는 함수
+      const onClick = (event) => {
+        if (event.target.textContent) return; // 칸에 문자가 있으면 onClick 탈출
+        // 클릭한 칸에 플레이어 차례 표시
+        event.target.textContent = player;
+        event.target.style.color = fontColor[player];
+        // 승부가 났는지 판단
+        if (checkWinner(event.target) && !$result.textContent) {
+          $result.textContent = '플레이어 승리!';
+          $table.removeEventListener('click', onClick);
+          return;
+        } else {
+          setTimeout(() => {
+            compTurn();
+          }, Math.floor(Math.random() * 2000 + 500));
+        }
+      };
+
+      // 차례를 선택
+      const player = prompt('차례를 O나 X로 입력하세요.'); // 플레이어 차례
+      const comp = player === 'O' ? 'X' : 'O'; // 컴퓨터 차례
       if (player === 'X') {
-        compTurn();
+        setTimeout(() => {
+          compTurn();
+        }, Math.floor(Math.random() * 2000 + 500));
       }
+      $table.addEventListener('click', onClick);
+
       // 셀프체크 1 : 컴퓨터가 비어있는 칸 중 랜덤으로 고르게 하기
-      // 셀프체크 2 : 컴퓨터가 생각하는 척하는 시간을 타이머로 설정하기
+      // 셀프체크 2 : 컴퓨터가 생각하는 척하는 시간을 타이머로 설정하기 => 타이머 하나 추가하는 건데 왜이리 에러가 많이나냐ㅡㅡ;
 
       // setTimeout()을 사용할 때는 데이터와 화면 변경 코드 모두 setTimeout()메서드 안에 인수로 주는 것이 좋다.
       // 그래야 화면과 결과가 동시에 출력됨.
