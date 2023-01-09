@@ -546,6 +546,23 @@ class Monster{
 }
 */
 
+// class 내에서도 관련있는 것끼리 묶어놓는 것이 코드를 읽기 편하다.
+// constructor(){}에는 초기값들을 넣어주고, 다른 행동들은 관련있는 것끼리 메서드로 묶어둔다.
+
+// class 안에서도 this는 그때그때 달라질 수 있고, this는 함수가 호출될 때 결정된다.
+// this가 뭔지 알기 위해서는 함수를 호출하는 시점의 this를 찾아야 한다.
+// 태그.addEventListener('click',func)에서 func 함수 안의 this는 태그를 가리킨다.(암기!)
+// 따라서 addEventListener 메서드에 인수로 주는 함수는 화살표 함수를 쓰거나
+// addEventListener 메서드 바깥에서 this를 _this변수에 저장한 후에 addEventListener 안에서는 _this를 사용해야 한다.
+// this에 익숙하지 않으면 this를 사용할 때마다 console.log(this);를 해보는 것이 좋다.
+
+// function() {} 안에서 this는 자기 자신만의 this를 가리키고, (function 마다 this가 가리키는 것이 다를 수도 있다!)
+// () => {} 안에서 this는 바깥쪽 block의 this를 그대로 받아온다.
+// 화살표 함수가 나온 이유는 함수 안에서 this가 달라지는 문제를 해결하기 위해서이다.
+
+// 함수.bind(document)() : 함수가 가리키는 this를 document로 바꾸어줌
+// 단, 화살표 함수는 bind() 메서드 사용해도 함수 바깥쪽의 this를 그대로 가져옴.
+
 // 9.
 //
 
