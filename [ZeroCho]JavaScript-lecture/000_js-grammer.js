@@ -462,7 +462,89 @@ const { a, b, b: { c }, b: { d: { e } } } = obj;
 // 배열.filter((원소) => 조건) : 조건에 만족하는 원소만 모은 배열을 결과로 보여줌(원본 변화X, 1차원 배열만 가능);
 
 // 8. 텍스트 RPG
-//
+// display (css 속성)
+// 태그에 속성으로 style="display:none"을 주면 화면에 표시하지 않음.
+// 태그에 속성으로 style="display:block"을 주면 화면에 표시해줌
+// 여러 화면을 만들어놓고 전환할 때 주로 사용.
+
+// 변수가 많아질수록 변수가 무슨 역할을 하는지 명확히 알 수 있도록 변수명을 지어주는 것이 중요하다!
+
+// input 태그의 type 속성이 "number"일 때, $input.value를 하면 문자열로 변환된다.
+// 따라서 input 값을 숫자로 받고 싶을 때는 $input.valueAsNumber을 하면 된다.
+
+// 참조관계, 얕은 복사, 깊은 복사
+// 참조 관계인 경우에는, 원본이 변하면 참조 관계에 있는 데이터도 변한다.
+// 얕은 복사인 경우에는, 가장 바깥쪽 객체만 복사가 되고 내부에 있는 객체는 참조관계가 된다.
+// 깊은 복사인 경우에는, 가장 바깥쪽 객체 뿐만 아니라 내부에 있는 객체도 복사가 된다.
+// 객체 안에 객체가 있는 경우에는 깊은 복사를 해야지만 참조관계가 끊기게 된다!
+// ex)
+// const monster1 = monster[0]; // 참조관계
+// const monster2 = {...monster[0]}; // 얕은 복사 : 이 방법이 제일 낫다.(코드의 의도가 가장 잘 나타남)
+// 얕은 복사는 slice()나 concat() 메서드를 사용하는 방법도 있다.
+// const monster3 = JSON.parse(JSON.stringify(monster[0])); // 깊은 복사
+// JSON.parse(Json.stringify())는 성능이 좋지 않고, 함수나 Date, Math같은 객체를 복사할 수 없다는 단점이 있음.
+// 따라서, 깊은 복사는 라이브러리를 사용하는 경우가 많다. ex) lodash 라이브러리 안의 clone() 메서드 등
+
+// 객체 속성으로 메서드를 줄 때,
+// attack : function(monster) {} // 왼쪽 코드를 줄여서 아래와 같이 쓴다.
+// attack(monster) {} // 엄밀하게는 다르지만 지금 단계에서는 상관없다.
+
+// this
+// this를 사용할 때는 화살표 함수를 사용하면 안된다. 화살표 함수에서 this는 window 객체를 가리키기 때문.
+// 기본적으로 this는 window 객체를 가리키지만, 객체 안에서 선언된 메서드를 사용할 때 this는 객체 자기자신을 가리킨다.
+// ex)
+// const b = {name: '김종인', sayName() {console.log(this === b);}};
+// b.sayName(); // true : this === b
+// const bf = b.sayName();
+// bf(); // false : this === window
+// 객체.메서드()를 할 때에만 this가 객체 자기자신을 가리킨다!!
+
+// 클래스 : 코드를 더 체계적으로 짜기 위해서 사용. (클래스도 객체임)
+// 객체를 공장처럼 찍어내고 싶거나, 객체끼리 상호작용이 많을 때 클래스를 사용하면 편리하다.
+
+// 생성자 함수, new
+// 생성자 함수는 여러 객체를 공장처럼 찍어내기 위해 선언하는 함수이고,
+// 객체를 생성할 때, new 생성자함수(속성들)를 변수에 할당하면, 새로운 객체를 만들어서 그 안에 속성을 넣어서 리턴해줌.
+// new를 빼먹으면 생성자 함수 안의 this가 window를 가리키므로 window의 속성을 바꿔버림. 조심해서 사용해야 한다!
+// 생성자 함수의 이름은 대문자로 시작하게 하는 것이 관례임. (자바스크립트 개발자들 간의 약속)
+// ex)
+/*
+function Monster(name, hp, att, xp) {
+  this.name = name;
+  this.hp = hp;
+  this.att = att;
+  this.xp = xp;
+}
+const monster1 = new Monster('슬라임', 25, 10, 11);
+const monster1 = new Monster('슬라임', 26, 10, 10);
+*/
+// 생성자 함수는 생성한 객체에 메서드를 추가할 때 prototype 객체를 사용한다.
+/*
+monster1.prototype.attack = function(monster){
+  monster.hp -= this.att;
+  this.hp -= monster.att;
+};
+*/
+
+// class 문법 : 생성자 함수 기능 + prototype 객체
+// 생성자 함수와 동일한 기능을 가지고, 객체를 생성할 때 new를 빼먹으면 오류가 뜸.(window 속성 변경하는 것을 막을 수 있음)
+// class 안에 메서드를 선언하는 것도 가능하다. (화살표 함수 사용 불가능)
+// 과거 생성자 함수와 다르게 관련있는 코드들을 한 곳에 모아둘 수 있어서 좋다.
+// ex)
+/*
+class Monster{
+  constructor(name, hp, att, xp){
+    this.name = name;
+    this.hp = hp;
+    this.att = att;
+    this.xp = xp;
+  }
+  attack(monster) {
+    monster.hp -= this.att;
+    this.hp -= monster.att;
+  }
+}
+*/
 
 // 9.
 //
