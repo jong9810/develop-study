@@ -1,0 +1,110 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>카드 짝맞추기</title>
+    <style>
+      .card {
+        display: inline-block;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        width: 70px;
+        height: 100px;
+        perspective: 140px;
+      }
+      .card-inner {
+        /* transition, transform 속성으로 애니메이션 만들 수 있음*/
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+      .card-flipped .card-inner {
+        transform: rotateY(180deg);
+      }
+      .card-front {
+        background: navy;
+      }
+      .card-front,
+      .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        backface-visibility: hidden;
+      }
+      .card-back {
+        transform: rotateY(180deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper"></div>
+    <script>
+      // 변수 선언부
+      const $wrapper = document.querySelector('#wrapper');
+
+      const total = 12;
+      const colors = ['red', 'orange', 'yellow', 'green', 'white', 'pink'];
+      let colorCopy = colors.concat(colors);
+      let shuffled = [];
+
+      // 카드 색 섞어주는 함수
+      function shuffle() {
+        // 피셔-예이츠 셔플
+        for (let i = 0; i < colorCopy.length; i++) {
+          const randomIndex = Math.floor(Math.random() * colorCopy.length);
+          shuffled = shuffled.concat(colorCopy.splice(randomIndex, 1));
+        }
+      }
+      // 카드 만들어주는 함수
+      function createCard(i) {
+        // div.card > div.card-inner > (div.card-front + div.card-back)
+        const card = document.createElement('div');
+        card.className = 'card';
+        const cardInner = document.createElement('div');
+        cardInner.className = 'card-inner';
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card-front';
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card-back';
+        cardBack.style.backgroundColor = shuffled[i];
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+        card.appendChild(cardInner);
+        return card;
+      }
+      // 게임시작 함수
+      function startGame() {
+        shuffle();
+        for (let i = 0; i < total; i++) {
+          const card = createCard(i);
+          $wrapper.appendChild(card);
+        }
+        document.querySelectorAll('.card').forEach((card, index) => {
+          // 초반 카드 공개
+          setTimeout(() => {
+            card.classList.add('flipped');
+          }, 1000 + 100 * index);
+        });
+        setTimeout(() => {
+          // 카드 감추기
+          document.querySelectorAll('.card').forEach((card) => {
+            card.classList.remove('flipped');
+          });
+        }, 5000);
+      }
+
+      startGame();
+
+      // 배열1.concat(배열2) : 원본 배열을 수정하지 않고 배열1과 배열2를 이어붙인 새로운 배열을 반환해줌.
+      // concat 메서드는 인수로 1차원 배열을 주면 배열을 풀어서 원소를 이어붙여준다. (가장 바깥쪽에 있는 배열만 풀어줌)
+      // 배열이 아닌 객체는 풀어주지 않는다.
+
+      //
+    </script>
+  </body>
+</html>
