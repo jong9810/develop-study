@@ -644,7 +644,57 @@ class Monster{
 // 실행 context와 이벤트 루프가 자바스크립트할 때 꼭 배워야할 두 가지이다.
 
 // 10. 지뢰찾기 게임
-//
+
+// 자바스크립트의 핵심 : lexical 스코프, 실행 context, 이벤트 루프, promise, prototype
+// lexical 스코프 : 함수를 어디서 호출하는지가 아니라 어디에 선언하였는지에 따라 스코프가 결정됨.
+// 함수를 선언한 시점에 상위 스코프가 결정된다.
+
+// 호이스팅 : 변수를 선언하고 초기화했을 때 선언 부분이 최상단으로 끌어올려지는 현상.(초기화는 그대로 남아있음.)
+// 함수 표현식 : const say = function(){};
+
+// 함수 선언식 : function say() {}
+// 화살표 함수 : const say = () => {};
+
+// document.querySelector('#table tbody') : id가 'table'인 태그 안에 있는 tbody 태그를 선택.
+// document.querySelector 인수를 줄 때, 한 칸 띄우면 자식태그를 선택할 수 있다.
+
+// table 태그 내에 구획을 나누고 싶을 때는 thead, tbody, tfoot 태그를 사용할 수 있다.
+// 기능은 없지만 테이블 내에 구역을 나누는 용도로 사용한다.
+
+// 자바스크립트의 데이터는 최대한 적게 사용하고 html의 데이터를 사용하는 것도 좋다.
+
+// 프로그램을 처음 개발할 때는 간단하게 구현을 하고 점점 기능을 더해가는 것이 결과를 확인할 수도 있고, 개발 속도도 빠르다.
+// 데이터를 먼저 바꾸고나서 데이터를 바탕으로 화면을 수정하는 습관을 들이는 것이 좋다.
+
+// data[-1] -> undefined : 배열에 -1 인덱스를 주면 undefined 반환함.
+// slice, splice 메서드를 사용할 때는 마이너스 인덱스를 사용 가능하지만 마이너스 인덱스로 원소에 접근할 때는 undefined 반환.
+// data[-1][-1] : undefined[-1] 이므로 에러가 남
+// 앞 && 뒤 : 앞이 존재하면(true이면) 뒤를 실행한다.
+// 앞 || 뒤 : 앞이 존재하지 않으면(false이면) 뒤를 실행한다.
+// 앞 ?. 뒤 : 앞이 undefined나 null이면 평가를 멈추고 undefined를 반환한다. 그렇지 않으면 뒤까지 실행한다. (optional chaining)
+// func?.(); // -> optional chaining은 함수인 경우에도 사용 가능하다
+// 앞 ?? 뒤 : 앞이 undefined나 null이 아니면 앞, 그렇지 않으면 뒤를 실행한다. (nullish coalescing)
+
+// 재귀함수 : 함수 안에 자기 자신을 호출하는 함수
+// 재귀함수를 사용할 때 빈번하게 나타나는 에러 : Maximum call stack size exceed -> 호출 스택의 사이즈를 초과했다.
+// 호출 스택 사이즈(call stack size) 확인하기 (13922개)
+// let i = 0;
+// function recurse() {
+//   i++;
+//   recurse();
+// }
+// try {
+//   recurse();
+// } catch (ex) {
+//   alert('최대 크기는 ' + i + '\nerror: ' + ex);
+// }
+
+// 호출 스택 사이즈를 초과하는 경우, 백그라운드와 태스크 큐에 함수를 나누어 주면 해결이 가능하다.(setTimeout)
+// setTimeout(함수, 0)을 하면 백그라운드에 setTimeout, 태스크 큐에 함수를 주어서 호출 스택이 넘치는 것을 막을 수 있다.
+// 연산량이 많아지면 브라우저가 느려지는 현상이 발생하므로 연산량을 최소화하는 코드를 짜야 한다.
+
+// 태그.innerHTML = ''; -> 해당 태그 내에 있는 html 코드를 다 지움.
+// const dev = false; dev && $td.textContent = 'X' // -> 개발 모드일 경우에만 X 표시
 
 // 11.
 //
