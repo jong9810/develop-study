@@ -102,7 +102,6 @@
         const randIndex = Math.floor(Math.random() * emptyCells.length);
         const randomCell = [emptyCells[randIndex][0], emptyCells[randIndex][1]];
         data[randomCell[0]][randomCell[1]] = 2;
-        console.log(randomCell);
       }
       //
       function startGame() {
@@ -146,8 +145,15 @@
                 }
               });
             });
+            console.log(newData);
+          case 'right':
+            break;
+          case 'up':
+            break;
+          case 'down':
+            break;
         }
-        console.log(newData);
+
         // 키보드 방향키 눌렀다 뗐을 때 이벤트 동작
         window.addEventListener('keyup', (event) => {
           if (event.key === 'ArrowUp') {
@@ -185,7 +191,6 @@
             moveCells('right');
           }
         });
-        //
       }
 
       // getElementByID : 태그의 id를 가지고 태그를 선택하는 메서드
