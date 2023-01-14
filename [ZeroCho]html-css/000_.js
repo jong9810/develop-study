@@ -1,4 +1,3 @@
-// 1강 Web과 HTMl
 // 웹(Web) : 1개 이상의 사이트가 연결되어 있는 인터넷 서비스의 한가지 형태(World Wide Web의 줄임말)
 // 웹은 전 세계의 컴퓨터를 연결하여 정보 공유를 하는 데에 주 목적이 있음. 연결된 상태를 네트워크에 연결되어 있다고 표현함.
 // 인터넷 : 1개 이상의 네트워크가 연결되어 있는 형태
@@ -6,19 +5,16 @@
 // IP : 네트워크 상에서 컴퓨터를 식별할 수 있는 주소
 // DNS : IP 주소를 인간이 쉽게 외우도록 맵핑한 문자열
 // Port : 해당 컴퓨터의 구동되고 있는 프로그램을 구분할 수 있도록 부여한 번호
-// HTML(Hyper Text Markup Language), CSS(Cascading Style Sheets)
+// HTML(HyperText Markup Language), CSS(Cascading Style Sheets)
+// HyperText : 하이퍼링크를 통해 어떤 문서에서 다른 문서로 접근할 수 있는 텍스트
+// Markup : (콘텐츠를) 표시하다
+// Language : 언어
+// 렌더링 : HTML 코드가 웹브라우저를 통해 해석되고 표현되는 과정
 
-// 2강 HTML 기본-1
+// 제로초 HTML 강의
+
 //
 
-// 3강
-//
+// 제로초 CSS 강의
 
-// 4강
-//
-
-// 5강
-//
-
-// 6강
 //
