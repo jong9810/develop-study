@@ -1,0 +1,5 @@
+div#header-center,
+div#zerocho {
+  margin: 0 auto; /* 가운데 정렬 */
+  width: 1080px;
+}
