@@ -1,3 +1,15 @@
+* {
+  /* 에스터리스크 : css에서 모든 태그를 가리킴 */
+  box-sizing: border-box;
+}
+.blind {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+}
 div#header-center {
   margin: 0 auto; /* 가운데 정렬 */
   width: 1080px;
@@ -5,14 +17,49 @@ div#header-center {
 
 div#header-search > h1 {
   /* id="header-search"인 태그의 자식 h1 선택*/
-  width: 280px;
+  width: 222px;
+  height: 52px;
   display: inline-block;
+  text-indent: 100%;
+  overflow: hidden;
+  /* background-image: url(./sp_main_947f65.png);
+  background-position: 0 0;
+  background-repeat: no-repeat; */
+  background: url(./sp_main_947f65.png) 0 -315px no-repeat;
+  vertical-align: middle;
 }
-#header-search h2 {
-  display: none; /* 해당 태그를 스크린 리더(시각장애인용)도 읽지 못함 */
-}
+/* display:none 해당 태그를 스크린 리더(시각장애인용)도 읽지 못함 */
+/* #header-search h2 {
+  display: none;
+} */
 
 #header-search fieldset {
-  width: 520px;
+  width: 521px;
+  height: 49px;
+  display: inline-block;
+  margin-left: 20px;
+  padding: 12px 0 12px 10px;
+  border: 2px solid #03cf5d; /* hew 표기법 (RGB표기법도 쓰임)*/
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+#header-search fieldset input {
+  border: none;
+  padding: 0;
+  outline: none;
+}
+#header-search fieldset button {
+  width: 49px;
+  height: 49px;
+  border: none;
+  padding: 0;
+  background: #03cf5d;
+}
+#search-image {
+  background-image: url(./sp_main_947f65.png);
+  background-position: -420px -24px;
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 22px;
   display: inline-block;
 }

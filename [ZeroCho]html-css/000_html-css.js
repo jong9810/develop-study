@@ -141,6 +141,14 @@
 
 // margin이 있는 부분은 기본적으로는 다른 컨텐츠가 오지 못한다.
 // 하지만, 특별한 방법을 사용하면 margin 위에 컨텐츠를 위치시킬 수 있다(position).
+// class 속성은 같은 이름을 여러 번 사용해도 되지만, id 속성은 한 id는 한 번만 사용해야 나중에 문제가 생기지 않는다.
+// 하나의 태그에 여러 개의 class를 적용할 수도 있다. ex) <div class="blind invisible"> -> blind와 invisible 클래스
+// 실제 웹 서비스를 만들 때는 서버에 이미지를 여러 번 요청하면 성능이 떨어질 수 있기 때문에,
+// 관련있는 이미지들을 모아놓은 이미지 스프라이트를 서버에 요청하게끔 한다.
+// css 리셋 : 브라우저마다 태그의 기본 css가 다르기 때문에 프론트 엔드를 할 때에는 기본 css를 제거해주는 것이 좋다.
+// css reset이나 reset.css 파일을 사용하면 기본 css를 없앨 수 있다.
+// 같은 형제 태그가 정렬이 맞지 않는 경우는 높이가 다른 경우가 대부분이다.
+//
 
 // 5. CSS 속성 종류
 
@@ -150,12 +158,37 @@
 // display : 태그가 차지하는 공간을 설정하거나 보이지 않게 설정할 수 있다.
 
 // display 속성값 종류
-// none : 태그가 보이지 않고, 코드 리더기에도 인식되지 않음.
+// none : 태그가 보이지 않고, 스크린 리더(시각장애인용)에도 인식되지 않음.
 // block : 태그가 공간의 전체 너비를 다 차지하게 만든다(width가 있든 없든 공간은 다 차지함).
 // inline-block : 기본적으로 컨텐츠가 차지하는 공간만큼, width, height 속성을 정의한 경우 width, height만큼의 공간을 차지하게 만든다.
 // inline : 컨텐츠가 차지하는 공간(텍스트, 이미지 등)만큼만 차지하게 만든다(빈 공간 마련 불가능).
+// span은 기본적으로 display가 inline이고, inline인 경우 컨텐츠가 없으면 공간을 차지하게 만드는 것이 불가능하다.
+// 따라서 컨텐츠가 없지만, 공간은 차지하고 싶으면 inline-block을 display의 속성값으로 주면 된다.
+
+// background-image: url(이미지 경로) ->  이미지를 배경으로 설정한다.
+// background-position: 3px 10px -> 오른쪽으로 3px, 위쪽으로 10px만큼 이미지 좌표를 이동한다.(-이면 각각 왼쪽, 아래쪽으로 이동)
+
+// text-indent: 10% -> 글자 들여쓰기를 지정해주는 속성.
+
+// overflow:hidden -> 태그의 공간 바깥으로 나간 텍스트나 이미지를 보이지 않게 해주는 속성.
+
+// text-decoration:none -> a 태그에 text-decoration:none을 주면 밑줄을 없앨 수 있다.
+
+// box-sizing: content-box(기본값) -> width, height를 content의 사이즈로 설정한다.
+// box-sizing: border-box -> width, height를 border의 사이즈로 설정한다.
+
+// border:none -> 테두리를 삭제한다.
+// outline: none -> input 태그의 입력창에 커서가 있을 때 테두리가 생기는 것을 없애줌.
+// padding: 0; -> 상하좌우 패딩을 모두 없앤다.
+// margin: 0; -> 상하좌우 마진을 모두 없앤다.
+
+// vertical-align:middle -> 형제 태그의 수직 방향 정렬을 맞출 때 사용(형제 태그에 같은 속성값을 주면 됨).
 
 // 박스 모델
-
-// (1) margin :
-// (2) padding :
+// (1) margin : border와 다른 태그의 컨텐츠들 사이의 공간
+// (2) border : 테두리 부분
+// (3) padding : content와 border 사이의 공간
+// (4) content : 텍스트나 이미지가 들어있는 공간
+// margin을 제외한 border, padding, content가 실제 태그의 공간을 나타낸다.
+// 기본적으로 html에서는 content, padding, border의 너비를 따로 친다.
+//
