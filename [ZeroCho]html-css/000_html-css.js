@@ -102,13 +102,13 @@
 // figure : 일러스트레이션, 다이어그램, 사진, 코드 목록 등 자체 포함된 콘텐츠들을 담을 때 사용하는 div 태그
 // figcaption : <figure> 태그로 정의한 콘텐츠들의 제목, 설명 등을 작성하는 div 태그
 
+// button : 버튼을 생성해주는 태그
+
+// form : input 태그와 button 태그를 넣고 묶어주면 버튼을 누를 때마다 submit 이벤트를 발생시킴.
+
 // iframe :
 
 // table :
-
-// button :
-
-//
 
 // 4. CSS 설명
 
@@ -144,18 +144,18 @@
 
 // 5. CSS 속성 종류
 
-// width :
+// width : 태그의 폭을 설정해주는 속성
+// height : 태그의 높이를 설정해주는 속성
 
-// height :
-
-// display :
+// display : 태그가 차지하는 공간을 설정하거나 보이지 않게 설정할 수 있다.
 
 // display 속성값 종류
-// none :
-// block : 타겟이 공간의 전체 너비를 다 차지하게 만든다(width가 있든 없든 공간은 다 차지함).
+// none : 태그가 보이지 않고, 코드 리더기에도 인식되지 않음.
+// block : 태그가 공간의 전체 너비를 다 차지하게 만든다(width가 있든 없든 공간은 다 차지함).
 // inline-block : 기본적으로 컨텐츠가 차지하는 공간만큼, width, height 속성을 정의한 경우 width, height만큼의 공간을 차지하게 만든다.
 // inline : 컨텐츠가 차지하는 공간(텍스트, 이미지 등)만큼만 차지하게 만든다(빈 공간 마련 불가능).
 
-// margin :
+// 박스 모델
 
-// padding :
+// (1) margin :
+// (2) padding :
