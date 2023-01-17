@@ -29,21 +29,21 @@ body {
   margin: 0 auto; /* 가운데 정렬 */
   width: 1080px;
 }
-
 div#header-search > h1 {
+  /* id="header-search"인 태그의 자식 h1 선택*/
+  margin: 30px 0;
+  display: inline-block;
+}
+div#header-search > h1 > a {
   /* id="header-search"인 태그의 자식 h1 선택*/
   width: 222px;
   height: 52px;
   display: inline-block;
-  text-indent: 100%;
-  overflow: hidden;
-  /* background-image: url(./sp_main_947f65.png);
-  background-position: 0 0;
-  background-repeat: no-repeat; */
-  background: url(./sp_main_947f65.png) 0 -315px no-repeat;
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: 0 -158px;
+  background-repeat: no-repeat;
   vertical-align: middle;
-  position: relative;
-  top: -5px;
 }
 /* display:none 해당 태그를 스크린 리더(시각장애인용)도 읽지 못함 */
 /* #header-search h2 {
@@ -70,25 +70,23 @@ div#header-search > h1 {
   vertical-align: middle;
 }
 #header-search fieldset button {
-  width: 49px;
-  height: 49px;
+  width: 48px;
+  height: 48px;
   border: none;
   padding: 0;
   background: #03cf5d;
   position: absolute;
   right: -2px;
-  top: -2px;
+  top: -1px;
 }
 #search-image {
-  background-image: url(./sp_main_947f65.png);
-  background-position: -420px -24px;
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
   background-repeat: no-repeat;
+  display: inline-block;
   width: 22px;
   height: 22px;
-  display: inline-block;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  background-position: -420px -24px;
 }
 nav ul {
   margin: 0;

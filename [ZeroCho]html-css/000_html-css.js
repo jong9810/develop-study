@@ -225,7 +225,31 @@
 // padding: 0; -> 상하좌우 패딩을 모두 없앤다.
 // margin: 0; -> 상하좌우 마진을 모두 없앤다.
 
+// 세로 정렬
+// (1) vertical-align
 // vertical-align:middle -> 형제 태그의 수직 방향 정렬을 맞출 때 사용(형제 태그에 같은 속성값을 주면 됨).
+// vertical-align 속성은 다른 태그를 기준으로 세로 정렬을 하기 때문에 옆에 다른 태그가 있을 때만 정렬이 된다.
+
+// (2) align-items
+// display:flex; align-items:center; -> IE에서는 display:flex;를 사용하지 못한다는 단점이 있다.
+
+// (3) 헬퍼를 사용하는 방법
+// 헬퍼 태그 : vertical-align 속성을 사용하기 위해 생성하는 width가 0이고 height: 100%인 보이지 않는 div 태그
+// 헬퍼 태그를 생성한 후에 세로 정렬할 태그들에 display:inline-block; vertical-align:middle; 을 주면 세로 정렬이 된다.
+// 단점은 margin:0; padding:0을 주어도 display:inline-block이기 때문에 약간의 간격이 생긴다는 것이다.
+
+// (4) 테이블 효과를 사용하는 방법
+// 컨테이닝 블록에 display:table; 을 주고, 정렬할 태그에 display: table-cell; vertical-align:middle; 을 주면
+// 태그가 테이블처럼 되어서 손쉽게 세로 가운데 정렬을 할 수 있다.
+// 단점은 table-cell들의 width와 height를 조절하기가 어려워진다는 것이다.
+
+// (5) transform 속성을 이용하는 방법
+// 세로 정렬할 태그에 position:relative; top:50%;를 하면
+// 컨테이닝 블록의 절반 높이에 태그가 위치하는데 태그 크기의 절반만큼 더 내려가는데,
+// 여기서  transform:transformY(-50%);를 하면 태그 크기의 절반만큼 위로 올려주어서 세로 가운데 정렬이 된다.
+
+// (6) float
+//
 
 // 박스 모델
 // (1) margin : border와 다른 태그의 컨텐츠들 사이의 공간
