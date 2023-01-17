@@ -198,4 +198,7 @@
 // 기본적으로 html에서는 content, padding, border의 너비를 따로 친다.
 //
 
-//
+// position 속성 : html은 기본적으로 코드가 작성된 순서대로 화면에 표시하지만, 그것과 상관없이 위치를 정하고 싶을 때 사용하는 속성이다.
+// position: absolute -> 화면을 기준으로 절대적인 위치를 설정할 수 있음.
+// position: relative -> 특정 위젯을 기준으로 상대적인 위치를 설정할 수 있음.
+// position: static(기본값) -> 해당 태그가 원래 있어야할 위치에 표시됨.
