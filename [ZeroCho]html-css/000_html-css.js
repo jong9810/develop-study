@@ -154,6 +154,16 @@
 // 같은 형제 태그가 정렬이 맞지 않는 경우는 높이가 다른 경우가 대부분이다.
 // vertical-align, horizontal-align 속성으로 정렬 맞춤.
 
+// 컨테이닝 블록의 모든 것
+// 컨테이닝 블록 : 요소의 위치와 크기를 지정하는 데 사용하는 블록을 의미한다.
+// https://developer.mozilla.org/ko/docs/Web/CSS/Containing_block
+
+// 블록 서식 문맥(Block Format Context)
+// 블록들 간의 레이아웃이 어떻게 배치되는지에 대한 내용
+
+// 쌓임 맥락(Stacking Context)
+// 화면에 태그들이 어떻게 위치하는지, CSS로 어떻게 위치를 바꿀 수 있는지에 대한 내용
+
 // 5. CSS 속성 종류
 
 // width : 태그의 폭을 설정해주는 속성
@@ -199,6 +209,11 @@
 //
 
 // position 속성 : html은 기본적으로 코드가 작성된 순서대로 화면에 표시하지만, 그것과 상관없이 위치를 정하고 싶을 때 사용하는 속성이다.
-// position: absolute -> 화면을 기준으로 절대적인 위치를 설정할 수 있음.
-// position: relative -> 특정 위젯을 기준으로 상대적인 위치를 설정할 수 있음.
+// position: absolute -> 자신의 컨테이닝 블록을 기준으로 절대적인 위치를 설정할 수 있음.
+// position: relative -> static position을 기준으로 상대적인 위치를 설정할 수 있음.
+// position: fixed ->
 // position: static(기본값) -> 해당 태그가 원래 있어야할 위치에 표시됨.
+
+// border: 1px solid black -> 테두리를 실선 검정색 1px 두께로 설정함.
+
+// border-radius: 50px; -> 테두리를 반지름 50px만큼 둥글게 설정함.
