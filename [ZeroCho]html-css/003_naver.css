@@ -2,13 +2,20 @@
   /* 에스터리스크 : css에서 모든 태그를 가리킴 */
   box-sizing: border-box;
 }
+body {
+  margin: 0;
+  padding: 0;
+}
 #fixed {
   position: fixed;
+  top: 50px;
+  right: 50px;
   display: inline-block;
   width: 100px;
   height: 100px;
   border: 1px solid black;
   border-radius: 50px;
+  text-align: center;
 }
 .blind {
   position: absolute;
@@ -18,7 +25,7 @@
   margin: -1px;
   overflow: hidden;
 }
-div#header-center {
+.center-align {
   margin: 0 auto; /* 가운데 정렬 */
   width: 1080px;
 }
@@ -69,8 +76,8 @@ div#header-search > h1 {
   padding: 0;
   background: #03cf5d;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -2px;
+  top: -2px;
 }
 #search-image {
   background-image: url(./sp_main_947f65.png);
@@ -79,4 +86,18 @@ div#header-search > h1 {
   width: 22px;
   height: 22px;
   display: inline-block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+nav li {
+  display: inline-block;
+  color: #03cf5d;
+  font-weight: bold;
+  padding-right: 14px;
 }
