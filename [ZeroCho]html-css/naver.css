@@ -8,7 +8,7 @@ body {
 }
 #fixed {
   position: fixed;
-  top: 50px;
+  bottom: 50px;
   right: 50px;
   display: inline-block;
   width: 100px;
@@ -28,6 +28,9 @@ body {
 .center-align {
   margin: 0 auto; /* 가운데 정렬 */
   width: 1080px;
+}
+#header-search {
+  clear: both;
 }
 div#header-search > h1 {
   /* id="header-search"인 태그의 자식 h1 선택*/
@@ -98,4 +101,13 @@ nav li {
   color: #03cf5d;
   font-weight: bold;
   padding-right: 14px;
+}
+#header-top {
+  float: right;
+}
+#header-top:first-child {
+  color: #888; /* hex 표기법에서 RGB가 두 글자씩 같은 경우 한 글자로 줄일 수 있다. */
+  font-size: 11px;
+  line-height: 22px;
+  letter-spacing: -1px;
 }
