@@ -199,3 +199,19 @@ nav li:nth-child(6) a {
   top: 45%;
   right: 57px;
 }
+#search-ranking {
+  display: inline-block;
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  vertical-align: middle;
+  margin-top: 22px;
+  right: 400px;
+}
+#search-ranking span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 15px;
+  font-weight: 700;
+}

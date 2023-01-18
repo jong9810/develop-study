@@ -191,7 +191,7 @@
 // 컨테이닝 블록 : 태그를 감싸고 있는 태그, 요소의 위치와 크기를 지정하는 데 사용하는 블록을 의미한다.
 // https://developer.mozilla.org/ko/docs/Web/CSS/Containing_block
 // 컨테이닝 블럭을 찾으면 요소가 어디에 위치할 지를 예측하기 쉬워진다(연습이 필요함).
-// position 속성값이 static이나 relative이면 부모 태그가 display:inline만 아니면 컨테이닝 블록이 된다.
+// position 속성값이 absolute나 relative이면 부모 태그가 display:inline만 아니면 컨테이닝 블록이 된다.
 
 // 블록 서식 문맥(Block Format Context)
 // : 블록들 간의 레이아웃이 어떻게 배치되는지에 대한 내용
@@ -233,6 +233,18 @@
 
 // 마진 상쇄 현상(margin collapsing)
 // margin이 상하에 있는 경우 겹쳐서 없어지는 현상.
+// (1) 형제 태그끼리 margin이 겹치면 margin이 큰 쪽으로 작은 margin이 들어간다.
+// (2) 빈 태그(height:0;)인 경우에도 margin이 상쇄된다.
+// (3) 첫 번째 자식 태그가 margin-top이 있거나, 마지막 자식 태그가 margin-bottom이 있는 경우, 부모 태그를 뚫고 margin이 생긴다.
+
+// margin collapsing 해결방법
+// 부모 태그를 block format context로 만들어주기
+// (1) overflow: hidden; (부모 태그에)
+// (2) overflow: auto; (부모 태그에)
+// (3) float: left. width: 100%; (부모 태그에)
+// (4) position: absolute; width: 100%; (부모 태그에)
+// (5) display: inline-block; width: 100% (margin collapsing 세 가지 경우 모두 해결 가능)
+// width는 자기가 필요한 만큼만 하면 된다.
 
 // 5. CSS 속성 종류
 
