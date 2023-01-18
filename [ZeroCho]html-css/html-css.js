@@ -23,6 +23,17 @@
 // 웹 표준을 완벽하게 지키진 않더라도 최대한 웹 표준에 가깝게 만드는 것이 좋다.
 // 구역 안에서 가운데 정렬될 부분은 가로, 세로에 상관없이 div로 먼저 묶어주자(div 태그 자체를 가운데 정렬 시키기 위해).
 
+// 단축키
+// (1) css
+// h11 + tab -> height: 11px;
+// w11 + tab -> width: 11px;
+// vam + tab -> vertical-align: middle;
+// m10 + tab -> margin: 10px;
+
+// (2) html
+// div.class-name + tab -> <div class="class-name"></div>
+//
+
 // html 배치가 뒤죽박죽 되어있으면 나중에 수정하거나 에러가 어디서 났는지 찾을 때(유지보수) 엄청 고생한다.
 // 따라서 html 구조를 먼저 잘 잡아놓고, 레이아웃 잡는 것을 심혈을 기울여서 해야한다.
 // 세부적인 디자인은 그 이후에 하면 된다.
@@ -148,6 +159,12 @@
 // 실무에서는 nth-child는 최대한 사용하지 않는 것이 좋다(nth child를 쓰면 목적이 분명히 드러나지 않음).
 // nth child는 수정을 할 때도 뭐가 뭔지 알아보기 힘들고 순서에 의존하기 때문에 하나를 수정하기 위해 여러 태그를 수정해야 할 수도 있다(유지보수 안 좋음).
 // 차라리 클래스 이름을 하나 더 주어서 클래스마다 다르게 css를 적용하는 것이 더 좋을 수도 있다.
+// nth-child는 중간에 다른 형제 태그가 있으면 그 태그도 자식으로 세어주어야 함.
+// ex) nav>(h3 + ol + h3)
+// nav h3:nth-child(2) -> 아무 태그도 가리키지 않음.
+// nav h3:nth-child(3) -> 두 번째 h3 태그 가리킴.
+// nav h3:nth-of-type(2) -> 두 번째 h3 태그 가리킴.
+// 따라서 h3끼리만 비교하고 싶은 경우 nth-child 대신 nth-of-type을 사용하면 된다(nth-of-type이 더 많이 쓰임).
 
 // css도 다른 프로그래밍 언어와 마찬가지로 중복되는 것이 세 번 이상 반복되면 중복되는 것을 묶어서 빼주면 좋다.
 
@@ -257,6 +274,7 @@
 // (1) vertical-align
 // vertical-align:middle -> 형제 태그의 수직 방향 정렬을 맞출 때 사용(형제 태그에 같은 속성값을 주면 됨).
 // vertical-align 속성은 다른 태그를 기준으로 세로 정렬을 하기 때문에 옆에 다른 태그가 있을 때만 정렬이 된다.
+// 비교하는 태그의 display 속성이 block이 아닌 경우(inline, inline-block)에만 가능.
 
 // (2) align-items
 // display:flex; align-items:center; -> IE에서는 display:flex;를 사용하지 못한다는 단점이 있다.

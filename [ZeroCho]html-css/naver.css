@@ -2,9 +2,11 @@
   /* 에스터리스크 : css에서 모든 태그를 가리킴 */
   box-sizing: border-box;
 }
+html,
 body {
   margin: 0;
   padding: 0;
+  font-family: Dotum, '돋움', Helvetica, 'Apple SD Gothic Neo', sans-serif;
 }
 header {
   height: 170px;
@@ -104,7 +106,6 @@ nav ul {
   list-style: none;
   position: relative;
   display: inline-block;
-  float: left;
 }
 nav li {
   display: inline-block;
@@ -119,49 +120,45 @@ nav li {
 }
 nav a {
   position: absolute;
-  top: 23px;
-  left: 4px;
-  width: 30px;
-  height: 17px;
 }
-#nav-mail {
+nav li:nth-child(1) a {
   top: 21px;
   left: 4px;
   width: 29.4px;
   height: 20px;
 }
-#nav-cafe {
+nav li:nth-child(2) a {
   top: 21px;
   left: 53px;
   width: 29.4px;
   height: 20px;
 }
-#nav-blog {
+nav li:nth-child(3) a {
   top: 21px;
   left: 102px;
   width: 44.1px;
   height: 20px;
 }
-#nav-know-in {
+nav li:nth-child(4) a {
   top: 21px;
   left: 166px;
   width: 44.1px;
   height: 20px;
 }
-#nav-shopping {
+nav li:nth-child(5) a {
   top: 21px;
   left: 230px;
   width: 29.4px;
   height: 20px;
 }
-#nav-pay {
+nav li:nth-child(6) a {
   top: 21px;
   left: 279px;
   width: 73.5px;
   height: 20px;
 }
 .nav-divider {
-  float: left;
+  display: inline-block;
   width: 1px;
   height: 14px;
   margin: 24px 16px 0;
@@ -175,4 +172,30 @@ nav a {
   font-size: 11px;
   line-height: 22px;
   letter-spacing: -1px;
+}
+#search-keyboard {
+  background: url(./sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: -398px -267px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 12px;
+  position: absolute;
+  top: 40%;
+  right: 75px;
+}
+#search-history {
+  background: url(./sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: -170px -151px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 5px;
+  position: absolute;
+  top: 45%;
+  right: 57px;
 }
