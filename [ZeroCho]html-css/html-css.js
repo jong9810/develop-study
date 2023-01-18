@@ -145,6 +145,12 @@
 // 개발자 도구에 user agent stylesheet라고 나타나는 것은 기본적으로 브라우저가 태그에 적용해주는 CSS 속성이다(브라우저마다 다를 수 있음).
 // 크로스 브라우징 : 브라우저마다 다른 특징을 알고 잘 처리하는 웹 프로그래밍 기술.
 
+// css 단위
+// 절대 단위 : px, pt 등
+// 상대 단위 : em, rem 등
+// em은 해당 태그의 font-size에 따라 크기가 달라지고(1em == font-size),
+// rem은 root 태그(html)의 font-size에 따라 크기가 달라진다(1rem == font-size).
+
 // css 속성 적용 방법
 // (1) 인라인 스타일시트(Inline Style Sheet) : html 태그 내에 style속성으로 정의하는 방식(권장하지 않음).
 // (2) 인터널 스타일시트(Internal Style Sheet) : HTML 문서 안에 <style> 태그 안에 CSS 코드를 작성하는 방식.
@@ -229,7 +235,10 @@
 // margin과 padding 중 어느 것을 사용할지 헷갈릴 때!
 // 테두리가 있는 요소인 경우, 태그의 공간(padding)을 어떻게 할지를 먼저 선택하고 나서 그 다음에 바깥 공간(margin)을 설정해주면 된다.
 // 테두리가 없는 요소인 경우, 둘 다 상관없지만 padding으로 조절하는 것이 더 안전하다(margin collapsing).
-// 참고) a 태그는 padding 부분을 클릭해도 동작한다.ㄴ
+// 참고) a 태그는 padding 부분을 클릭해도 동작한다.
+// 레이아웃을 잡을 때 margin을 주는 규칙을 정해놓고 하면 헷갈리지 않을 수 있다.
+// ex) margin-right와 margin-bottom만 사용해서 레이아웃을 잡겠다.
+//
 
 // 마진 상쇄 현상(margin collapsing)
 // margin이 상하에 있는 경우 겹쳐서 없어지는 현상.
@@ -261,6 +270,17 @@
 // flex :
 // span은 기본적으로 display가 inline이고, inline인 경우 컨텐츠가 없으면 공간을 차지하게 만드는 것이 불가능하다.
 // 따라서 컨텐츠가 없지만, 공간은 차지하고 싶으면 inline-block을 display의 속성값으로 주면 된다.
+// inline-block 속성값은 자주 쓰이기 때문에 css 클래스로 "inline-block"을 만들어 놓으면 편하다.
+
+// display: inline-block; 의 치명적인 단점
+// display: inline-block; 요소끼리 배치를 할 때, 두 태그를 다른 줄에 넣으면
+// 이해되지 않는 아주 작은 간격이 생겨서 width가 넘치게 된다.
+// 해결방안
+// (1) inline-block 요소를 한 줄에 같이 작성하는 방법
+// (2) 요소의 width를 줄이거나 컨테이닝 블록의 width를 늘이는 방법
+// (3) float:left 속성을 주어서 왼쪽으로 붙이는 방법
+// (4) margin: -px 을 해서 width가 넘치는 것을 막는 방법
+// (5) 컨테이닝 블록에 font-size: 0을 주고, 자식 요소에 font-size를 다시 주는 방법
 
 // background-image: url(이미지 경로) ->  이미지를 배경으로 설정한다.
 // background-position: 3px 10px -> 오른쪽으로 3px, 위쪽으로 10px만큼 이미지 좌표를 이동한다.(-이면 각각 왼쪽, 아래쪽으로 이동)
@@ -316,7 +336,8 @@
 // text-align 과 float의 다른 점은 float은 요소를 둥둥 띄우는 것처럼 처리하기 때문에 다른 요소가 float 요소의 공간을 차지할 수 있다.
 // float을 준 요소의 공간이 사라지는 것이 아니라 그 주변의 공간을 다른 요소들이 감싸는 형태로 배치가 된다.
 // float 요소의 부모 태그가 float요소를 준 태그를 감싸고 있지 않을 수 있다(block format context).
-//
+// text-align: center; -> 내부 컨텐츠가 가로 가운데 정렬됨(부모 태그에 주는 속성).
+// margin: 0 auto; -> 자식 입장에서 부모의 가로 가운데 정렬(자식 태그에 주는 속성).
 
 // 박스 모델
 // (1) margin : border와 다른 태그의 컨텐츠들 사이의 공간
@@ -347,6 +368,8 @@
 // float:right -> 태그를 오른쪽으로 둥둥 띄움(정상적인 배치 흐름에서 벗어나게 만듦).
 // 실제로 태그들이 겹쳐서 쌓여있는 것이 아니고 같은 공간을 차지하는 것 뿐이다.
 // display:flex; 를 사용하기 때문에 float을 잘 안쓰는 것 같음.
+// 자식의 경우에는 float:left와 display:inline-block은 역할이 같으므로 하나만 사용하면 된다.
+// 부모일 때는 다를 수 있다.ㄴ
 
 // clear:right(left, both) -> 부모 태그에 주면 float 된 태그를 감싸지 않게 됨.
 
@@ -356,4 +379,9 @@
 // line-height가 너무 작은 경우, 글자가 여러 줄이 될 때 글자가 겹칠 수 있다.
 // line-height가 기본값인 경우 기본적으로 글자가 겹치지 않는다.
 
+// 정가운데 정렬할 때 많이 쓰는 방법
+// 부모 태그에 text-align:center; 주어서 가로 가운데 정렬하고,
+// 자식 태그에 position:relative; top:50%; transform:translateY(-50%); 주어서 세로 가운데 정렬.
+
+// 태그를 선택할 때, 먼저 id로 생성한 후에 중복이 3번 이상 발생하면 class로 묶어주면 편하다.
 //
