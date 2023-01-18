@@ -6,6 +6,9 @@ body {
   margin: 0;
   padding: 0;
 }
+header {
+  height: 170px;
+}
 #fixed {
   position: fixed;
   bottom: 50px;
@@ -31,10 +34,10 @@ body {
 }
 #header-search {
   clear: both;
+  padding-top: 20px;
 }
 div#header-search > h1 {
   /* id="header-search"인 태그의 자식 h1 선택*/
-  margin: 30px 0;
   display: inline-block;
 }
 div#header-search > h1 > a {
@@ -91,16 +94,78 @@ div#header-search > h1 > a {
   height: 22px;
   background-position: -420px -24px;
 }
+nav {
+  height: 46px;
+  border-top: 1px solid #f1f3f6;
+}
 nav ul {
   margin: 0;
-  padding: 0;
+  padding: 16px 0 0 4px;
   list-style: none;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 nav li {
   display: inline-block;
-  color: #03cf5d;
-  font-weight: bold;
   padding-right: 14px;
+  color: #03c75a;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 30px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+nav a {
+  position: absolute;
+  top: 23px;
+  left: 4px;
+  width: 30px;
+  height: 17px;
+}
+#nav-mail {
+  top: 21px;
+  left: 4px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-cafe {
+  top: 21px;
+  left: 53px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-blog {
+  top: 21px;
+  left: 102px;
+  width: 44.1px;
+  height: 20px;
+}
+#nav-know-in {
+  top: 21px;
+  left: 166px;
+  width: 44.1px;
+  height: 20px;
+}
+#nav-shopping {
+  top: 21px;
+  left: 230px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-pay {
+  top: 21px;
+  left: 279px;
+  width: 73.5px;
+  height: 20px;
+}
+.nav-divider {
+  float: left;
+  width: 1px;
+  height: 14px;
+  margin: 24px 16px 0;
+  background: #ebeef3;
 }
 #header-top {
   float: right;
