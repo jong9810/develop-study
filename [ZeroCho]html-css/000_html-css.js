@@ -162,13 +162,22 @@
 // vertical-align, horizontal-align 속성으로 정렬 맞춤.
 
 // 컨테이닝 블록의 모든 것
-// 컨테이닝 블록 : 요소의 위치와 크기를 지정하는 데 사용하는 블록을 의미한다.
+// 컨테이닝 블록 : 태그를 감싸고 있는 태그, 요소의 위치와 크기를 지정하는 데 사용하는 블록을 의미한다.
 // https://developer.mozilla.org/ko/docs/Web/CSS/Containing_block
 // 컨테이닝 블럭을 찾으면 요소가 어디에 위치할 지를 예측하기 쉬워진다(연습이 필요함).
 // position 속성값이 static이나 relative이면 부모 태그가 display:inline만 아니면 컨테이닝 블록이 된다.
 
 // 블록 서식 문맥(Block Format Context)
-// 블록들 간의 레이아웃이 어떻게 배치되는지에 대한 내용
+// : 블록들 간의 레이아웃이 어떻게 배치되는지에 대한 내용
+// : 부모 태그 입장에서 자식 태그를 감쌀 수 있는가에 대한 내용!
+// 감쌀 수 있는 경우 : block format context이다.
+// 감쌀 수 없는 경우 : block format context가 아니다.
+
+// 블록 서식 문맥이 생성되는 조건
+// (1) float 속성이 none이 아닌 요소
+// (2) 절대위치로 지정된 요소(position 속성이 absolute나 fixed인 요소)
+// (3) display 속성이 inline-block 인 요소
+// (4) overflow 속성이 visible이 아닌 요소
 
 // 쌓임 맥락(Stacking Context)
 // 화면에 태그들이 어떻게 위치하는지, CSS로 어떻게 위치를 바꿀 수 있는지에 대한 내용
@@ -213,7 +222,9 @@
 
 // text-indent: 10% -> 글자 들여쓰기를 지정해주는 속성.
 
-// overflow:hidden -> 태그의 공간 바깥으로 나간 텍스트나 이미지를 보이지 않게 해주는 속성.
+// overflow:visible(기본값) -> 자식 태그가 부모 태그보다 클 때, 자식 태그를 그대로 보여준다.
+// overflow:hidden -> 자식 태그가 부모 태그보다 클 때, 자식 태그의 넘치는 부분을 잘라준다(많이 쓰임).
+// overflow:auto -> 자식 태그가 부모 태그보다 클 때, 스크롤 바를 만들어 준다.
 
 // text-decoration:none -> a 태그에 text-decoration:none을 주면 밑줄을 없앨 수 있다.
 
@@ -249,6 +260,15 @@
 // 여기서  transform:transformY(-50%);를 하면 태그 크기의 절반만큼 위로 올려주어서 세로 가운데 정렬이 된다.
 
 // (6) float
+//
+
+// 오른쪽 정렬
+// (1) text-align:right;
+// (2) 컨테이닝 블록 position:relative; 요소 블록 position:absolute; right:0;
+// (3) float:right;
+// text-align 과 float의 다른 점은 float은 요소를 둥둥 띄우는 것처럼 처리하기 때문에 다른 요소가 float 요소의 공간을 차지할 수 있다.
+// float을 준 요소의 공간이 사라지는 것이 아니라 그 주변의 공간을 다른 요소들이 감싸는 형태로 배치가 된다.
+// float 요소의 부모 태그가 float요소를 준 태그를 감싸고 있지 않을 수 있다(block format context).
 //
 
 // 박스 모델
