@@ -48,6 +48,9 @@ header {
   margin: 0 auto; /* 가운데 정렬 */
   width: 1080px;
 }
+.relative {
+  position: relative;
+}
 #header-search {
   clear: both;
   padding-top: 45px;
@@ -114,14 +117,14 @@ nav {
   height: 46px;
   border-top: 1px solid #f1f3f6;
 }
-nav ul {
+#nav-menu {
   margin: 0;
   padding: 16px 0 0 4px;
   list-style: none;
   position: relative;
   display: inline-block;
 }
-nav li {
+#nav-menu li {
   display: inline-block;
   padding-right: 14px;
   color: #03c75a;
@@ -132,40 +135,40 @@ nav li {
   letter-spacing: -0.3px;
   text-decoration: none;
 }
-nav a {
+#nav-menu a {
   position: absolute;
 }
-nav li:nth-child(1) a {
+#nav-menu li:nth-child(1) a {
   top: 21px;
   left: 4px;
   width: 29.4px;
   height: 20px;
 }
-nav li:nth-child(2) a {
+#nav-menu li:nth-child(2) a {
   top: 21px;
   left: 53px;
   width: 29.4px;
   height: 20px;
 }
-nav li:nth-child(3) a {
+#nav-menu li:nth-child(3) a {
   top: 21px;
   left: 102px;
   width: 44.1px;
   height: 20px;
 }
-nav li:nth-child(4) a {
+#nav-menu li:nth-child(4) a {
   top: 21px;
   left: 166px;
   width: 44.1px;
   height: 20px;
 }
-nav li:nth-child(5) a {
+#nav-menu li:nth-child(5) a {
   top: 21px;
   left: 230px;
   width: 29.4px;
   height: 20px;
 }
-nav li:nth-child(6) a {
+#nav-menu li:nth-child(6) a {
   top: 21px;
   left: 279px;
   width: 73.5px;
@@ -214,20 +217,47 @@ nav li:nth-child(6) a {
   right: 57px;
 }
 #search-ranking {
-  display: inline-block;
   position: absolute;
-  width: 100px;
-  height: 30px;
+  width: 198px;
+  height: 20px;
   vertical-align: middle;
-  margin-top: 22px;
-  right: 400px;
+  right: 0;
+  top: 14px;
 }
-#search-ranking span {
+#search-ranking ul {
+  display: none;
+  list-style: none;
+  padding: 17px;
+  margin: 0;
+  width: 332px;
+  height: 334px;
+  border: 1px solid #aaa;
+  background: white;
   position: absolute;
   right: 0;
-  top: 0;
-  font-size: 15px;
-  font-weight: 700;
+  top: -15px;
+  z-index: 100;
+}
+#z-example {
+  position: absolute;
+  background-color: yellow;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+#z-inner {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 50px;
+  z-index: 1000;
+}
+#search-ranking:hover ul {
+  display: inline-block;
+}
+#rank-number {
+  color: #03c75a;
+  font-weight: bold;
 }
 main {
   background-color: #f2f3f7;
@@ -342,6 +372,10 @@ main {
   height: 837px;
   background-color: white;
   float: left;
+}
+#main-shopping iframe {
+  width: 100%;
+  height: 100%;
 }
 #main-last-block {
   display: inline-block;

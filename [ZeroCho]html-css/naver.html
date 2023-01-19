@@ -20,7 +20,9 @@
         </div>
         <div id="header-search">
           <h1>
-            <a href="https://www.naver.com"> <span class="blind">네이버</span></a>
+            <a href="https://www.naver.com">
+              <span class="blind">네이버</span></a
+            >
           </h1>
           <h2 class="blind">검색창</h2>
           <fieldset>
@@ -37,20 +39,82 @@
       </div>
     </header>
     <nav>
-      <div class="center-align">
-        <ul>
-          <li><a href="https://mail.naver.com/v2/folders/0/all"></a><span>메일</span></li>
-          <li><a href="https://section.cafe.naver.com/ca-fe/"></a><span>카페</span></li>
-          <li><a href="https://section.blog.naver.com/BlogHome.naver"></a><span>블로그</span></li>
-          <li><a href="https://kin.naver.com/"></a><span>지식인</span></li>
-          <li><a href="https://shopping.naver.com/home"></a><span>쇼핑</span></li>
-          <li><a href="https://new-m.pay.naver.com/pcpay?page=1"></a><span>네이버페이</span></li>
-        </ul>
-        <div class="nav-divider"></div>
+      <div class="center-align relative">
         <div id="search-ranking">
           <h2 class="blind">실시간 검색어</h2>
-          <span>1 제로초</span>
+          <div>
+            <span id="rank-number">1</span>
+            <span id="rank-title">제로초</span>
+          </div>
+          <ul>
+            <li>
+              <span class="rank-number">1</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">2</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">3</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">4</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">5</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">6</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">7</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">8</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">9</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">10</span>
+              <span class="rank-title">제로초</span>
+            </li>
+          </ul>
+          <div id="z-example">
+            <div id="z-inner"></div>
+          </div>
         </div>
+        <ul id="nav-menu">
+          <li>
+            <a href="https://mail.naver.com/v2/folders/0/all"></a
+            ><span>메일</span>
+          </li>
+          <li>
+            <a href="https://section.cafe.naver.com/ca-fe/"></a
+            ><span>카페</span>
+          </li>
+          <li>
+            <a href="https://section.blog.naver.com/BlogHome.naver"></a
+            ><span>블로그</span>
+          </li>
+          <li><a href="https://kin.naver.com/"></a><span>지식인</span></li>
+          <li>
+            <a href="https://shopping.naver.com/home"></a><span>쇼핑</span>
+          </li>
+          <li>
+            <a href="https://new-m.pay.naver.com/pcpay?page=1"></a
+            ><span>네이버페이</span>
+          </li>
+        </ul>
+        <div class="nav-divider"></div>
       </div>
     </nav>
     <main>
@@ -142,6 +206,10 @@
           </div>
           <div id="main-shopping">
             <h3>쇼핑</h3>
+            <iframe
+              src="https://shopping.naver.com/home"
+              frameborder="0"
+            ></iframe>
           </div>
         </div>
         <div id="main-last-block">
