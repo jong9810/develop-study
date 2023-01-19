@@ -19,6 +19,9 @@ h6 {
 .inline-block {
   display: inline-block;
 }
+.float-left {
+  float: left;
+}
 header {
   height: 170px;
 }
@@ -239,37 +242,40 @@ main {
 #main-first-block {
   display: inline-block;
   width: 100%;
+  vertical-align: top;
+  margin-bottom: 8px;
 }
 #main-ad {
   width: 740px;
   height: 120px;
   background-color: #555;
-  vertical-align: top;
   margin-right: 8px;
-  margin-bottom: 8px;
   float: left;
 }
 #main-login {
   width: 332px;
   height: 120px;
-  vertical-align: top;
   background-color: white;
-  margin-bottom: 8px;
   float: left;
 }
-#main-second-block .inline-block:nth-of-type(1) {
-  width: 740px;
-}
-#main-second-block .inline-block:nth-of-type(2) {
-  width: 332px;
+#main-second-block {
+  display: inline-block;
+  width: 100%;
   vertical-align: top;
+  margin-bottom: 8px;
+}
+#main-second-block .float-left:nth-of-type(1) {
+  width: 740px;
+  margin-right: 8px;
+}
+#main-second-block .float-left:nth-of-type(2) {
+  width: 332px;
 }
 #main-seoul-news {
   display: inline-block;
   width: 740px;
   height: 46px;
   background-color: white;
-  margin-right: 8px;
   margin-bottom: 8px;
 }
 #main-seoul-news h3,
@@ -281,8 +287,6 @@ main {
   width: 740px;
   height: 246px;
   background-color: white;
-  margin-right: 8px;
-  margin-bottom: 8px;
 }
 #main-newsstand h3 {
   height: 45px;
@@ -291,11 +295,12 @@ main {
 #main-newsstand ul {
   margin: 0;
   padding: 0;
-  list-style: 0;
+  list-style: none;
+  display: inline-block;
 }
 #main-newsstand li {
   float: left;
-  width: 123px;
+  width: calc(100% / 6);
   height: 67px;
   border-right: 1px solid #f2f3f7;
   border-bottom: 1px solid #f2f3f7;
@@ -307,22 +312,23 @@ main {
   transform: translateY(-50%);
 }
 #main-weather {
-  display: inline-block;
+  float: left;
   width: 332px;
   height: 142px;
   background-color: white;
   margin-bottom: 8px;
 }
 #main-second-ad {
-  display: inline-block;
+  float: left;
   width: 332px;
   height: 150px;
   background-color: #555;
-  margin-bottom: 8px;
 }
 #main-third-block {
   display: inline-block;
   width: 100%;
+  vertical-align: top;
+  margin-bottom: 8px;
 }
 #main-category {
   float: left;
@@ -330,13 +336,11 @@ main {
   height: 837px;
   background-color: white;
   margin-right: 8px;
-  margin-bottom: 8px;
 }
 #main-shopping {
   width: 332px;
   height: 837px;
   background-color: white;
-  margin-bottom: 8px;
   float: left;
 }
 #main-last-block {
@@ -350,7 +354,6 @@ main {
   background-color: white;
   vertical-align: top;
   margin-right: 8px;
-  margin-bottom: 8px;
 }
 #main-third-ad {
   float: left;
@@ -358,5 +361,4 @@ main {
   height: 130px;
   background-color: #555;
   vertical-align: top;
-  margin-bottom: 8px;
 }

@@ -270,17 +270,22 @@
 // flex :
 // span은 기본적으로 display가 inline이고, inline인 경우 컨텐츠가 없으면 공간을 차지하게 만드는 것이 불가능하다.
 // 따라서 컨텐츠가 없지만, 공간은 차지하고 싶으면 inline-block을 display의 속성값으로 주면 된다.
-// inline-block 속성값은 자주 쓰이기 때문에 css 클래스로 "inline-block"을 만들어 놓으면 편하다.
+// inline-block 속성값은 자주 쓰이기 때문에 클래스로 "inline-block"을 만들어 놓으면 편하다.
 
-// display: inline-block; 의 치명적인 단점
+// display: inline-block; 의 치명적인 단점(inline-block 간에 작은 간격이 추가되는 문제)
 // display: inline-block; 요소끼리 배치를 할 때, 두 태그를 다른 줄에 넣으면
-// 이해되지 않는 아주 작은 간격이 생겨서 width가 넘치게 된다.
-// 해결방안
-// (1) inline-block 요소를 한 줄에 같이 작성하는 방법
-// (2) 요소의 width를 줄이거나 컨테이닝 블록의 width를 늘이는 방법
-// (3) float:left 속성을 주어서 왼쪽으로 붙이는 방법
-// (4) margin: -px 을 해서 width가 넘치는 것을 막는 방법
-// (5) 컨테이닝 블록에 font-size: 0을 주고, 자식 요소에 font-size를 다시 주는 방법
+// 이해되지 않는 아주 작은 간격이 추가돼서 width가 넘치게 된다.
+// inline-block이 연달아 추가되는 경우에는 처음부터 float을 주는 게 좋다.
+// inline-block을 연달아 사용하고 있는지 항상 체크하는 습관을 들이는 것이 좋다.
+// 만약 IE를 지원하지 않아도 된다면, display:flex;를 사용하면 된다.
+
+// 가로 간격 해결방안
+// (1) float:left 속성을 주어서 왼쪽으로 붙이는 방법
+// (2) margin: -px 을 해서 width가 넘치는 것을 막는 방법
+// (3) 컨테이닝 블록에 font-size: 0을 주고, 자식 요소에 font-size를 다시 주는 방법
+
+// 세로 간격 해결방안
+// (1) vertical-align: top;
 
 // background-image: url(이미지 경로) ->  이미지를 배경으로 설정한다.
 // background-position: 3px 10px -> 오른쪽으로 3px, 위쪽으로 10px만큼 이미지 좌표를 이동한다.(-이면 각각 왼쪽, 아래쪽으로 이동)
@@ -346,7 +351,6 @@
 // (4) content : 텍스트나 이미지가 들어있는 공간
 // margin을 제외한 border, padding, content가 실제 태그의 공간을 나타낸다.
 // 기본적으로 html에서는 content, padding, border의 너비를 따로 친다.
-//
 
 // position 속성 : html은 기본적으로 코드가 작성된 순서대로 화면에 표시하지만, 그것과 상관없이 위치를 정하고 싶을 때 사용하는 속성이다.
 // position: absolute -> 자신의 컨테이닝 블록을 기준으로 절대적인 위치를 설정할 수 있음.
@@ -369,7 +373,7 @@
 // 실제로 태그들이 겹쳐서 쌓여있는 것이 아니고 같은 공간을 차지하는 것 뿐이다.
 // display:flex; 를 사용하기 때문에 float을 잘 안쓰는 것 같음.
 // 자식의 경우에는 float:left와 display:inline-block은 역할이 같으므로 하나만 사용하면 된다.
-// 부모일 때는 다를 수 있다.ㄴ
+// 부모일 때는 다를 수 있다.
 
 // clear:right(left, both) -> 부모 태그에 주면 float 된 태그를 감싸지 않게 됨.
 
@@ -384,4 +388,8 @@
 // 자식 태그에 position:relative; top:50%; transform:translateY(-50%); 주어서 세로 가운데 정렬.
 
 // 태그를 선택할 때, 먼저 id로 생성한 후에 중복이 3번 이상 발생하면 class로 묶어주면 편하다.
+
+// width: calc(100% / 6); -> 컨테이닝 블록의 100%를 6등분한 너비를 줌.
+// calc()를 사용할 때는 연산자와 숫자 사이에 띄어쓰기를 꼭 해주자(가끔 인식이 안되는 경우가 있음)!
+
 //
