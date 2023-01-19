@@ -19,22 +19,27 @@
           <span>해피빈 | </span>
         </div>
         <div id="header-search">
-          <h1>
-            <a href="https://www.naver.com">
-              <span class="blind">네이버</span></a
-            >
-          </h1>
-          <h2 class="blind">검색창</h2>
-          <fieldset>
-            <legend class="blind">검색</legend>
-            <input />
-            <span id="search-keyboard"></span>
-            <span id="search-history"></span>
-            <button>
-              <span class="blind">검색</span>
-              <span id="search-image"></span>
-            </button>
-          </fieldset>
+          <form
+            class="inline-block"
+            action="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query="
+          >
+            <h1>
+              <a href="https://www.naver.com">
+                <span class="blind">네이버</span></a
+              >
+            </h1>
+            <h2 class="blind">검색창</h2>
+            <fieldset>
+              <legend class="blind">검색</legend>
+              <input />
+              <span id="search-keyboard"></span>
+              <span id="search-history"></span>
+              <button>
+                <span class="blind">검색</span>
+                <span id="search-image"></span>
+              </button>
+            </fieldset>
+          </form>
         </div>
       </div>
     </header>
@@ -88,9 +93,10 @@
               <span class="rank-title">제로초</span>
             </li>
           </ul>
-          <div id="z-example">
+          <!-- z-index 예제 -->
+          <!-- <div id="z-example">
             <div id="z-inner"></div>
-          </div>
+          </div> -->
         </div>
         <ul id="nav-menu">
           <li>
@@ -124,7 +130,22 @@
             <h3>광고1</h3>
           </div>
           <div id="main-login">
-            <h3>로그인</h3>
+            <h3 class="blind">로그인</h3>
+            <div class="login-wrapper">
+              <span>네이버를 더 안전하고 편리하게 이용하세요.</span>
+              <a
+                class="login-button"
+                href="https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com"
+              >
+                <div>
+                  <span class="blind">NAVER</span>
+                  <span id="main-login-naver"></span>
+                  <span>로그인</span>
+                </div>
+              </a>
+              <a class="login-signup" href="">회원가입</a>
+              <a href=""></a>
+            </div>
           </div>
         </div>
         <div id="main-second-block">

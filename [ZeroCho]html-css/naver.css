@@ -55,11 +55,11 @@ header {
   clear: both;
   padding-top: 45px;
 }
-div#header-search > h1 {
+div#header-search h1 {
   /* id="header-search"인 태그의 자식 h1 선택*/
   display: inline-block;
 }
-div#header-search > h1 > a {
+div#header-search h1 > a {
   /* id="header-search"인 태그의 자식 h1 선택*/
   width: 222px;
   height: 52px;
@@ -74,7 +74,6 @@ div#header-search > h1 > a {
 /* #header-search h2 {
   display: none;
 } */
-
 #header-search fieldset {
   width: 521px;
   height: 49px;
@@ -93,6 +92,8 @@ div#header-search > h1 > a {
   width: 444px;
   height: 24px;
   vertical-align: middle;
+  margin-top: 12px;
+  font-size: 13px;
 }
 #header-search fieldset button {
   width: 48px;
@@ -238,7 +239,8 @@ nav {
   top: -15px;
   z-index: 100;
 }
-#z-example {
+/* z-index 예제 */
+/* #z-example {
   position: absolute;
   background-color: yellow;
   width: 100px;
@@ -251,7 +253,7 @@ nav {
   width: 50px;
   height: 50px;
   z-index: 1000;
-}
+} */
 #search-ranking:hover ul {
   display: inline-block;
 }
@@ -287,6 +289,51 @@ main {
   height: 120px;
   background-color: white;
   float: left;
+  border: 1px solid #dae1e6;
+}
+#main-login .login-wrapper {
+  padding: 15px 25px;
+  background-color: #f7f9fa;
+}
+#main-login .login-wrapper > span {
+  font-size: 12px;
+  padding-left: 3px;
+  color: grey;
+}
+#main-login .login-wrapper .login-button {
+  width: 100%;
+  height: 43.6px;
+  margin-top: 11px;
+  background-color: #19ce60;
+  display: inline-block;
+  text-align: center;
+  padding: 14px 0;
+  text-decoration: none;
+}
+#main-login .login-wrapper a span {
+  font-size: 13px;
+  color: #fff;
+  line-height: 13px;
+}
+#main-login-naver {
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 60px;
+  height: 12px;
+  background-position: -202px -296px;
+  margin: 2px 5px 0 0;
+}
+#main-login .login-signup {
+  float: right;
+  font-size: 12px;
+  line-height: 38px;
+  color: #666;
+  text-decoration: none;
+}
+#main-login .login-signup:hover {
+  text-decoration: underline;
 }
 #main-second-block {
   display: inline-block;
