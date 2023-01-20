@@ -5,12 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?1" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Dotum, '돋움', Helvetica, 'Apple SD Gothic Neo', sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .float-left {
+        float: left;
+      }
+      header {
+        height: 170px;
+      }
+      /* #fixed {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+        border-radius: 50px;
+        text-align: center;
+      } */
+      .blind {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+      }
+      .center-align {
+        margin: 0 auto; /* 가운데 정렬 */
+        width: 1080px;
+      }
+      .relative {
+        position: relative;
+      }
+    </style>
     <link rel="stylesheet" href="./naver.css" />
     <title>네이버</title>
   </head>
   <body>
     <header>
-      <div id="fixed">고정</div>
+      <!-- <div id="fixed">고정</div> -->
       <div class="center-align">
         <!-- 가운데 정렬용 div -->
         <div id="header-top">
@@ -113,7 +167,7 @@
           </li>
           <li><a href="https://kin.naver.com/"></a><span>지식인</span></li>
           <li>
-            <a href="https://shopping.naver.com/home"></a><span>쇼핑</span>
+            <a href="https://shopping.naver.com/home"></a><span class="blind"></span>쇼핑</span>
           </li>
           <li>
             <a href="https://new-m.pay.naver.com/pcpay?page=1"></a
@@ -223,7 +277,40 @@
         </div>
         <div id="main-third-block">
           <div id="main-category">
-            <h3>주제별 보기</h3>
+            <h3 class="blind">주제별 보기</h3>
+            <div id="main-category-top">
+              <button id="subject-all">
+                <span class="blind">전체 주제 열기</span>
+                <span>=</span>
+              </button>
+              <div id="subject-list">
+                <ul>
+                  <div class="opacity left"></div>
+                  <li>리빙</li>
+                  <li>푸드</li>
+                  <li>스포츠</li>
+                  <li>자동차</li>
+                  <li>패션뷰티</li>
+                  <li>부모i</li>
+                  <li class="highlight">건강</li>
+                  <li>웹툰</li>
+                  <li>게임</li>
+                  <li>TV연예</li>
+                  <li>뮤직</li>
+                  <li>영화</li>
+                  <li>책문학</li>
+                  <div class="opacity right"></div>
+                </ul>
+              </div>
+              <button id="subject-prev">
+                <span class="blind">이전 주제</span>
+                <span><</span>
+              </button>
+              <button id="subject-next">
+                <span class="blind">다음 주제</span>
+                <span>></span>
+              </button>
+            </div>
           </div>
           <div id="main-shopping">
             <h3>쇼핑</h3>

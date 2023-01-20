@@ -167,10 +167,22 @@
 // css 속성 적용 방법
 // (1) 인라인 스타일시트(Inline Style Sheet) : html 태그 내에 style속성으로 정의하는 방식(권장하지 않음).
 // (2) 인터널 스타일시트(Internal Style Sheet) : HTML 문서 안에 <style> 태그 안에 CSS 코드를 작성하는 방식.
+// html 문서 안에 작성된 css 속성들은 바로 웹에 반영이 된다는 장점이 있다.
 // (3) 링킹 스타일시트(Linking Style Sheet) : 별도의 CSS 파일을 만들고 HTML link태그로 연결하는 방식.
 // 하나의 파일에 모든 것을 담기 보다 역할에 따라 파일을 나누어 주는 것이 나중에 유지보수할 때 좋음.
+// 링킹 스타일시트 방법은 css 파일이 html 문서와 별도의 공간에 저장되어 있을 수도 있으므로,
+// 성능(로딩 시간 등) 면에서 좋지 않을 수도 있다.
+
+// html문서에서 css 파일을 꼭 하나만 link할 필요는 없다.
+// css 문서가 너무 길어지면 관리하기 어렵기 때문에,
+// 하나의 웹 내에서도 구역에 따라 css 파일을 여러 개 만들어서 link해도 됨.
+// 공통으로 쓰이는 css 속성들은 html 문서의 <head> 태그 안에
+// <style> 태그에 작성해도 좋다.
+// 구글에서는 필수적인 css 속성들은 html 문서 안에 작성하도록 권장하고 있다.
+// <style> 태그에 작성할 때는 link 하는 css 파일과의 우선순위를 고려해서 위치를 정해야함.
 
 // 선택자(selector)
+// (0) * : 에서트리스크, 모든 태그를 가리킴.
 // (1) # : id 선택자
 // (2) . : class 선택자
 // (3) nav li:first-child -> nav 태그 안에 있는 li 중에서 첫 번째 것을 선택해줌.
@@ -308,11 +320,16 @@
 // (3) 컨테이닝 블록에 font-size: 0을 주고, 자식 요소에 font-size를 다시 주는 방법
 
 // 세로 간격 해결방안
-// (1) vertical-align: top;
+// vertical-align: top;
 
+// background 속성
+// background-color: white; -> 배경 색을 하얀색으로 지정.
+// 참고) background: white; 로 줄일 수도 있다.
+// background-color 속성의 기본값은 투명하다(아무 색도 없음).
 // background-image: url(이미지 경로) ->  이미지를 배경으로 설정한다.
 // background-position: 3px 10px -> 오른쪽으로 3px, 위쪽으로 10px만큼 이미지 좌표를 이동한다.(-이면 각각 왼쪽, 아래쪽으로 이동)
 // background-repeat: no-repeat -> 배경이 반복해서 표시되는 것을 막아줌.
+// background-size: 45px 55px; -> 배경 크기를 width 45px, height 55px로 지정해줌.
 
 // text-indent: 10% -> 글자 들여쓰기를 지정해주는 속성.
 
@@ -419,3 +436,19 @@
 // #search-ranking: hover ul{ display: inline-block;}
 // #search-ranking에 마우스를 올리면 #search-ranking ul을 보여줌.
 // hover는 의사 클래스로 마우스가 해당 태그에 올라가면 css를 바꿔주는 역할을 함.
+
+// width가 넘쳐서 한 줄로 표시가 안되고 다음 줄로 넘어갈 때 해결법
+// white-space: nowrap; overflow: hidden; height: 45px;(컨테이닝 블록에 지정)
+// 세 개의 속성 중 하나라도 주지 않으면 다음 줄로 넘어가서 표시됨.
+// 두 줄을 한 줄로 쫙 펴줌.
+
+// font-weight 속성 : 글자의 굵기를 조절하는 속성
+// font-weight: normal(기본값 400);
+// bold, bolder, light, lighter 등이 있다.
+// font-weight: 700 -> 숫자로도 지정 가능.
+// font-weight 속성값은 주로 100단위로 조절한다.
+
+// opacity 속성(불투명도 조절)
+// opacity 속성값은 0 ~ 1값으로 주는데, 0에 가까울수록 투명해지고, 1에 가까울수록 불투명해진다.
+// opacity 이외에도 gradient, mask-image 등 속성을 사용할 수도 있다.
+// gradient, mask-image는 사용하려면 따로 공부를 하자.
