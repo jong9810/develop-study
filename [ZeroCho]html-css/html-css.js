@@ -13,7 +13,8 @@
 
 // 제로초 HTML-CSS 강의
 
-// 1. 웹 개발 꿀팁
+// 웹 개발 꿀팁
+
 // 개발자도구에서 Element 탭에서는 웹의 html과 css를 작성하고, Console 탭에서는 javascript를 작성한다.
 // Element 탭에서 ctrl + F를 하면 검색할 수 있다.
 // Sources 탭에는 웹에 사용된 이미지, 폰트, 코드를 다 볼 수 있다.
