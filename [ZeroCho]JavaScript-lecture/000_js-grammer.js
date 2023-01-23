@@ -457,6 +457,7 @@ switch(조건식){
 // 태그.classList.add('클래스') : 태그에 새로운 클래스 추가.
 // 태그.classList.replace('기존 클래스', '수정 클래스') : '기존 클래스'를 '수정 클래스'로 이름을 바꿈.
 // 태그.classList.remove('클래스') : '클래스'를 제거함.
+// 태그.classList.toggle('클래스') : '클래스'가 있으면 없애주고, 없으면 추가해줌.
 
 // new Date() 객체 (문자열x)
 // new Date() : 현재 시스템의 시각을 측정해줌.
@@ -699,7 +700,7 @@ class Monster{
 // document.querySelector('head').querySelector('title');
 // document.querySelector('head title');
 
-// element.classList.toggle('클래스 이름') : '클래스 이름' 이라는 클래스가 있으면 제거하고, 없으면 생성해준다.
+// 태그.classList.toggle('클래스 이름') : 태그에 '클래스 이름' 이라는 클래스가 있으면 제거하고, 없으면 생성해준다.
 
 // 프로그램 성능은 2중 반복문에서나 중요하지 단순한 push, concat 메서드들은 프로그램의 성능에 영향이 거의 없다.
 
