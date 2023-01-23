@@ -1,0 +1,28 @@
+html,
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+/* #btn-all-close {
+
+} */
+/* #btn-all-close:hover {
+
+} */
+.panel-faq-container {
+  /* border: 1px solid red; */
+  margin-bottom: -16px;
+}
+.panel-faq-title {
+  color: #00eaea;
+  cursor: pointer;
+}
+.panel-faq-answer {
+  /* padding: 15px;
+  display: none; */
+  height: 0;
+  overflow: hidden;
+}
+/* .active {
+
+} */
