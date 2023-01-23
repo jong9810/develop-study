@@ -27,13 +27,13 @@ body {
   cursor: pointer;
 }
 .panel-faq-answer {
-  padding: 15px;
-  display: none;
-  /* height: 0;
-  overflow: hidden; */
+  /* padding: 15px;
+  display: none; */
+  height: 0;
+  overflow: hidden;
+  transition: all 3s;
 }
 .active {
-  display: block;
-  height: 100%;
-  transition: all 1s;
+  /* display: block; */
+  height: 350px;
 }

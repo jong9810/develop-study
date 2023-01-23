@@ -4,13 +4,13 @@ window.onload = () => {
   const $btnAllClose = document.querySelector('#btn-all-close');
 
   for (let i = 0; i < $$panelFaqContainer.length; i++) {
-    $$panelFaqContainer[i].addEventListener('click', () => {
+    $$panelFaqContainer[i].addEventListener('click', function () {
       $$panelFaqAnswer[i].classList.toggle('active');
     });
   }
 
-  $btnAllClose.addEventListener('click', () => {
-    for (let i = 0; i < $$panelFaqContainer.length; i++) {
+  $btnAllClose.addEventListener('click', function () {
+    for (let i = 0; i < $$panelFaqAnswer.length; i++) {
       $$panelFaqAnswer[i].classList.remove('active');
     }
   });
