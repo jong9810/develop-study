@@ -26,6 +26,10 @@
 // text-left : 텍스트를 왼쪽 정렬해주는 클래스.
 // text-right : 텍스트를 오른쪽 정렬해주는 클래스.
 
+// bg-success : background-color를 녹색으로 바꿔주는 클래스.
+// bg-warning : background-color를 노란색으로 바꿔주는  클래스.
+// bg-info : background-color를 하늘색으로 바꿔주는 클래스.
+
 // 1. 아코디언(accordion) 메뉴 만들기
 // 아코디언 메뉴 : 접혔다 펼쳐졌다 하는 메뉴
 

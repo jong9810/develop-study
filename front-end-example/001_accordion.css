@@ -15,7 +15,7 @@ body {
 #btn-all-close:hover {
   background-color: yellow;
   color: black;
-  transition: all 0.3s;
+  transition: all 0.35s;
 }
 .panel-faq-container {
   /* border: 1px solid red; */
@@ -31,7 +31,7 @@ body {
   display: none; */
   height: 0;
   overflow: hidden;
-  transition: all 3s;
+  transition: all 1.35s;
 }
 .active {
   /* display: block; */
