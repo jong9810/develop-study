@@ -5,7 +5,8 @@
 // transition: all 3.35s; -> hover 의사클래스에 주면 마우스를 올렸을 때 변화가 3.35초에 걸쳐서 일어남.
 //
 
-//
+// JavaScript
+// window.onload = () => {javascript} // html이 모두 로드 된 후에 javascript 실행하도록 함.
 
 // 부트스트랩 클래스
 // table : 테이블의 기본적인 스타일 지정해주는 클래스
