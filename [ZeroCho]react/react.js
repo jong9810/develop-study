@@ -38,7 +38,7 @@
 // react를 사용하는 방법은 함수 방식과 클래스 방식으로 두 가지이다.
 // 클래스 방식은 ErrorBoundary에서만 사용되고 거의 사용되지 않는다.
 
-// ErrorBoundary :
+// ErrorBoundary : https://velog.io/@bbaa3218/React-%EC%97%90%EB%9F%AC-%EB%B0%94%EC%9A%B4%EB%8D%94%EB%A6%ACError-Boundary
 
 // 코드
 // ReactDOM.render(<LikeButton />, document.querySelector('#root')); // React 17버전 코드
