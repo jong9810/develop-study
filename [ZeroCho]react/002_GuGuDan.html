@@ -69,7 +69,7 @@
 
         const onSubmit = (e) => {
           e.preventDefault();
-          if (input === num1 * num2) {
+          if (parseInt(input) === num1 * num2) {
             setNum1(Math.ceil(Math.random() * 9));
             setNum2(Math.ceil(Math.random() * 9));
             setInput('');
