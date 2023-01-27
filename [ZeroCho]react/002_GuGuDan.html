@@ -73,7 +73,7 @@
             setNum1(Math.ceil(Math.random() * 9));
             setNum2(Math.ceil(Math.random() * 9));
             setInput('');
-            setResult('정답');
+            setResult(input + ' 정답');
           } else {
             setInput('');
             setResult('오답');
@@ -98,7 +98,15 @@
       }
     </script>
     <script type="text/babel">
-      ReactDOM.createRoot(document.querySelector('#root')).render(<GuGuDan />);
+      ReactDOM.createRoot(document.querySelector('#root')).render(
+        <div>
+          <GuGuDan />
+          <br />
+          <GuGuDan />
+          <br />
+          <GuGuDan />
+        </div>
+      );
     </script>
   </body>
 </html>
