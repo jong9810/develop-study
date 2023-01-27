@@ -11,7 +11,7 @@
   <body>
     <div id="root"></div>
     <script type="text/babel">
-      /*
+      /*/
       // 1. 클래스 컴포넌트 방식
       class GuGuDan extends React.Component {
         constructor(props) {
@@ -26,11 +26,13 @@
         onSubmit = (e) => {
           e.preventDefault();
           if (parseInt(this.state.input) === this.state.num1 * this.state.num2) {
-            this.setState({
-              result: '정답',
-              num1: Math.ceil(Math.random() * 9),
-              num2: Math.ceil(Math.random() * 9),
-              input: '',
+            this.setState((prevState) => {
+              return {
+                result: '정답: ' + prevState.input,
+                num1: Math.ceil(Math.random() * 9),
+                num2: Math.ceil(Math.random() * 9),
+                input: '',
+              };
             });
           } else {
             this.setState({
@@ -57,7 +59,7 @@
           );
         }
       }
-      */
+      /*/
 
       //
       // 2. 함수 컴포넌트 방식
@@ -73,7 +75,7 @@
             setNum1(Math.ceil(Math.random() * 9));
             setNum2(Math.ceil(Math.random() * 9));
             setInput('');
-            setResult(input + ' 정답');
+            setResult('정답: ' + input);
           } else {
             setInput('');
             setResult('오답');
@@ -96,16 +98,17 @@
           </div>
         );
       }
+      //
     </script>
     <script type="text/babel">
       ReactDOM.createRoot(document.querySelector('#root')).render(
-        <div>
+        <React.Fragment>
           <GuGuDan />
           <br />
           <GuGuDan />
           <br />
           <GuGuDan />
-        </div>
+        </React.Fragment>
       );
     </script>
   </body>
