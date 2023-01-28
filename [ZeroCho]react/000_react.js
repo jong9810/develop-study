@@ -110,8 +110,9 @@
 // 자바스크립트 기본 이벤트 핸들러 종류
 // onClick, onChange, onSubmit, onLoad, onInput, onFocus, onBlur 등
 
-// input 태그의 value 속성
+// input 태그 prop
 // value="값" : input 태그의 초기값을 "값"으로 설정해준다.
+// input; <input ref={(c) => {this.input = c;}}/> : 클래스 컴포넌트에서 DOM을 input 변수에 대입해주는 코드이다.
 
 // <></> or React.Fragment : 빈 태그(fragment)로 태그들을 감싸주면 렌더링 할 때 쓸데없는 div 태그 하나가 생성되는 것을 막을 수 있다.
 
@@ -121,17 +122,25 @@
 // <form> 태그로 감싸놓은 경우에는 <form> 태그에 onSubmit을 주고, <input과> <button> 태그만 사용하는 경우 <button> 태그에 onClick을 준다.
 
 // 클래스 컴포넌트를 사용하는 경우 콜백함수를 따로 뺄 때, 화살표 함수로 만들어야 한다(클래스 안에 있는 화살표 함수에서 this 가 클래스를 가리킴).
+// render() 안에 메서드가 정의되어 있는 경우, render()를 호출할 때마다 메서드가 생성되기 때문에 성능에 좋지 않을 수 있다.
 // 클래스 컴포넌트는 this.setState(), 함수 컴포넌트는 useState()메서드를 사용해서 state를 관리할 수 있다.
 
 // state가 바뀌면 화면이 바뀌므로, state 값은 다음 화면에 보여줄 데이터이다.
 // setState() 안에 메서드를 정의해서 이전 state값을 현재 state값으로 사용할 수 있다.
-// ex)
-/*
-
-*/
 
 // setState()는 비동기 코드이다.
 // 따라서 동일한 setState()를 여러 번 작성하고 실행을 시켜도 여러 번 적용이 되지 않을 수도 있다.
 // 그렇기 때문에 이전 state 값을 현재 state 값으로 사용할 때에는 setState() 안에 메서드로 정의해서 사용하는 것이 좋다(setState 안에 this.state가 들어갈 때).
+
+// React를 사용하면 document는 거의 사용하지 않는다.
+// React가 화면을 컨트롤 해주고, 개발자는 데이터만 변경해준다고 생각하면 된다.
+
+// Hook
+// https://ko.reactjs.org/docs/hooks-overview.html
+// Hook은 함수 컴포넌트에서 React state와 생명주기 기능(lifecycle features)을 “연동(hook into)“할 수 있게 해주는 함수입니다.
+// Hook은 class 안에서는 동작하지 않습니다. 대신 class 없이 React를 사용할 수 있게 해주는 것입니다.
+// (하지만 이미 짜놓은 컴포넌트를 모조리 재작성하는 것은 권장하지 않습니다. 대신 새로 작성하는 컴포넌트부터는 Hook을 이용하시면 됩니다.)
+
+//
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
