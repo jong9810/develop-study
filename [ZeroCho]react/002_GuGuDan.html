@@ -11,7 +11,7 @@
   <body>
     <div id="root"></div>
     <script type="text/babel">
-      //
+      /*/
       // 1. 클래스 컴포넌트 방식
       class GuGuDan extends React.Component {
         // 생성자 함수를 사용하여 state 초기화
@@ -68,30 +68,35 @@
           );
         }
       }
-      //
-
       /*/
-      // 2. 함수 컴포넌트 방식
-      function GuGuDan() {
+
+      //
+      // 2. 함수 컴포넌트 방식(Hooks)
+      const GuGuDan = () => {
         const [num1, setNum1] = React.useState(Math.ceil(Math.random() * 9));
         const [num2, setNum2] = React.useState(Math.ceil(Math.random() * 9));
-        const [input, setInput] = React.useState('');
+        const [value, setValue] = React.useState('');
         const [result, setResult] = React.useState('');
+        let input = null;
 
         const onSubmit = (e) => {
           e.preventDefault();
-          if (parseInt(input) === num1 * num2) {
+          if (parseInt(value) === num1 * num2) {
             setNum1(Math.ceil(Math.random() * 9));
             setNum2(Math.ceil(Math.random() * 9));
-            setInput('');
-            setResult('정답: ' + input);
+            setValue('');
+            setResult('정답: ' + value);
           } else {
-            setInput('');
+            setValue('');
             setResult('오답');
           }
+          input.focus();
         };
         const onChange = (e) => {
-          setInput(e.target.value);
+          setValue(e.target.value);
+        };
+        const onRefInput = (c) => {
+          input = c;
         };
 
         return (
@@ -100,20 +105,18 @@
               {num1}곱하기 {num2}은(는)?
             </div>
             <form onSubmit={onSubmit}>
-              <input type='number' value={input} onChange={onChange} />
+              <input ref={onRefInput} type='number' value={value} onChange={onChange} />
               <button>입력!</button>
             </form>
             <div>{result}</div>
           </div>
         );
-      }
-      /*/
+      };
+      //
     </script>
     <script type="text/babel">
       ReactDOM.createRoot(document.querySelector('#root')).render(
         <React.Fragment>
-          <GuGuDan />
-          <br />
           <GuGuDan />
           <br />
           <GuGuDan />
