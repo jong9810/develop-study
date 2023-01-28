@@ -105,21 +105,19 @@
 
 // 1. 구구단 게임
 
-// input 태그에서 변화가 있을 때, onChange나 onInput을 통해 콜백함수를 줄 수 있다.
+// <></> or React.Fragment : 빈 태그(fragment)로 태그들을 감싸주면 렌더링 할 때 쓸데없는 div 태그 하나가 생성되는 것을 막을 수 있다.
+// () : 그룹 연산자, 연산의 우선순위를 바꿔줄 때도 사용하지만, 코드 가독성을 높일 때 사용하기도 한다(이 경우에는 생략 가능).
 
 // 자바스크립트 기본 이벤트 핸들러 종류
 // onClick, onChange, onSubmit, onLoad, onInput, onFocus, onBlur 등
+// input 태그에서 변화가 있을 때, onChange나 onInput을 통해 콜백함수를 줄 수 있다.
+
+// 이벤트 핸들러 팁
+// <form> 태그로 감싸놓은 경우에는 <form> 태그에 onSubmit을 주고, <input과> <button> 태그만 사용하는 경우 <button> 태그에 onClick을 준다.
 
 // input 태그 prop
 // value="값" : input 태그의 초기값을 "값"으로 설정해준다.
 // input; <input ref={(c) => {this.input = c;}}/> : 클래스 컴포넌트에서 DOM을 input 변수에 대입해주는 코드이다.
-
-// <></> or React.Fragment : 빈 태그(fragment)로 태그들을 감싸주면 렌더링 할 때 쓸데없는 div 태그 하나가 생성되는 것을 막을 수 있다.
-
-// () : 그룹 연산자, 연산의 우선순위를 바꿔줄 때도 사용하지만, 코드 가독성을 높일 때 사용하기도 한다(이 경우에는 생략 가능).
-
-// 이벤트 핸들러 팁
-// <form> 태그로 감싸놓은 경우에는 <form> 태그에 onSubmit을 주고, <input과> <button> 태그만 사용하는 경우 <button> 태그에 onClick을 준다.
 
 // 클래스 컴포넌트를 사용하는 경우 콜백함수를 따로 뺄 때, 화살표 함수로 만들어야 한다(클래스 안에 있는 화살표 함수에서 this 가 클래스를 가리킴).
 // render() 안에 메서드가 정의되어 있는 경우, render()를 호출할 때마다 메서드가 생성되기 때문에 성능에 좋지 않을 수 있다.
@@ -134,6 +132,8 @@
 
 // React를 사용하면 document는 거의 사용하지 않는다.
 // React가 화면을 컨트롤 해주고, 개발자는 데이터만 변경해준다고 생각하면 된다.
+// React에서 class 속성은 사용할 수 없고 대신 className 속성으로 사용해야 한다(javascript class와 헷갈리기 때문에 막힘).
+// <label> 태그에 for 이라는 속성도 마찬가지 이유로 htmlFor로 대체해서 사용해야 한다.
 
 // React Hook
 // https://ko.reactjs.org/docs/hooks-overview.html
@@ -145,6 +145,16 @@
 // 1) useState() : state를 선언하고 초기화할 때 사용.
 // 2) userRef() : ref prop으로 DOM을 가져올 때 사용. 가져온 DOM을 사용할 때는 current를 붙여주어야 함. ex) inputRef.current.focus()
 // 3) useEffect()
+
+// Hook 사용시 단점
+// 클래스 컴포넌트는 렌더링될 때 render() 부분만 새로 실행되기 때문에 메서드들이 다시 생성되지 않는다.
+// 함수 컴포넌트는 렌더링될 때마다 컴포넌트 안의 함수(메서드)가 새로 생성되기 때문에 조금 더 느릴 수 있다(최적화 문제).
+// Hooks 사용할 때 state 들을 하나의 객체로 저장할 경우, state를 바꿀 때 모든 state 들을 다시 적어주어야 해서 불편함.
+// 따라서 Hooks 에서는 state 를 따로 선언해주어야 한다.
+
+// 하나의 함수 안에서 여러 state가 바뀌어도 여러 번 렌더링 되지 않고 한 번만 렌더링된다.
+// Hooks가 비동기이기 때문에 setState를 모아서 한 번에 처리하기 때문에 렌더링이 한 번만 일어난다.
+// setState가 비동기이기 때문에 이전 데이터를 사용하지 못해서 setState 내에 함수를 넣어서 이 문제를 해결한다(카운터(counter) 예제에서 많이 쓰임).
 
 // DOM(Document Object Model, 문서 객체 모델)
 // DOM은 객체 지향 모델로써 구조화된 문서를 표현하는 방식이다.
