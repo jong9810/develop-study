@@ -71,7 +71,7 @@
 // {this.state.liked ? 'Liked' : 'Like!'} // 조건문 대신 삼항 연산자를 사용
 // {[1,2,3].map((i)=>{return <div>i<div>;})} // 반복문 대신 배열 map 메서드를 사용
 
-// const [liked, setLiked] = React.useState(false); // 구조분해 할당
+// const [liked, setLiked] = React.useState(false); // 구조분해 할당 or 비구조화 할당
 // 위 한줄 코드와 아래 두 줄 코드는 완전히 같은 코드이다(반드시 배열로 할당해야함).
 // const liked = React.useState(false)[0]; // state
 // const setLiked = React.useState(false)[1]; // state를 바꾸는 함수
@@ -135,12 +135,23 @@
 // React를 사용하면 document는 거의 사용하지 않는다.
 // React가 화면을 컨트롤 해주고, 개발자는 데이터만 변경해준다고 생각하면 된다.
 
-// Hook
+// React Hook
 // https://ko.reactjs.org/docs/hooks-overview.html
-// Hook은 함수 컴포넌트에서 React state와 생명주기 기능(lifecycle features)을 “연동(hook into)“할 수 있게 해주는 함수입니다.
-// Hook은 class 안에서는 동작하지 않습니다. 대신 class 없이 React를 사용할 수 있게 해주는 것입니다.
-// (하지만 이미 짜놓은 컴포넌트를 모조리 재작성하는 것은 권장하지 않습니다. 대신 새로 작성하는 컴포넌트부터는 Hook을 이용하시면 됩니다.)
+// Hook은 함수 컴포넌트에서 React state와 생명주기 기능(lifecycle features)을 “연동(hook into)“할 수 있게 해주는 함수이다.
+// Hook은 class 안에서는 동작하지 않습니다. 대신 class 없이 React를 사용할 수 있게 해주는 것이다(function).
+// (하지만 이미 짜놓은 컴포넌트를 모조리 재작성하는 것은 권장하지 않는다. 대신 새로 작성하는 컴포넌트부터는 Hook을 이용하면 된다.)
 
-//
+// React Hooks 종류
+// 1) useState() : state를 선언하고 초기화할 때 사용.
+// 2) userRef() : ref prop으로 DOM을 가져올 때 사용. 가져온 DOM을 사용할 때는 current를 붙여주어야 함. ex) inputRef.current.focus()
+// 3) useEffect()
+
+// DOM(Document Object Model, 문서 객체 모델)
+// DOM은 객체 지향 모델로써 구조화된 문서를 표현하는 방식이다.
+// DOM은 HTML, XML 문서의 프로그래밍 interface 이다.
+// DOM은 자바스크립트와는 독립적인 기술 표준이다.
+// DOM은 HTML, CSS와 같은 W3C의 기술의 한 종류이다.
+// DOM은 문서의 구조화된 표현(structured representation)이다.
+// 쉽게 말하면 html 태그를 document.querySelector()로 선택한 것이 DOM이다.
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
