@@ -182,10 +182,11 @@
 // 웹팩 예시
 // (1) WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
 // (2) html 문서에서 하나로 합쳐진 파일을 <script src="파일경로"></script>로 불러온다.
-// (3) webpack.config.js 파일에서 필요한 설정들을 해준다.
+// (3) webpack.config.js 파일에서 필요한 설정들을 해준다(설정 사이트: https://github.com/browserslist/browserslist).
 // ex)
 /*
 const path = require('path'); // node에서 제공하는 경로를 조작하는 프로그램(파일)?
+const webpack = require('webpack');
 
 module.exports = {
   name: 'word-relay-setting', // 어떤 파일에 설정을 해주는지 설명(생략해도 됨)
@@ -206,12 +207,24 @@ module.exports = {
         test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
         loader: 'babel-loader', // 바벨 loader
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
-          plugins: ['@babel/plugin-proposal-class-properties], // 바벨 plugin들
+          presets: [
+            ['@babel/preset-env', {
+              targets: {
+                browsers: ['> 5% in KR', 'last 2 chrome versions'], // 최근 2 버전만 호환되게 하는 설정(최적화할 때 중요하다)
+              },
+              debug: true,
+            }], // @babel/preset-env 의 설정을 적용하는 방법 
+            '@babel/preset-react'
+          ], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
+          plugins: ['@babel/plugin-proposal-class-properties], // 바벨 plugin들(plugin: 확장 프로그램)
         }, // 바벨에 대한 설정들
       },
     ],
   }, // entry에 있는 파일들을 가져와서 module을 적용한 후 output으로 보낸다.
+
+  plugins: [
+    new webpack.LoaderOptionsPlugin({debug: true}), // loader, options에 debug: true를 넣어줌
+  ],
 
   output: {
     // path.join(기존경로, 합칠경로) -> 기존 경로와 합칠 경로를 받아서 하나의 경로로 함쳐준다.
@@ -222,10 +235,19 @@ module.exports = {
 };
  */
 // (4) 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 webpack이라고 입력한다.
-// 주의사항! command not found 에러가 뜰 때 해결방안
+
+// 주의사항!
+// command not found 에러가 뜰 때 해결방안
 // 1) package.json 파일에 scripts 부분에다가 "dev": "webpack"이라고 적고 터미널에서 npm run dev로 실행한다.
 // 2) 터미널에서 npx webpack이라고 입력해서 실행한다.
 // 3)
+
+// webpack.config.js
+// plugin과 preset이 엄청 많기 때문에 먼저 최소한의 plugin과 preset만 추가한다.
+// npx webpack을 해보고 에러가 뜨면 거기에 나온 plugin이나 preset을 추가한다.
+// 자주 사용하는 preset, plugin은 공식문서를 읽어보는 것이 좋다(공식문서 링크: https://webpack.js.org/).
+// webpack.config.js의 순서는 mode, entry, module, plugins, output 순으로 하는 게 좋다.
+//
 
 // 파일을 쪼갤 때, 윗 부분에 필요한 패키지나 파일들을 import하고, 아랫 부분에 다른 곳에서 쓸 컴포넌트를 export 해주어야 함.
 // (1) import 예시
