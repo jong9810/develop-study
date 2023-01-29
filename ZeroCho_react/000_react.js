@@ -206,7 +206,7 @@ module.exports = {
         test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
         loader: 'babel-loader', // 바벨 loader
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 preset들
+          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
           plugins: ['@babel/plugin-proposal-class-properties], // 바벨 plugin들
         }, // 바벨에 대한 설정들
       },
