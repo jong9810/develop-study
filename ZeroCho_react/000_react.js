@@ -177,6 +177,7 @@
 // @babel/preset-env: 브라우저에 맞게 최신 문법을 옛날 문법으로 바꾸어줌(환경에 맞게 알아서 바꿔줌).
 // @babel/preset-react: jsx를 react 문법으로 바꿔줌.
 // babel-loader: 바벨과 웹팩을 연결해줌.
+// 주의! 바벨 설정할 때, presets 만 해보고 에러가 나면 거기 나온 plugin을 추가해주는 것이 좋다(최소한의 것들만).
 
 // 웹팩 예시
 // (1) WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
@@ -189,7 +190,7 @@ const path = require('path'); // node에서 제공하는 경로를 조작하는 
 module.exports = {
   name: 'word-relay-setting', // 어떤 파일에 설정을 해주는지 설명(생략해도 됨)
   mode: 'development', // 실제 서비스에서는 production으로 바꾸면 됨.
-  devtool: 'eval', // 속도를 빠르게 하겠다?
+  devtool: 'eval', // 개발할 때는 'eval', 배포할 때는 'hidden-source-map'
   resolve: {
     extensions: ['.js', '.jsx'],
   }, // entry.app에 입력한 파일명 중 resolve.extensions에 입력한 확장자를 가진 파일을 찾아준다(entry.app에 확장자 생략가능).
@@ -203,10 +204,11 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
-        loader: 'babel-loader',
+        loader: 'babel-loader', // 바벨 loader
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 모듈들
-        },
+          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 preset들
+          plugins: ['@babel/plugin-proposal-class-properties], // 바벨 plugin들
+        }, // 바벨에 대한 설정들
       },
     ],
   }, // entry에 있는 파일들을 가져와서 module을 적용한 후 output으로 보낸다.
