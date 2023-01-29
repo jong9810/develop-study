@@ -172,7 +172,18 @@
 // 여러 개의 자바스크립트 파일을 하나로 합쳐서 하나의 자바스크립트 파일로 만들어주는 프로그램
 // 바벨 적용, 쓸데없는 코드 삭제(console.log 등) 등 기능 사용 가능
 // 웹팩을 사용하려면 node.js를 알아야 한다.
-//
+// 자바스크립트 파일이 엄청 많아도 html에서 사용하는 파일은 하나로 만들기 위해 웹팩을 사용한다.
+
+// 웹팩 예시
+// WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
+// html 문서에서 하나로 합쳐진 파일을 <script src="파일경로"></script>로 불러온다.
+
+// 파일을 쪼갤 때, 윗 부분에 필요한 패키지나 파일들을 import하고, 아랫 부분에 다른 곳에서 쓸 컴포넌트를 export 해주어야 함.
+// 1) import 예시
+// const React = require('react');
+// const {Component} = React;
+// 2) export 예시
+// module.exports = WordRelay; // WordRelay : 컴포넌트 이름 or 파일명 or 닉네임? 모르겠음
 
 // Node.js
 // https://hanamon.kr/nodejs-%EA%B0%9C%EB%85%90-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/
@@ -208,6 +219,9 @@
 // 블로킹(blocking)
 // 정확한 정의는 없고 느리게 동작되는 코드를 의미한다.
 // 느린 동작이 스택에 남아 있는 것을 보통 블로킹이라고 한다. Call Stack(콜 스택)이 멈춘 상태, 이 상태를 블로킹 상태라고 한다.
+
+// 확장자 jsx, js 차이
+// 파일 안에 jsx 문법이 있으면 확장자를 jsx, 없으면 js로 하면 된다.
 
 // 이젝트
 //
