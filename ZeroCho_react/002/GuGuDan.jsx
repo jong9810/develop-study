@@ -1,5 +1,6 @@
 const React = require('react');
 const { Component } = React;
+const { useState, useRef } = React;
 
 /*/ 1. 클래스 컴포넌트
 class GuGuDan extends Component {
@@ -56,11 +57,11 @@ class GuGuDan extends Component {
 
 // 2. 함수 컴포넌트
 const GuGuDan = () => {
-  const [value, setValue] = React.useState('');
-  const [result, setResult] = React.useState('');
-  const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
-  const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
-  const inputRef = React.useRef(null);
+  const [value, setValue] = useState('');
+  const [result, setResult] = useState('');
+  const [first, setFirst] = useState(Math.ceil(Math.random() * 9));
+  const [second, setSecond] = useState(Math.ceil(Math.random() * 9));
+  const inputRef = useRef(null);
 
   const onSubmitForm = (e) => {
     e.preventDefault();
