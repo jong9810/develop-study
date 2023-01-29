@@ -173,16 +173,63 @@
 // 바벨 적용, 쓸데없는 코드 삭제(console.log 등) 등 기능 사용 가능
 // 웹팩을 사용하려면 node.js를 알아야 한다.
 // 자바스크립트 파일이 엄청 많아도 html에서 사용하는 파일은 하나로 만들기 위해 웹팩을 사용한다.
+// @babel/core: 기본적인 바벨.
+// @babel/preset-env: 브라우저에 맞게 최신 문법을 옛날 문법으로 바꾸어줌(환경에 맞게 알아서 바꿔줌).
+// @babel/preset-react: jsx를 react 문법으로 바꿔줌.
+// babel-loader: 바벨과 웹팩을 연결해줌.
 
 // 웹팩 예시
-// WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
-// html 문서에서 하나로 합쳐진 파일을 <script src="파일경로"></script>로 불러온다.
+// (1) WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
+// (2) html 문서에서 하나로 합쳐진 파일을 <script src="파일경로"></script>로 불러온다.
+// (3) webpack.config.js 파일에서 필요한 설정들을 해준다.
+// ex)
+/*
+const path = require('path'); // node에서 제공하는 경로를 조작하는 프로그램(파일)?
+
+module.exports = {
+  name: 'word-relay-setting', // 어떤 파일에 설정을 해주는지 설명(생략해도 됨)
+  mode: 'development', // 실제 서비스에서는 production으로 바꾸면 됨.
+  devtool: 'eval', // 속도를 빠르게 하겠다?
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  }, // entry.app에 입력한 파일명 중 resolve.extensions에 입력한 확장자를 가진 파일을 찾아준다(entry.app에 확장자 생략가능).
+
+  // entry랑 output이 제일 중요하다.
+  entry: {
+    app: ['./client'], // client.jsx 파일에서 WordRelay.jsx 파일을 이미 불러오고 있기 때문에 client.jsx만 입력하면 된다.
+  }, // 입력 : 하나로 합칠 파일들을 배열로 입력한다.
+
+  module: {
+    rules: [
+      {
+        test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react'], // 적용할 바벨 모듈들
+        },
+      },
+    ],
+  }, // entry에 있는 파일들을 가져와서 module을 적용한 후 output으로 보낸다.
+
+  output: {
+    // path.join(기존경로, 합칠경로) -> 기존 경로와 합칠 경로를 받아서 하나의 경로로 함쳐준다.
+    // __dirname : 현재 폴더 경로
+    path: path.join(__dirname, 'dist'),
+    filename: 'app.js',
+  }, // 출력 : 합쳐진 파일을 어디에 저장할지, 어떤 이름으로 저장할지 등을 입력한다.
+};
+ */
+// (4) 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 webpack이라고 입력한다.
+// 주의사항! command not found 에러가 뜰 때 해결방안
+// 1) package.json 파일에 scripts 부분에다가 "dev": "webpack"이라고 적고 터미널에서 npm run dev로 실행한다.
+// 2) 터미널에서 npx webpack이라고 입력해서 실행한다.
+// 3)
 
 // 파일을 쪼갤 때, 윗 부분에 필요한 패키지나 파일들을 import하고, 아랫 부분에 다른 곳에서 쓸 컴포넌트를 export 해주어야 함.
-// 1) import 예시
+// (1) import 예시
 // const React = require('react');
 // const {Component} = React;
-// 2) export 예시
+// (2) export 예시
 // module.exports = WordRelay; // WordRelay : 컴포넌트 이름 or 파일명 or 닉네임? 모르겠음
 
 // Node.js
