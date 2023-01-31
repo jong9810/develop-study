@@ -1,6 +1,6 @@
 const React = require('react');
-const { Component } = React;
-// const { useState, useRef } = React;
+// const { Component } = React;
+const { useState, useRef } = React;
 
 /*/ 클래스 컴포넌트
 class WordRelay extends Component {
@@ -52,32 +52,31 @@ class WordRelay extends Component {
 // 함수 컴포넌트(Hooks)
 const WordRelay = () => {
   const [word, setWord] = useState('제로초 함수');
-  const [value, setValue] = useState('');
   const [result, setResult] = useState('');
   const inputRef = useRef(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (word[word.length - 1] === value[0]) {
-      setWord(value);
-      setValue('');
+    // console.dir(e.target[0]);
+    // console.dir(e.target.children.wordInput);
+    if (word[word.length - 1] === e.target.children.wordInput.value[0]) {
+      setWord(e.target[0].value);
+      e.target[0].value = '';
       setResult('딩동댕');
     } else {
-      setValue('');
+      e.target[0].value = '';
       setResult('땡');
     }
-    inpurRef.current.focus();
-  };
-
-  const onChange = (e) => {
-    setValue(e.target.value);
+    inputRef.current.focus();
   };
 
   return (
     <div>
       <div>제시어 : {word}</div>
       <form onSubmit={onSubmit}>
-        <input type='text' value={value} onChange={onChange} ref={inputRef} />
+        <label htmlFor='wordLabel'>글자를 입력하세요.</label>
+        <br />
+        <input id='wordInput' ref={inputRef} />
         <button>입력</button>
       </form>
       <div>{result}</div>
