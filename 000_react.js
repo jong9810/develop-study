@@ -133,7 +133,8 @@
 
 // React를 사용하면 document는 거의 사용하지 않는다.
 // React가 화면을 컨트롤 해주고, 개발자는 데이터만 변경해준다고 생각하면 된다.
-// React에서 class 속성은 사용할 수 없고 대신 className 속성으로 사용해야 한다(javascript class와 헷갈리기 때문에 막힘).
+
+// React에서 class 속성은 사용할 수 없고 대신 className- 속성으로 사용해야 한다(javascript class와 헷갈리기 때문에 막힘).
 // <label> 태그에 for 이라는 속성도 마찬가지 이유로 htmlFor로 대체해서 사용해야 한다.
 
 // React Hook
@@ -288,7 +289,25 @@ module.exports = {
 
 // path.resolve(__dirname) : resolve 는 / 를 절대경로로 처리, join 은 상대경로로 처리한다.
 
-//
+// HMR(Hot Module Replacement) :
+// WDS(Webpack Dev Server) :
+
+// 컨트롤드 인풋(controlled input) vs 언컨트롤드 인풋(uncontrolled input)
+// 설명 사이트: https://goshacmd.com/controlled-vs-uncontrolled-inputs-react/
+
+// 1. 언컨트롤드 인풋 : value와 onChange 프롭이 없는 <input> 태그(event.target 객체를 사용하여 value 값을 가져오는 방식)
+// 언컨트롤드 인풋은 <input> 태그의 value 가 onSubmit 내부에서만 사용될 경우에는 사용하는 것도 나쁘지 않다.
+// ex) 인풋에 값 입력하고 onSubmit에서 받아서 사용하는 경우(진짜 간단한 경우)
+// 언컨트롤드 인풋에 초기값을 주고 싶은 경우 value가 아니라 defaultValue로 주면 된다(value가 있으면 컨트롤드 인풋으로 간주될 수 있기 때문).
+// 하지만 value 가 더 복잡하게 사용되는 경우에는 컨트롤드 인풋을 사용하는 것이 좋다.
+
+// 2. 컨트롤드 인풋 : 프롭으로 value가 있고 onChange 프롭으로 value를 바꿔 주는 <input> 태그
+// 컨트롤드 인풋을 꼭 사용해야하는 경우
+// (1) dynamic inputs : input에 값을 입력할 때 빨간 밑줄이 쳐진다던가 글자 색이 바뀐다던가 하는 변화가 있는 input인 경우
+// (2) conditionally disabling submit button : 경우에 따라서 submit 버튼이 작동하지 않도록 하는 경우(버튼 자체가 안 눌리도록 할 수 있음)
+// (3) instant field validation : 비밀번호와 같이 value 값이 조건을 만족하는지 안하는지 판단해야 하는 경우
+// (4) enforcing input format : 비밀번호와 같이 value의 형식을 지정해주어야 하는 경우
+// (5) several inputs for one piece of data : 여러 input 에서 받은 데이터를 하나로 합쳐야하는 경우
 
 // Node.js
 // https://hanamon.kr/nodejs-%EA%B0%9C%EB%85%90-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/
