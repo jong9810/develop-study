@@ -1,5 +1,4 @@
-const React = require('react');
-const { useState, useRef } = React;
+import React, { useState, useRef, Component } from 'react';
 
 const NumberBaseball = () => {
   const [text, setText] = useState('Hello, number baseball');
@@ -13,4 +12,4 @@ const NumberBaseball = () => {
   );
 };
 
-module.exports = NumberBaseball;
+export default NumberBaseball;

@@ -331,10 +331,47 @@ module.exports = {
 // map 메서드
 //
 
-// require
-//
+// require : node의 모듈 시스템(common.js라고 부름, 웹팩에서는 꼭 node 모듈 시스템을 사용해야 함)
+// 클래스나 함수를 module.exports에 할당하면 다른 파일에서 require 해서 사용할 수 있다.
 
-// import
-//
+// import : es2015의 모듈 시스템(React에서 많이 사용함)
+// require와 import는 호환이 되는 경우가 많다.
+// 원래는 node 모듈 시스템을 사용해야 되지만 바벨이 es2015모듈 시스템을 node 모듈 시스템으로 바꿔준다.
+
+// require에서 import로 바꾸는 규칙
+// 1) const를 import로, =require를 from으로 바꾸고 괄호를 없애면 된다(구조분해 할당으로 되어있는 경우도 마찬가지).
+// ex)
+// const React = require('react');
+// const {Component} = React;
+// ->
+// import React, {Component} from 'react';
+
+// 2) module.exports는 export default로 바꾸면 된다.
+// 엄밀히 말하면 module.export와 export default는 다르다(React에선 호환돼서 상관없음).
+// ex)
+// module.exports = WordRelay;
+// ->
+// export default WordRelay;
+
+// 3) export const로 할 때와 export default로 할 때 import
+// default로 export한 경우에는 한 파일에서 한 번만 import 가능
+// const로  export한 경우에는 변수명만 다르다면 한 파일에서 여러번 import 가능
+// ex)
+// export const hello = 'a';
+// export default NumberBaseball;
+// ->
+// import {hello};
+// import NumberBaseball;
+
+// 4) export const를 node 모듈 시스템 방식으로 바꾸는 방법
+// ex)
+// export const hello = 'a';
+// ->
+// module.hello = 'a';
+// 또는
+// module.exports = {hello: 'a'};
+
+// webpack.config.js에서는 require, client.jsx, NumberBaseball.jsx 등에서는 import를 보편적으로 사용한다.
+// 사실 다 require를 사용하면 아무 문제 없지만, import를 사용해서 개발을 하는 사람도 있으니 알아두자.
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
