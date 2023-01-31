@@ -65,10 +65,48 @@ const WordRelay = () => {
 // 제로초 강의 코드
 class WordRelay extends Component {
   state = {
-    text: 'Hello, word',
+    word: '제로초',
+    value: '',
+    result: '',
   };
+  input;
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.word[this.state.word.length - 1] === this.state.value[0]) {
+      this.setState({
+        result: '딩동댕',
+        word: this.state.value,
+        value: '',
+      });
+    } else {
+      this.setState({
+        result: '땡',
+        value: '',
+      });
+    }
+  };
+
+  onChange = (e) => {
+    this.setState({ value: e.target.value });
+    console.log(this.state.value);
+  };
+
+  inputRef = (c) => {
+    this.input = c;
+  };
+
   render() {
-    return <h1>{this.state.text}</h1>;
+    return (
+      <div>
+        <div>{this.state.word}</div>
+        <form onSubmit={this.onSubmit}>
+          <input type='text' onChange={this.onChange} ref={this.inputRef} value={this.state.value} />
+          <button>입력</button>
+        </form>
+        <div>{this.state.result}</div>
+      </div>
+    );
   }
 }
 //
