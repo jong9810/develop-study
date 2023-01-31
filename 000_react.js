@@ -184,18 +184,17 @@
 // npm run dev를 하면 WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
 
 // 웹팩 절차
-// () 터미널에서 프로젝트 디렉토리로 이동한 후에 npm init
-// () react 설치하기 위해 터미널에 npm i react react-dom
-// () client.jsx, index.html, webpack.config.js, WordRelay.jsx(실제 웹에 보여줄 내용) 등 파일을 생성한다.
-// () 웹팩 설치하기 위해서 터미널에 npm i -D webpack webpack-cli
-// () webpack 설정에 필요한 바벨, 웹팩 서버 등 preset과 plugin을 설치한다.
+// (1) 터미널에서 프로젝트 디렉토리로 이동한 후에 npm init
+// (2) react 설치하기 위해 터미널에 npm i react react-dom
+// (3) client.jsx, index.html, webpack.config.js, WordRelay.jsx(실제 웹에 보여줄 내용) 등 파일을 생성한다.
+// (4) 웹팩 설치하기 위해서 터미널에 npm i -D webpack webpack-cli
+// (5) webpack 설정에 필요한 바벨, 웹팩 서버 등 preset과 plugin을 설치한다.
 // ex1) npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
 // ex2) npm i -D webpack-dev-server @pmmmwh/react-refresh-webpack-plugin react-refresh
-// () webpack.config.js 파일에서 필요한 설정들을 해준다.
-// () index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
-// () package.json 파일에서 '"test": ""'부분을 "dev": "webpack serve --env development" 으로 바꾼다.
-// () 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 npm run dev라고 입력한다.
-//
+// (6) webpack.config.js 파일에서 필요한 설정들을 해준다.
+// (7) index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
+// (8) package.json 파일에서 '"test": ""'부분을 "dev": "webpack serve --env development" 으로 바꾼다.
+// (9) 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 npm run dev라고 입력한다.
 
 // webpack.config.js(웹팩 설정 사이트: https://github.com/browserslist/browserslist)
 /*/ ex)
