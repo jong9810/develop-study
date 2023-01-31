@@ -65,7 +65,7 @@ const WordRelay = () => {
 // 제로초 강의 코드
 class WordRelay extends Component {
   state = {
-    word: '제로초',
+    word: '제로초1',
     value: '',
     result: '',
   };
