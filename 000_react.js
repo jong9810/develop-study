@@ -192,7 +192,7 @@
 // ex2) npm i -D webpack-dev-server @pmmmwh/react-refresh-webpack-plugin react-refresh
 // () webpack.config.js 파일에서 필요한 설정들을 해준다.
 // () index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
-// () webpack.config.js 파일에서 '"test": ""'부분을 "dev": "webpack" 으로 바꾼다.
+// () package.json 파일에서 '"test": ""'부분을 "dev": "webpack serve --env development" 으로 바꾼다.
 // () 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 npm run dev라고 입력한다.
 //
 
@@ -230,7 +230,10 @@ module.exports = {
             }], // @babel/preset-env 의 설정을 적용하는 방법 
             '@babel/preset-react'
           ], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
-          plugins: ['@babel/plugin-proposal-class-properties, '@react-refresh/babel'], // 바벨 plugin들(plugin: 확장 프로그램)
+          plugins: [
+            '@babel/plugin-proposal-class-properties, 
+            '@react-refresh/babel', // 바벨이 최신 문법을 옛날 js 문법으로 번역할 때, 핫 리로딩 기능도 추가해줌.
+          ], // 바벨 plugin들(plugin: 확장 프로그램)
         }, // 바벨에 대한 설정들
       },
     ],
@@ -238,7 +241,7 @@ module.exports = {
 
   plugins: [
     new webpack.LoaderOptionsPlugin({debug: true}), // loader, options에 debug: true를 넣어줌
-    new RefreshWebpackPlugin() // 웹팩 서버 핫 리로딩 사용하기 위해 넣어줌.
+    new RefreshWebpackPlugin() // 웹팩 서버 핫 리로딩 사용하기 위해 넣어줌(빌드 할 때마다 실행됨).
   ],
 
   output: {
@@ -246,6 +249,7 @@ module.exports = {
     // __dirname : 현재 폴더 경로
     path: path.join(__dirname, 'dist'),
     filename: 'app.js',
+    publicPath: '/dist/',
   }, // 출력 : 합쳐진 파일을 어디에 저장할지, 어떤 이름으로 저장할지 등을 입력한다.
 
   devServer: {
@@ -278,7 +282,7 @@ module.exports = {
 
 // react-refresh
 // @pmmmwh/react-refresh-webpack-plugin
-// webpack-dev-server : webpack.config.js에 적어준 대로 빌드의 결과물을 만든 후에 publicPath에 적어준 경로에 저장해준다.
+// webpack-dev-server : webpack.config.js에 적어준 대로 빌드의 결과물을 만든 후에 publicPath에 적어준 경로에 메모리로 저장해준다.
 // 그 다음 index.html을 실행하면 핫 리로딩(변경점을 감지하여 결과물을 수정)하여 저장했던 결과물을 실행해준다.
 // 핫 리로딩은 리로딩과 다르게 기존 데이터를 유지하면서 화면을 바꿔준다.
 
