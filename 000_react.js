@@ -180,14 +180,27 @@
 // babel-loader: 바벨과 웹팩을 연결해줌.
 // 주의! 바벨 설정할 때, presets 만 해보고 에러가 나면 거기 나온 plugin을 추가해주는 것이 좋다(최소한의 것들만).
 
-// 웹팩 예시
-// (1) WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
-// (2) html 문서에서 하나로 합쳐진 파일을 <script src="파일경로"></script>로 불러온다.
-// (3) webpack.config.js 파일에서 필요한 설정들을 해준다(설정 사이트: https://github.com/browserslist/browserslist).
-// ex)
-/*
+// npm run dev를 하면 WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
+
+// 웹팩 절차
+// () 터미널에서 프로젝트 디렉토리로 이동한 후에 npm init
+// () react 설치하기 위해 터미널에 npm i react react-dom
+// () client.jsx, index.html, webpack.config.js, WordRelay.jsx(실제 웹에 보여줄 내용) 등 파일을 생성한다.
+// () 웹팩 설치하기 위해서 터미널에 npm i -D webpack webpack-cli
+// () webpack 설정에 필요한 바벨, 웹팩 서버 등 preset과 plugin을 설치한다.
+// ex1) npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
+// ex2) npm i -D webpack-dev-server @pmmmwh/react-refresh-webpack-plugin react-refresh
+// () webpack.config.js 파일에서 필요한 설정들을 해준다.
+// () index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
+// () webpack.config.js 파일에서 '"test": ""'부분을 "dev": "webpack" 으로 바꾼다.
+// () 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 npm run dev라고 입력한다.
+//
+
+// webpack.config.js(웹팩 설정 사이트: https://github.com/browserslist/browserslist)
+/*/ ex)
 const path = require('path'); // node에서 제공하는 경로를 조작하는 프로그램(파일)?
 const webpack = require('webpack');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'); 
 
 module.exports = {
   name: 'word-relay-setting', // 어떤 파일에 설정을 해주는지 설명(생략해도 됨)
@@ -217,7 +230,7 @@ module.exports = {
             }], // @babel/preset-env 의 설정을 적용하는 방법 
             '@babel/preset-react'
           ], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
-          plugins: ['@babel/plugin-proposal-class-properties], // 바벨 plugin들(plugin: 확장 프로그램)
+          plugins: ['@babel/plugin-proposal-class-properties, '@react-refresh/babel'], // 바벨 plugin들(plugin: 확장 프로그램)
         }, // 바벨에 대한 설정들
       },
     ],
@@ -225,6 +238,7 @@ module.exports = {
 
   plugins: [
     new webpack.LoaderOptionsPlugin({debug: true}), // loader, options에 debug: true를 넣어줌
+    new RefreshWebpackPlugin() // 웹팩 서버 핫 리로딩 사용하기 위해 넣어줌.
   ],
 
   output: {
@@ -233,9 +247,14 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'app.js',
   }, // 출력 : 합쳐진 파일을 어디에 저장할지, 어떤 이름으로 저장할지 등을 입력한다.
+
+  devServer: {
+    devMiddleware:{publicPath: '/dist/'}, // 웹팩이 빌드한 파일들이 저장될 경로
+      static:{directory: path.resolve(__dirname)}, // 실제 존재하는 정적 파일들의 경로(index.html 등)
+      hot: true, // 핫 리로딩
+  },
 };
- */
-// (4) 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 webpack이라고 입력한다.
+*/
 
 // 주의사항!
 // command not found 에러가 뜰 때 해결방안
@@ -257,6 +276,16 @@ module.exports = {
 // (2) export 예시
 // module.exports = WordRelay; // WordRelay : 컴포넌트 이름 or 파일명 or 닉네임? 모르겠음
 
+// react-refresh
+// @pmmmwh/react-refresh-webpack-plugin
+// webpack-dev-server : webpack.config.js에 적어준 대로 빌드의 결과물을 만든 후에 publicPath에 적어준 경로에 저장해준다.
+// 그 다음 index.html을 실행하면 핫 리로딩(변경점을 감지하여 결과물을 수정)하여 저장했던 결과물을 실행해준다.
+// 핫 리로딩은 리로딩과 다르게 기존 데이터를 유지하면서 화면을 바꿔준다.
+
+// path.resolve(__dirname) : resolve 는 / 를 절대경로로 처리, join 은 상대경로로 처리한다.
+
+//
+
 // Node.js
 // https://hanamon.kr/nodejs-%EA%B0%9C%EB%85%90-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/
 // 쉽게 말하면 자바스크립트의 실행기.
@@ -270,51 +299,6 @@ module.exports = {
 // 런타임이란 프로그래밍 언어가 구동되는 환경을 말한다.
 // 자바스크립트 런타임의 종류로는 웹 브라우저(크롬, 파이어폭스, 익스플로러 등)프로그램과 Node.js 라는 프로그램이 있다.
 
-// V8 엔진이란?
-// V8은 자바스크립트 엔진 중 하나이다.
-// V8은 오픈 소스 자바스크립트 엔진 중 하나이다.
-// 자바스크립트와 *웹어셈블리(WebAssembly) 엔진이다.
-// 크롬 웹 브라우저와 Node.js 등에서 사용되고 있다.
-// V8은 자바스크립트를 바이트코드로 컴파일하고 실행하는 방식을 사용한다.
-
-// 스레드(thread)
-// 스레드의 사전적 의미는 한 가닥의 실이라는 뜻이다.
-// 한 가지 작업을 실행하기 위해 순차적으로 실행한 코드를 실처럼 이어 놓았다고 해서 유래된 이름이다.
-
-// 프로세스(process)
-// 프로세스란 운영 체제에서 실행 중인 하나의 애플리케이션을 프로세스라고 한다.
-// 사용자가 애플리케이션을 실행하면(프로그램을 실행하면) 운영 체제로 부터 실행에 필요한 메모리를 할당 받아 애플리케이션의 코드를 실행한다.
-
-// 힙(heap) 영역
-// 힙은 변수와 객체의 메모리 할당에 사용되는 비정형 메모리이다.
-
-// 블로킹(blocking)
-// 정확한 정의는 없고 느리게 동작되는 코드를 의미한다.
-// 느린 동작이 스택에 남아 있는 것을 보통 블로킹이라고 한다. Call Stack(콜 스택)이 멈춘 상태, 이 상태를 블로킹 상태라고 한다.
-
-// 확장자 jsx, js 차이
-// 파일 안에 jsx 문법이 있으면 확장자를 jsx, 없으면 js로 하면 된다.
-
-// react-refresh
-// @pmmmwh/react-refresh-webpack-plugin
-// webpack-dev-server : webpack.config.js에 적어준 대로 빌드의 결과물을 만든 후에 publicPath에 적어준 경로에 저장해준다.
-// 그 다음 index.html을 실행하면 핫 리로딩(변경점을 감지하여 결과물을 수정)하여 저장했던 결과물을 실행해준다.
-// 핫 리로딩은 리로딩과 다르게 기존 데이터를 유지하면서 화면을 바꿔준다.
-// ex)
-/*
-const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-        plugins: ['@react-refresh/babel']
-  plugins: [new RefreshWebpackPlugin()],
-  devServer: {
-    devMiddleware:{publicPath: '/dist/'}, // 웹팩이 빌드한 파일들이 저장될 경로
-    static:{directory: path.resolve(__dirname)}, // 실제 존재하는 정적 파일들의 경로(index.html 등)
-    hot: true, // 핫 리로딩
-  },
-*/
-
-// path.resolve(__dirname) : resolve 는 / 를 절대경로로 처리, join 은 상대경로로 처리한다.
-
-// 이젝트
 //
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
