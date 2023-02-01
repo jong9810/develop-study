@@ -294,13 +294,13 @@ module.exports = {
 // 컨트롤드 인풋(controlled input) vs 언컨트롤드 인풋(uncontrolled input)
 // 설명 사이트: https://goshacmd.com/controlled-vs-uncontrolled-inputs-react/
 
-// 1. 언컨트롤드 인풋 : value와 onChange 프롭이 없는 <input> 태그(event.target 객체를 사용하여 value 값을 가져오는 방식)
+// 1. 언컨트롤드 인풋 : value와 onChange 속성이 없는 <input> 태그(event.target 객체를 사용하여 value 값을 가져오는 방식)
 // 언컨트롤드 인풋은 <input> 태그의 value 가 onSubmit 내부에서만 사용될 경우에는 사용하는 것도 나쁘지 않다.
 // ex) 인풋에 값 입력하고 onSubmit에서 받아서 사용하는 경우(진짜 간단한 경우)
 // 언컨트롤드 인풋에 초기값을 주고 싶은 경우 value가 아니라 defaultValue로 주면 된다(value가 있으면 컨트롤드 인풋으로 간주될 수 있기 때문).
 // 하지만 value 가 더 복잡하게 사용되는 경우에는 컨트롤드 인풋을 사용하는 것이 좋다.
 
-// 2. 컨트롤드 인풋 : 프롭으로 value가 있고 onChange 프롭으로 value를 바꿔 주는 <input> 태그
+// 2. 컨트롤드 인풋 : 속성으로 value가 있고 onChange 속성으로 value를 바꿔 주는 <input> 태그
 // 컨트롤드 인풋을 꼭 사용해야하는 경우
 // (1) dynamic inputs : input에 값을 입력할 때 빨간 밑줄이 쳐진다던가 글자 색이 바뀐다던가 하는 변화가 있는 input인 경우
 // (2) conditionally disabling submit button : 경우에 따라서 submit 버튼이 작동하지 않도록 하는 경우(버튼 자체가 안 눌리도록 할 수 있음)
@@ -342,7 +342,10 @@ module.exports = {
 // 파일로 쪼개면 컴포넌트를 import만 해주면 어디서든 사용할 수 있기 때문에 재사용성 면에서도 좋다.
 
 // props
-//
+// props는 리액트 컴포넌트에 값을 전달하기 위한 매개변수 역할을 한다(html의 속성과 비슷).
+// ex)
+// <Try index={i} /> // 컴포넌트 index 프롭에 i 값을 넣어줌.
+// this.props.index 로 컴포넌트 내에서 i 값에 접근 가능
 
 // map 메서드
 //

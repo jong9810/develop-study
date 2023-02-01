@@ -51,8 +51,8 @@ class NumberBaseball extends Component {
         </form>
         <div>시도 : {this.state.tries.length}</div>
         <ul>
-          {this.fruits.map((el) => {
-            return <Try />;
+          {this.fruits.map((v, i) => {
+            return <Try value={v} index={i} />;
           })}
         </ul>
       </div>
