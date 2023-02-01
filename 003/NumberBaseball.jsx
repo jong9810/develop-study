@@ -55,7 +55,7 @@ class NumberBaseball extends Component {
 }
 /*/
 
-// 화살표 함수 사용하는 코드
+/*/ 화살표 함수 사용하는 코드
 class NumberBaseball extends Component {
   state = {
     value: '',
@@ -118,10 +118,12 @@ class NumberBaseball extends Component {
             }
           }
         });
-        this.setState({
-          tries: [...tries, { try: value, result: `${strike}S ${ball}B` }],
-          value: '',
-          result: `${strike}스트라이크 ${ball}볼입니다~`,
+        this.setState((prevState) => {
+          return {
+            tries: [...prevState.tries, { try: value, result: `${strike}S ${ball}B` }],
+            value: '',
+            result: `${strike}스트라이크 ${ball}볼입니다~`,
+          };
         });
       }
     }
@@ -153,9 +155,9 @@ class NumberBaseball extends Component {
     );
   }
 }
-//
+/*/
 
-/*/ 함수 컴포넌트
+// 함수 컴포넌트
 const NumberBaseball = () => {
   const [value, setValue] = useState('');
   const [result, setResult] = useState('');
@@ -173,7 +175,9 @@ const NumberBaseball = () => {
     }
     if (value === answer.join('')) {
       setResult('홈런!');
-      setTries([...tries, { try: value, result: 'Home run!' }]);
+      setTries((prevState) => {
+        return [...prevState.tries, { try: value, result: 'Home run!' }];
+      });
       setValue('');
       alert('게임을 다시 시작합니다.');
       setValue('');
@@ -199,7 +203,7 @@ const NumberBaseball = () => {
             }
           }
         });
-        setTries([...tries, { try: value, result: `${strike}S ${ball}B` }]);
+        setTries((prevState) => [...prevState.tries, { try: value, result: `${strike}S ${ball}B` }]);
         setValue('');
         setResult(`${strike}스트라이크 ${ball}볼입니다~`);
       }
@@ -225,6 +229,6 @@ const NumberBaseball = () => {
     </div>
   );
 };
-/*/
+//
 
 export default NumberBaseball;
