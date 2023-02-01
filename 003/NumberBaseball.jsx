@@ -175,8 +175,8 @@ const NumberBaseball = () => {
     }
     if (value === answer.join('')) {
       setResult('홈런!');
-      setTries((prevState) => {
-        return [...prevState.tries, { try: value, result: 'Home run!' }];
+      setTries((prevTries) => {
+        return [...prevTries, { try: value, result: 'Home run!' }];
       });
       setValue('');
       alert('게임을 다시 시작합니다.');
@@ -203,7 +203,7 @@ const NumberBaseball = () => {
             }
           }
         });
-        setTries((prevState) => [...prevState.tries, { try: value, result: `${strike}S ${ball}B` }]);
+        setTries((prevTries) => [...prevTries, { try: value, result: `${strike}S ${ball}B` }]);
         setValue('');
         setResult(`${strike}스트라이크 ${ball}볼입니다~`);
       }
