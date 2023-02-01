@@ -1,6 +1,7 @@
 import React, { useState, useRef, Component } from 'react';
 import Try from './Try';
 
+// this를 사용하지 않는 함수들은 클래스 바깥으로 빼도 상관없다.
 function getNumbers() {
   const numbers = [];
   const candidate = Array(10)
@@ -66,17 +67,18 @@ class NumberBaseball extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (!checkValue(this.state.value)) {
+    const { value, tries, answer } = this.state;
+    if (!checkValue(value)) {
       this.setState({
         value: '',
         result: '잘못된 값입니다. 다시 입력해주세요.',
       });
       return;
     }
-    if (this.state.value === this.state.answer.join('')) {
+    if (value === answer.join('')) {
       // 정답을 맞췄다면
       this.setState({
-        tries: [...this.state.tries, { try: this.state.value, result: '홈런!' }],
+        tries: [...tries, { try: value, result: '홈런!' }],
         result: '홈런!',
         value: '',
       });
@@ -84,10 +86,10 @@ class NumberBaseball extends Component {
       // 정답을 못 맞췄다면
       let strike = 0;
       let ball = 0;
-      if (this.state.tries.length >= 9) {
+      if (tries.length >= 9) {
         // 시도한 횟수가 10번 째인 경우
         this.setState({
-          result: `10번 넘게 틀려서 실패.. 답은 ${this.state.answer.join('')}였습니다.`,
+          result: `10번 넘게 틀려서 실패.. 답은 ${answer.join('')}였습니다.`,
         });
         alert('게임을 다시 시작합니다.');
         this.setState({
@@ -97,8 +99,8 @@ class NumberBaseball extends Component {
         });
       } else {
         // 시도한 횟수가 10째보다 적은 경우
-        this.state.answer.forEach((v, i) => {
-          const index = this.state.value.indexOf(v);
+        answer.forEach((v, i) => {
+          const index = value.indexOf(v);
           if (index !== -1) {
             if (index === i) {
               strike += 1;
@@ -108,7 +110,7 @@ class NumberBaseball extends Component {
           }
         });
         this.setState({
-          tries: [...this.state.tries, { try: this.state.value, result: `${strike}S ${ball}B` }],
+          tries: [...tries, { try: value, result: `${strike}S ${ball}B` }],
           value: '',
           result: `${strike}스트라이크 ${ball}볼입니다~`,
         });
@@ -124,16 +126,17 @@ class NumberBaseball extends Component {
   };
 
   render() {
+    const { result, value, tries } = this.state;
     return (
       <div>
-        <div>{this.state.result}</div>
+        <div>{result}</div>
         <form onSubmit={this.onSubmit}>
-          <input maxLength={4} value={this.state.value} onChange={this.onChange} ref={this.inputRef} />
+          <input maxLength={4} value={value} onChange={this.onChange} ref={this.inputRef} />
           <button>입력</button>
         </form>
-        <div>시도 : {this.state.tries.length}</div>
+        <div>시도 : {tries.length}</div>
         <ul>
-          {this.state.tries.map((v, i) => {
+          {tries.map((v, i) => {
             return <Try key={`${i + 1}차 시도`} tryInfo={v} />;
           })}
         </ul>
