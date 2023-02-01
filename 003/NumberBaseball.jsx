@@ -55,7 +55,7 @@ class NumberBaseball extends Component {
 }
 /*/
 
-/*/ 화살표 함수 사용하는 코드
+// 화살표 함수 사용하는 코드
 class NumberBaseball extends Component {
   state = {
     value: '',
@@ -75,12 +75,21 @@ class NumberBaseball extends Component {
       });
       return;
     }
+    console.log(answer);
     if (value === answer.join('')) {
       // 정답을 맞췄다면
+      this.setState((prevState) => {
+        return {
+          tries: [...prevState.tries, { try: value, result: '홈런!' }],
+          result: '홈런!',
+          value: '',
+        };
+      });
+      alert('게임을 다시 시작합니다.');
       this.setState({
-        tries: [...tries, { try: value, result: '홈런!' }],
-        result: '홈런!',
         value: '',
+        answer: getNumbers(),
+        tries: [],
       });
     } else {
       // 정답을 못 맞췄다면
@@ -144,9 +153,9 @@ class NumberBaseball extends Component {
     );
   }
 }
-/*/
+//
 
-// 함수 컴포넌트
+/*/ 함수 컴포넌트
 const NumberBaseball = () => {
   const [value, setValue] = useState('');
   const [result, setResult] = useState('');
@@ -166,6 +175,10 @@ const NumberBaseball = () => {
       setResult('홈런!');
       setTries([...tries, { try: value, result: 'Home run!' }]);
       setValue('');
+      alert('게임을 다시 시작합니다.');
+      setValue('');
+      setTries([]);
+      setAnswer(getNumbers());
     } else {
       if (tries.length >= 9) {
         setResult(`10번 틀려서 실패.. 답은 ${answer.join()}이었습니다.`);
@@ -212,6 +225,6 @@ const NumberBaseball = () => {
     </div>
   );
 };
-//
+/*/
 
 export default NumberBaseball;
