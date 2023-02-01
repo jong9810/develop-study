@@ -153,6 +153,7 @@ const NumberBaseball = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    inputRef.current.focus();
     if (!checkValue(value)) {
       setValue('');
       setResult('잘못된 값입니다. 다시 입력해주세요.');
@@ -187,7 +188,6 @@ const NumberBaseball = () => {
         setResult(`${strike}스트라이크 ${ball}볼입니다~`);
       }
     }
-    inputRef.current.focus();
   };
   const onChange = (e) => {
     setValue(e.target.value);
