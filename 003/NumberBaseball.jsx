@@ -107,7 +107,7 @@ class NumberBaseball extends Component {
           }
         });
         this.setState({
-          tries: [...this.state.tries, { try: this.state.value, result: `${strike}스트라이크 ${ball}볼` }],
+          tries: [...this.state.tries, { try: this.state.value, result: `${strike}S ${ball}B` }],
           value: '',
           result: `${strike}스트라이크 ${ball}볼입니다~`,
         });
