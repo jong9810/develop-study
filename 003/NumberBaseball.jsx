@@ -1,44 +1,30 @@
 import React, { useState, useRef, Component } from 'react';
 
+function getNumbers() {
+  const numbers = [];
+  const candidate = Array(10)
+    .fill(0)
+    .map((el, idx) => el + idx);
+  for (let i = 0; i < 4; i++) {
+    const randIndex = Math.floor(Math.random() * candidate.length);
+    numbers.push(candidate.splice(randIndex, 1)[0]);
+  }
+  console.log(numbers);
+  return numbers;
+}
+
 // 클래스 컴포넌트
 class NumberBaseball extends Component {
   state = {
-    answer: '',
     value: '',
     result: '',
-    message: '',
+    answer: getNumbers(),
+    tries: [],
   };
   input;
-  tries = [];
 
-  createAnswer = () => {
-    const candidate = [];
-  };
-  checkValue = (value) => {
-    const rightValue = true;
-    if (value.length !== 4) {
-      this.setState({ message: '숫자 4개로 입력해주세요.' });
-      rightValue = false;
-    } else if (!Number(value)) {
-      this.setState({ message: '숫자로 입력해주세요.' });
-      rightValue = false;
-    } else if (new Set(value) !== 4) {
-      this.setState({ message: '중복되지 않게 입력하세요.' });
-      rightValue = false;
-    } else if (this.state.tries.includes(value)) {
-      this.setState({ message: '이미 시도했던 값입니다.' });
-    }
-    return rightValue;
-  };
-  checkResult = () => {
-    //
-  };
   onSubmit = (e) => {
     e.preventDefault();
-    if (!checkValue(this.state.value)) {
-      return;
-    }
-    this.tries.push(this.state.value);
   };
   onChange = (e) => {
     this.setState({ value: e.target.value });
@@ -50,13 +36,21 @@ class NumberBaseball extends Component {
   render() {
     return (
       <div>
-        <div id='answer'></div>
+        <div></div>
         <form onSubmit={this.onSubmit}>
-          <input type='text' value={this.state.value} onChange={this.onChange} ref={this.inputRef} />
+          <input maxLength={4} value={this.state.value} onChange={this.onChange} ref={this.inputRef} />
           <button>입력</button>
         </form>
-        <div>{this.state.message}</div>
-        <div id='result-list'></div>
+        <div>시도 : {this.state.tries.length}</div>
+        <ul>
+          {this.state.tries.map((el) => {
+            return (
+              <li>
+                {el} : {}스트라이크 {}볼
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   }
