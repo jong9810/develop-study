@@ -1,4 +1,5 @@
 import React, { useState, useRef, Component } from 'react';
+import Try from './Try';
 
 function getNumbers() {
   const numbers = [];
@@ -33,6 +34,13 @@ class NumberBaseball extends Component {
     this.input = c;
   };
 
+  fruits = [
+    { fruit: '배', taste: '맛있다' },
+    { fruit: '감', taste: '맛없다' },
+    { fruit: '귤', taste: '시다' },
+    { fruit: '밤', taste: '달다' },
+  ];
+
   render() {
     return (
       <div>
@@ -43,12 +51,8 @@ class NumberBaseball extends Component {
         </form>
         <div>시도 : {this.state.tries.length}</div>
         <ul>
-          {this.state.tries.map((el) => {
-            return (
-              <li>
-                {el} : {}스트라이크 {}볼
-              </li>
-            );
+          {this.fruits.map((el) => {
+            return <Try />;
           })}
         </ul>
       </div>
