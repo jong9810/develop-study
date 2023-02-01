@@ -10,7 +10,6 @@ function getNumbers() {
     const randIndex = Math.floor(Math.random() * candidate.length);
     numbers.push(candidate.splice(randIndex, 1)[0]);
   }
-  console.log(numbers);
   return numbers;
 }
 function checkValue(value) {
@@ -25,8 +24,8 @@ function checkValue(value) {
 }
 
 // 클래스 컴포넌트
+/*/ 함수 선언문 사용하는 코드
 class NumberBaseball extends Component {
-  /*/ 함수 선언문 사용하는 코드
   // 클래스 컴포넌트에 함수 선언문을 사용하려면 생성자 함수를 사용해야 한다.
   constructor(props) {
     super(props);
@@ -52,9 +51,11 @@ class NumberBaseball extends Component {
   inputRef(c) {
     this.input = c;
   }
-  /*/
+}
+/*/
 
-  // 화살표 함수 사용하는 코드
+/*/ 화살표 함수 사용하는 코드
+class NumberBaseball extends Component {
   state = {
     value: '',
     result: '',
@@ -132,25 +133,82 @@ class NumberBaseball extends Component {
         </form>
         <div>시도 : {this.state.tries.length}</div>
         <ul>
-          {this.state.tries.map((v) => {
-            return <Try key={v.try + v.result} value={v} />;
+          {this.state.tries.map((v, i) => {
+            return <Try key={`${i + 1}차 시도`} tryInfo={v} />;
           })}
         </ul>
       </div>
     );
   }
 }
-//
+/*/
 
-/*/ 함수 컴포넌트
+// 함수 컴포넌트
 const NumberBaseball = () => {
+  const [value, setValue] = useState('');
+  const [result, setResult] = useState('');
+  const [tries, setTries] = useState([]);
+  const [answer, setAnswer] = useState(getNumbers());
+  const inputRef = useRef(null);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!checkValue(value)) {
+      setValue('');
+      setResult('잘못된 값입니다. 다시 입력해주세요.');
+      return;
+    }
+    if (value === answer.join('')) {
+      setResult('홈런!');
+      setTries([...tries, { try: value, result: 'Home run!' }]);
+      setValue('');
+    } else {
+      if (tries.length >= 9) {
+        setResult(`10번 틀려서 실패.. 답은 ${answer.join()}이었습니다.`);
+        alert('게임을 다시 시작합니다.');
+        setValue('');
+        setTries([]);
+        setAnswer(getNumbers());
+      } else {
+        let strike = 0;
+        let ball = 0;
+        answer.forEach((v, i) => {
+          const index = value.indexOf(v);
+          if (index !== -1) {
+            if (index === i) {
+              strike += 1;
+            } else {
+              ball += 1;
+            }
+          }
+        });
+        setTries([...tries, { try: value, result: `${strike}S ${ball}B` }]);
+        setValue('');
+        setResult(`${strike}스트라이크 ${ball}볼입니다~`);
+      }
+    }
+    inputRef.current.focus();
+  };
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
 
   return (
     <div>
-      <div></div>
+      <div>{result}</div>
+      <form onSubmit={onSubmit}>
+        <input maxLength={4} value={value} onChange={onChange} ref={inputRef} />
+        <button>입력</button>
+      </form>
+      <div>시도 : {tries.length}</div>
+      <ul>
+        {tries.map((v, i) => {
+          return <Try key={`${i + 1}차 시도`} tryInfo={v} />;
+        })}
+      </ul>
     </div>
   );
 };
-/*/
+//
 
 export default NumberBaseball;
