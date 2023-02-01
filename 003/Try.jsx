@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Try = (props) => {
+// let { tryInfo } = props; // 구조분해 할당
+const Try = ({ tryInfo }) => {
   return (
     <li>
-      <b>{props.tryInfo.try}</b> - {props.tryInfo.result}
+      <b>{tryInfo.try}</b> - {tryInfo.result}
     </li>
   );
 };
