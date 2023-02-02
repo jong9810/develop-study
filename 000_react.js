@@ -334,31 +334,70 @@ module.exports = {
 
 // 3. 숫자야구 게임
 
-// map과 forEach 차이
-// forEach는 배열의 원소를 하나씩 도는 for문을 메서드 형태로 바꾼 것이고,
-// map은 배열의 원소나 배열의 원소 개수만큼 어떠한 동작을 하기 위해서 사용하는 메서드이다.
+// require - module.exports
+// node의 모듈 시스템(common.js라고 부름, 웹팩에서는 꼭 node 모듈 시스템을 사용해야 함)
+// 클래스나 함수를 module.exports에 할당하면 다른 파일에서 require 해서 사용할 수 있다.
+
+// import - (export default || export const)
+// es2015의 모듈 시스템(React(== jsx파일)에서 많이 사용함)
+// require와 import는 호환이 되는 경우가 많다.
+// 원래는 node 모듈 시스템을 사용해야 되지만 바벨이 es2015모듈 시스템을 node 모듈 시스템으로 바꿔준다.
+
+// node 모듈 시스템에서 es2015 모듈 시스템으로 바꾸기
+// 1) import : require -> import
+// ex)
+// const React = require('react');
+// const {Component} = React;
+// ->
+// import React, {Component} from 'react';
+
+// 2) export : module.exports -> export default, module.variable -> export const variable
+// 엄밀히 말하면 module.export와 export default는 다르다(React에선 호환돼서 상관없음).
+// ex)
+// module.exports = WordRelay;
+// module.hello = 'a'; or module.exports = {hello: 'a'};
+// ->
+// export default WordRelay;
+// export const hello = 'a';
+
+// 3) export const로 할 때와 export default로 할 때 import 차이
+// default로 export한 경우에는 한 파일에서 한 번만 import 가능하지만,
+// const로 export한 경우에는 변수명만 다르다면 한 파일에서 여러번 import 가능하다.
+// ex)
+// export const hello = 'a';
+// export default NumberBaseball;
+// ->
+// import {hello};
+// import NumberBaseball;
+
+// webpack.config.js에서는 require, client.jsx, NumberBaseball.jsx 등에서는 import를 보편적으로 사용한다.
+// 사실 다 require를 사용하면 아무 문제 없지만, import를 사용해서 개발을 하는 사람도 있으니 알아두자.
 
 // react 반복문
 // react에서 return 안에서는 반복문을 사용할 수 없기 때문에 map함수를 사용한다.
 // map 콜백함수에서 return에 공통적으로 반복되는 부분은 그대로 쓰고, 바뀌는 부분을 배열로 만들어서 {el}로 넣어준다.
 // 바뀌는 부분이 여러 개인 경우, 2차원 배열이나 배열-객체로 만들어서 map 함수를 적용하면 된다.
 
-// <li>태그 key 속성
-// <li>태그를 사용할 때는 key속성으로 고유한 값을 주어야 한다(id속성과 비슷).
+// map과 forEach 차이
+// forEach는 배열의 원소를 하나씩 도는 for문을 메서드 형태로 바꾼 것이고,
+// map은 배열의 원소나 배열의 원소 개수만큼 어떠한 동작을 하기 위해서 사용하는 메서드이다.
+
+// <li>태그 key 속성(React)
+// 리액트에서 <li>태그를 사용할 때는 key속성으로 고유한 값을 주어야 한다(id속성과 비슷).
 // key 속성으로 index 값을 넣어주는 것은 성능 최적화에 문제가 되기 때문에 하지 말자(index 자체를 사용하면 안됨).
 // 요소가 추가만 되는 배열인 경우에는 index를 key 속성으로 주어도 되지만 기본적으로 안된다고 알고 있자.
 // react에서 key를 기준으로 요소를 추가하거나 수정, 삭제를 판단하기 때문에 index를 key 속성값으로 주면 배열의 순서(index)가 바뀔 때 문제가 생긴다.
 
 // 컴포넌트 여러 파일로 쪼개서 만드는 이유
-// 하나의 파일로 만들면 코드가 너무 길어져서 가독성이 떨어지기 때문에 컴포넌트를 여러 파일로 쪼개서 import 해서 코드를 줄인다.
-// 반복문에서 성능 문제가 많이 발생하는데 그러한 것들을 해결하기 위해서 컴포넌트를 여러 파일로 쪼갠다.
-// 파일로 쪼개면 컴포넌트를 import만 해주면 어디서든 사용할 수 있기 때문에 재사용성 면에서도 좋다.
+// 1) 하나의 파일로 만들면 코드가 너무 길어져서 가독성이 떨어지기 때문에 컴포넌트를 여러 파일로 쪼개서 import 해서 코드를 줄인다.
+// 2) 반복문에서 성능 문제가 많이 발생하는데 그러한 것들을 해결하기 위해서 컴포넌트를 여러 파일로 쪼갠다(반복문 단위로 파일 쪼개는 것이 일반적).
+// 3) 파일로 쪼개면 컴포넌트를 import만 해주면 어디서든 사용할 수 있기 때문에 재사용성 면에서도 좋다.
 
 // props
 // props는 리액트 컴포넌트에 값을 전달하기 위한 매개변수 역할을 한다(html의 속성과 비슷).
 // ex)
 // <Try index={i} /> // 컴포넌트 index 프롭에 i 값을 넣어줌.
-// this.props.index 로 컴포넌트 내에서 i 값에 접근 가능
+// this.props.index 로 컴포넌트 내에서 i 값에 접근 가능하다.
 // 숙달되기 전까지는 먼저 하나의 파일에 다 작성하고 컴포넌트로 만들고 싶은 부분을 새로운 파일로 만드는 방식으로 하는 게 좋다(top-down).
 // 컴포넌트들을 먼저 만들고 조합하는 방식(bottom-up)은 입문자에게는 좀 어렵다.
 // props가 생겨서 컴포넌트를 쪼갤 수 있기 때문에 컴포넌트들 간에 부모 자식 관계가 생긴다.
@@ -376,11 +415,11 @@ module.exports = {
 // 클래스 컴포넌트 안에 함수를 함수 선언문으로 선언하려면, 생성자 함수를 사용해야 하고,
 // 생성자 함수 안에 this.함수 = this.함수.bind(this);라는 해괴한 코드를 작성해야 한다(함수 안에서 this 사용하게 하기 위해).
 // 따라서, 화살표 함수를 사용해서 생성자 함수도 사용하지 않고 해괴한 코드도 작성하지 않도록 하는 것이 좋다.
-// render() 는 예외적으로 extends Component가 처리를 해주기 때문에 화살표 함수를 사용할 필요가 없다(this 사용 가능).
+// render()와 constructor()는 예외적으로 extends Component가 처리를 해주기 때문에 화살표 함수를 사용할 필요가 없다(this 사용 가능).
 
 // 배열 state에 값을 추가할 때 push를 사용하면 안된다(불변성에 위배되기 때문).
-// push를 사용하면 react가 state에 어떤 변화가 생겼는지 감지하지 못한다.
 // react는 예전 state와 현재 state가 다를 때 렌더링 해준다.
+// push를 사용하면 react가 state에 어떤 변화가 생겼는지 감지하지 못한다.
 // 배열에 push를 하면 참조관계 때문에 예전 state도 바뀌기 때문에 예전 state === 현재 state : true가 된다.
 // 따라서 state가 배열인 경우에는 복사를 해서 요소를 추가한 후 setState를 통해 state를 바꿔주어야 한다.
 
@@ -406,12 +445,12 @@ module.exports = {
 // 성능 문제를 해결할 때 가장 먼저 문제가 나타나는 부분을 확인할 수 있는 방법이다.
 // ex) 바뀌지 않는 컴포넌트가 다시 렌더링 되는 문제(이런 것들이 쌓여서 성능이 나빠짐).
 
-// react 리렌더링 되는 경우
+// react 컴포넌트가 리렌더링 되는 경우
 // 1) 컴포넌트의 state가 바뀔 때
 // 2) 컴포넌트의 props가 바뀔 때
 // 3) 부모 컴포넌트가 리렌더링 될 때
 
-// react setState 렌더링 문제
+// react setState() 렌더링 문제
 // setState를 호출하는데 state를 바꾸지 않아도 렌더링이 되는 문제가 있다.
 // shouldComponentUpdate()메서드 : render()처럼 리액트에서 지원하는 메서드
 // 따라서 shouldComponentUpdate 메서드를 사용하면 어떤 경우에 렌더링을 다시 해주어야 할지 정의해줄 수 있다.
@@ -430,14 +469,14 @@ module.exports = {
 // 따라서 Component를 사용하고 shouldComponentUpdate 메서드를 사용해서 어떨 때 리렌더링 할지 정의해주는 경우도 많다.
 // PureComponent나 shouldComponentUpdate는 성능 문제가 없다면 굳이 사용하지 않아도 되지만, 성능 문제가 발생하면 사용하는 것이 좋다!
 
-// React.memo : 함수 컴포넌트에서 부모 컴포넌트 리렌더링시 자식 컴포넌트도 리렌더링 되는 것을 막아준다.
+// React.memo : 함수 컴포넌트에서 부모 컴포넌트 리렌더링시 자식 컴포넌트도 리렌더링 되는 것을 막아준다(클래스 컴포넌트의 PureComponent와 동일한 역할).
 // memo를 적용해도 state나 props가 바뀌었을 때는 정상적으로 리렌더링 된다.
 // memo를 적용하려면 memo()로 컴포넌트를 감싸주면 된다.
 // memo를 적용하면 개발자 도구에 나타나는 컴포넌트의 이름이 바뀐다.
 // 컴포넌트.displayName = '이름'; 을 작성해주면 해결 가능하다.
 // ex) const Try = memo(...);
 // Try.displayName = 'Try';
-// memo는 가장 아래에 있는 자손 컴포넌트에는 사용하는 것이 좋다.
+// memo는 가장 아래에 있는 자손 컴포넌트에는 웬만하면 사용하는 것이 좋다.
 
 // React.createRef : 클래스 컴포넌트에 ref를 함수 컴포넌트의 ref와 비슷하게 만들어준다.
 // ex)
@@ -479,49 +518,10 @@ inputRef.current.focus();
 // 따라서 부모 -> 증손자로 바로 props를 주는 방법이 바로 Context이다.
 // Context를 응용한 것이 Redux이다.
 
-// map 메서드
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
-// require : node의 모듈 시스템(common.js라고 부름, 웹팩에서는 꼭 node 모듈 시스템을 사용해야 함)
-// 클래스나 함수를 module.exports에 할당하면 다른 파일에서 require 해서 사용할 수 있다.
+// 4. 반응속도 체크
 
-// import : es2015의 모듈 시스템(React에서 많이 사용함)
-// require와 import는 호환이 되는 경우가 많다.
-// 원래는 node 모듈 시스템을 사용해야 되지만 바벨이 es2015모듈 시스템을 node 모듈 시스템으로 바꿔준다.
-
-// require에서 import로 바꾸는 규칙
-// 1) const를 import로, =require를 from으로 바꾸고 괄호를 없애면 된다(구조분해 할당으로 되어있는 경우도 마찬가지).
-// ex)
-// const React = require('react');
-// const {Component} = React;
-// ->
-// import React, {Component} from 'react';
-
-// 2) module.exports는 export default로 바꾸면 된다.
-// 엄밀히 말하면 module.export와 export default는 다르다(React에선 호환돼서 상관없음).
-// ex)
-// module.exports = WordRelay;
-// ->
-// export default WordRelay;
-
-// 3) export const로 할 때와 export default로 할 때 import
-// default로 export한 경우에는 한 파일에서 한 번만 import 가능
-// const로  export한 경우에는 변수명만 다르다면 한 파일에서 여러번 import 가능
-// ex)
-// export const hello = 'a';
-// export default NumberBaseball;
-// ->
-// import {hello};
-// import NumberBaseball;
-
-// 4) export const를 node 모듈 시스템 방식으로 바꾸는 방법
-// ex)
-// export const hello = 'a';
-// ->
-// module.hello = 'a';
-// 또는
-// module.exports = {hello: 'a'};
-
-// webpack.config.js에서는 require, client.jsx, NumberBaseball.jsx 등에서는 import를 보편적으로 사용한다.
-// 사실 다 require를 사용하면 아무 문제 없지만, import를 사용해서 개발을 하는 사람도 있으니 알아두자.
+//
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
