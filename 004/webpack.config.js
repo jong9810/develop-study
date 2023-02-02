@@ -14,26 +14,28 @@ module.exports = {
     app: ['./client'],
   },
   module: {
-    rules: {
-      test: /\.jsx?/,
-      loader: 'babel-loader',
-      excludes: path.join(__dirname, 'node_modules'),
-      options: {
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: {
-                browsers: ['latest 2 chrome versions'],
+    rules: [
+      {
+        test: /\.jsx?/,
+        loader: 'babel-loader',
+        exclude: path.join(__dirname, 'node_modules'),
+        options: {
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                targets: {
+                  browsers: ['last 2 chrome versions'],
+                },
+                debug: true,
               },
-              debut: true,
-            },
+            ],
+            '@babel/preset-react',
           ],
-          '@babel/preset-react',
-        ],
-        plugins: ['react-refresh/babel'],
+          plugins: ['react-refresh/babel'],
+        },
       },
-    },
+    ],
   },
   plugins: [new ReactRefreshWebpackPlugin()],
   output: {
