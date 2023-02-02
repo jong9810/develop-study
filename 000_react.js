@@ -21,17 +21,17 @@
 // REACT
 // React 자체는 라이브러리이지만, React 생태계를 통틀어서는 프레임워크가 맞다.
 // React는 state가 바뀌면 어딘가에 저장되어 있는 데이터가 화면에 보이게 한다.
-
-// React 사용 목적
 // React는 자바스크립트이다.
 // React는 데이터 중심으로 움직인다.
+
+// React 사용 목적
 // React의 주 목적은 데이터와 화면을 일치시키는 것이다(데이터 바뀜 -> 화면 자동으로 바뀜).
 
 // React 주의사항
 // React에서는 기존 html 태그는 소문자로, 사용자가 만든 컴포넌트는 대문자로 시작해야한다.
 // React에서는 닫는 태그를 작성하지 않으면 에러가 발생한다.
-// 문자열은 ""로, 자바스크립트 코드는 {}로 묶어주어야 한다.
-// 반환하는 값이 여러 줄일 경우 소괄호로 묶어준다(return (값);).
+// 리액트에서 문자열은 ""로, 자바스크립트 코드는 {}로 묶어주어야 한다.
+// 반환하는 값이 여러 줄일 경우 소괄호로 묶어준다(return (값);). <- 코드 가독성을 위해서
 // return에는 태그가 하나만 와야 한다(여러 개 태그 반환하는 경우에는 <></>(fragment)로 묶어주면 됨).
 // react에서는 스테이트 객체를 함부로 바꾸지 말고 복사해서 수정해야 한다(불변성).
 // ex)
@@ -62,17 +62,23 @@
 // 함수 컴포넌트를 사용하면 this를 사용하지 않아도 돼서 헷갈릴 일이 없다(함수 컴포넌트 장점).
 //
 
-// ErrorBoundary : https://velog.io/@bbaa3218/React-%EC%97%90%EB%9F%AC-%EB%B0%94%EC%9A%B4%EB%8D%94%EB%A6%ACError-Boundary
+// ErrorBoundary
+// 사이트 : https://velog.io/@bbaa3218/React-%EC%97%90%EB%9F%AC-%EB%B0%94%EC%9A%B4%EB%8D%94%EB%A6%ACError-Boundary
+// 에러 바운더리는 하위 컴포넌트 트리의 어디에서든 자바스크립트 에러를 기록하며 깨진 컴포넌트 트리 대신 폴백 UI를 보여주는 React 컴포넌트로,
+// 에러 경계는 렌더링 도중 생명주기 메서드 및 그 아래에 있는 전체 트리에서 에러를 잡아낸다.
 
 // 코드
 // ReactDOM.render(<LikeButton />, document.querySelector('#root')); // React 17버전 코드
 // ReactDOM.createRoot(document.querySelector('#root')).render(<LikeButton />); // React 18버전 코드
+// 웹팩의 핫 리로딩을 사용하려면 리액트 18버전 코드를 사용해야 한다.
 
+// React에서 조건문 & 반복문
+// React 정의 : Component의 return 안의 코드가 React이다.
 // {this.state.liked ? 'Liked' : 'Like!'} // 조건문 대신 삼항 연산자를 사용
 // {[1,2,3].map((i)=>{return <div>i<div>;})} // 반복문 대신 배열 map 메서드를 사용
 
 // const [liked, setLiked] = React.useState(false); // 구조분해 할당 or 비구조화 할당
-// 위 한줄 코드와 아래 두 줄 코드는 완전히 같은 코드이다(반드시 배열로 할당해야함).
+// 위 한줄 코드와 아래 두 줄 코드는 완전히 같은 코드이다(객체가 아니라 배열로 할당해야함).
 // const liked = React.useState(false)[0]; // state
 // const setLiked = React.useState(false)[1]; // state를 바꾸는 함수
 
@@ -113,19 +119,21 @@
 // input 태그에서 변화가 있을 때, onChange나 onInput을 통해 콜백함수를 줄 수 있다.
 
 // 이벤트 핸들러 팁
-// <form> 태그로 감싸놓은 경우에는 <form> 태그에 onSubmit을 주고, <input과> <button> 태그만 사용하는 경우 <button> 태그에 onClick을 준다.
+// <form> 태그로 감싸놓은 경우에는 <form> 태그에 onSubmit을 주고, <input>과 <button> 태그만 사용하는 경우 <button> 태그에 onClick을 준다.
 
-// input 태그 prop
+// input 태그 속성
 // value="값" : input 태그의 초기값을 "값"으로 설정해준다.
 // input; <input ref={(c) => {this.input = c;}}/> : 클래스 컴포넌트에서 DOM을 input 변수에 대입해주는 코드이다.
-// input 속성에 value와 onChange는 같이 써줘야 한다. 만약 onChange가 없을 경우에는 defaultValue 속성으로 주면 된다.
+// input 속성에 value와 onChange는 같이 써줘야 한다(컨트롤드 인풋).
+// 만약 onChange가 없을 경우에는 defaultValue 속성으로 주면 된다(언컨트롤드 인풋).
 
 // 클래스 컴포넌트를 사용하는 경우 콜백함수를 따로 뺄 때, 화살표 함수로 만들어야 한다(클래스 안에 있는 화살표 함수에서 this 가 클래스를 가리킴).
 // render() 안에 메서드가 정의되어 있는 경우, render()를 호출할 때마다 메서드가 생성되기 때문에 성능에 좋지 않을 수 있다.
 // 클래스 컴포넌트는 this.setState(), 함수 컴포넌트는 useState()메서드를 사용해서 state를 관리할 수 있다.
 
-// state가 바뀌면 화면이 바뀌므로, state 값은 다음 화면에 보여줄 데이터이다.
-// setState() 안에 메서드를 정의해서 이전 state값을 현재 state값으로 사용할 수 있다.
+// state가 바뀌면 화면이 바뀌므로, 바뀐 state 값은 다음 화면에 보여줄 데이터이다.
+// 바뀌기 전 state는 현재 화면에 보이는 데이터이다.
+// setState() 안에 메서드를 정의해서 이전 state값으로 현재 state값을 만들어서 사용할 수 있다.
 
 // setState()는 비동기 코드이다.
 // 따라서 동일한 setState()를 여러 번 작성하고 실행을 시켜도 여러 번 적용이 되지 않을 수도 있다.
@@ -152,7 +160,7 @@
 // 클래스 컴포넌트는 렌더링될 때 render() 부분만 새로 실행되기 때문에 메서드들이 다시 생성되지 않는다.
 // 함수 컴포넌트는 렌더링될 때마다 컴포넌트 안의 함수(메서드)가 새로 생성되기 때문에 조금 더 느릴 수 있다(최적화 문제).
 // Hooks 사용할 때 state 들을 하나의 객체로 저장할 경우, state를 바꿀 때 모든 state 들을 다시 적어주어야 해서 불편함.
-// 따라서 Hooks 에서는 state 를 따로 선언해주어야 한다.
+// 따라서 Hooks 에서는 state 를 하나씩 따로 선언해주어야 한다.
 
 // 하나의 함수 안에서 여러 state가 바뀌어도 여러 번 렌더링 되지 않고 한 번만 렌더링된다.
 // Hooks가 비동기이기 때문에 setState를 모아서 한 번에 처리하기 때문에 렌더링이 한 번만 일어난다.
@@ -174,17 +182,16 @@
 // 여러 개의 자바스크립트 파일을 하나로 합쳐서 하나의 자바스크립트 파일로 만들어주는 프로그램
 // 바벨 적용, 쓸데없는 코드 삭제(console.log 등) 등 기능 사용 가능
 // 웹팩을 사용하려면 node.js를 알아야 한다.
-// 자바스크립트 파일이 엄청 많아도 html에서 사용하는 파일은 하나로 만들기 위해 웹팩을 사용한다.
+// 자바스크립트 파일이 엄청 많아도 html에서 사용하는 파일은 하나이기 때문에, 파일을 하나로 만들기 위해 웹팩을 사용한다.
+
 // @babel/core: 기본적인 바벨.
 // @babel/preset-env: 브라우저에 맞게 최신 문법을 옛날 문법으로 바꾸어줌(환경에 맞게 알아서 바꿔줌).
 // @babel/preset-react: jsx를 react 문법으로 바꿔줌.
 // babel-loader: 바벨과 웹팩을 연결해줌.
 // 주의! 바벨 설정할 때, presets 만 해보고 에러가 나면 거기 나온 plugin을 추가해주는 것이 좋다(최소한의 것들만).
 
-// npm run dev를 하면 WordRelay.jsx 파일과 client.jsx 파일 등을 하나의 파일로 합쳐준다.
-
 // 웹팩 절차
-// (1) 터미널에서 프로젝트 디렉토리로 이동한 후에 npm init
+// (1) 터미널에서 프로젝트를 생성할 디렉토리로 이동한 후에 npm init
 // (2) react 설치하기 위해 터미널에 npm i react react-dom
 // (3) client.jsx, index.html, webpack.config.js, WordRelay.jsx(실제 웹에 보여줄 내용) 등 파일을 생성한다.
 // (4) 웹팩 설치하기 위해서 터미널에 npm i -D webpack webpack-cli
@@ -192,9 +199,10 @@
 // ex1) npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
 // ex2) npm i -D webpack-dev-server @pmmmwh/react-refresh-webpack-plugin react-refresh
 // (6) webpack.config.js 파일에서 필요한 설정들을 해준다.
-// (7) index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
-// (8) package.json 파일에서 '"test": ""'부분을 "dev": "webpack serve --env development" 으로 바꾼다.
-// (9) 터미널에서 node_modules가 있는 디렉토리로 이동한 후에 npm run dev라고 입력한다.
+// (7) index.html 에서 <body> 태그 안에 <div id="root"></div>를 작성한다.
+// (8) index.html 에서 하나로 합쳐진 파일을 <script src="./dist/app.js"></script>로 불러온다.
+// (9) package.json 파일에서 '"test": ""'부분을 "dev": "webpack serve --env development" 으로 바꾼다.
+// (10) 터미널에서 프로젝트를 생성한 디렉토리로 이동한 후에 npm run dev라고 입력한다.
 
 // webpack.config.js(웹팩 설정 사이트: https://github.com/browserslist/browserslist)
 /*/ ex)
@@ -220,7 +228,7 @@ module.exports = {
       {
         test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
         loader: 'babel-loader', // 바벨 loader
-        exclude: path.join(__dirname, 'node_modules'),
+        exclude: path.join(__dirname, 'node_modules'), // 모듈을 적용할 때 제외할 파일 경로
         options: {
           presets: [
             ['@babel/preset-env', {
@@ -232,9 +240,8 @@ module.exports = {
             '@babel/preset-react'
           ], // 적용할 바벨 preset들(preset: plugin들을 모은 것)
           plugins: [
-            '@babel/plugin-proposal-class-properties, 
-            '@react-refresh/babel', // 바벨이 최신 문법을 옛날 js 문법으로 번역할 때, 핫 리로딩 기능도 추가해줌.
-          ], // 바벨 plugin들(plugin: 확장 프로그램)
+            'react-refresh/babel', // 바벨이 최신 문법을 옛날 js 문법으로 번역할 때, 핫 리로딩 기능도 추가해줌.
+        ], // 바벨 plugin들(plugin: 확장 프로그램)
         }, // 바벨에 대한 설정들
       },
     ],
@@ -242,7 +249,7 @@ module.exports = {
 
   plugins: [
     new webpack.LoaderOptionsPlugin({debug: true}), // loader, options에 debug: true를 넣어줌
-    new RefreshWebpackPlugin() // 웹팩 서버 핫 리로딩 사용하기 위해 넣어줌(빌드 할 때마다 실행됨).
+    new RefreshWebpackPlugin(), // 웹팩 서버 핫 리로딩 사용하기 위해 넣어줌(빌드 할 때마다 실행됨).
   ],
 
   output: {
@@ -257,6 +264,7 @@ module.exports = {
     devMiddleware:{publicPath: '/dist/'}, // 웹팩이 빌드한 파일들이 저장될 경로
     static:{directory: path.resolve(__dirname)}, // 실제 존재하는 정적 파일들의 경로(index.html 등)
     hot: true, // 핫 리로딩
+    port: 3000, // 몇 번 포트에 생성할지 설정
   },
 };
 */
@@ -269,7 +277,7 @@ module.exports = {
 
 // webpack.config.js
 // plugin과 preset이 엄청 많기 때문에 먼저 최소한의 plugin과 preset만 추가한다.
-// npx webpack을 해보고 에러가 뜨면 거기에 나온 plugin이나 preset을 추가한다.
+// npm run dev를 해보고 에러가 뜨면 거기에 나온 plugin이나 preset을 추가한다.
 // 자주 사용하는 preset, plugin은 공식문서를 읽어보는 것이 좋다(공식문서 링크: https://webpack.js.org/).
 // webpack.config.js의 순서는 mode, entry, module, plugins, output 순으로 하는 게 좋다.
 //
@@ -318,13 +326,17 @@ module.exports = {
 // Node.js는 웹서버와 같이 확장성 있는 네트워크 프로그램을 제작하기 위해 만들어졌다.
 
 // javascript 런타임, 비동기, 이벤트 루프
-//https://hanamon.kr/javascript-%eb%9f%b0%ed%83%80%ec%9e%84-%ec%9e%91%eb%8f%99-%eb%b0%a9%ec%8b%9d-%eb%b9%84%eb%8f%99%ea%b8%b0%ec%99%80-%ec%9d%b4%eb%b2%a4%ed%8a%b8-%eb%a3%a8%ed%94%84/
+// https://hanamon.kr/javascript-%eb%9f%b0%ed%83%80%ec%9e%84-%ec%9e%91%eb%8f%99-%eb%b0%a9%ec%8b%9d-%eb%b9%84%eb%8f%99%ea%b8%b0%ec%99%80-%ec%9d%b4%eb%b2%a4%ed%8a%b8-%eb%a3%a8%ed%94%84/
 // 런타임이란 프로그래밍 언어가 구동되는 환경을 말한다.
 // 자바스크립트 런타임의 종류로는 웹 브라우저(크롬, 파이어폭스, 익스플로러 등)프로그램과 Node.js 라는 프로그램이 있다.
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 3. 숫자야구 게임
+
+// map과 forEach 차이
+// forEach는 배열의 원소를 하나씩 도는 for문을 메서드 형태로 바꾼 것이고,
+// map은 배열의 원소나 배열의 원소 개수만큼 어떠한 동작을 하기 위해서 사용하는 메서드이다.
 
 // react 반복문
 // react에서 return 안에서는 반복문을 사용할 수 없기 때문에 map함수를 사용한다.
