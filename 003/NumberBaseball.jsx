@@ -179,10 +179,6 @@ const NumberBaseball = () => {
         return [...prevTries, { try: value, result: 'Home run!' }];
       });
       setValue('');
-      alert('게임을 다시 시작합니다.');
-      setValue('');
-      setTries([]);
-      setAnswer(getNumbers());
     } else {
       if (tries.length >= 9) {
         setResult(`10번 틀려서 실패.. 답은 ${answer.join()}이었습니다.`);

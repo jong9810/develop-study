@@ -379,6 +379,26 @@ module.exports = {
 // setAnswer()도 useState()와 마찬가지로 값과 함수를 넣어줄 수 있기 때문에 함수를 넣어주어도 동작할 수도 있긴 하다.
 // 하지만 setAnswer()에는 예전 스테이트로 현재 스테이트를 바꿔줄 때만 함수로 넣어주고, 그 이외에는 값을 넣어주자.
 
+// 개발 모드에서 배포모드로 바꾸는 방법
+// webpack.config.js에서 mode: 'production'으로 바꾼다.
+// webpack.config.js 맨 위에 process.env.NODE_ENV = 'production'; 코드를 추가한다(환경변수를 'production'으로 설정).
+
+// 웹 서비스 만들 때 주의사항
+// react는 오픈하되, redux는 절대 오픈하면 안된다(보안 상 위험할 수 있음).
+
+// react developer tools
+// 리액트 컴포넌트 구조와 state, props 등을 확인할 수 있다.
+// state나 props가 바뀌면 렌더가 다시 된다.
+// highlight updates 옵션을 체크하면 렌더가 될 때마다 컴포넌트 테두리에 색이 나타난다.
+// 처음에는 초록색 계열 테두리가 나타나고, 렌더가 짧은 시간동안 많이 일어날 수록 색이 빨간 계열로 바뀐다.
+// 성능 문제를 해결할 때 가장 먼저 문제가 나타나는 부분을 확인할 수 있는 방법이다.
+// ex) 바뀌지 않는 컴포넌트가 다시 렌더링 되는 문제(이런 것들이 쌓여서 성능이 나빠짐).
+
+// react setState 렌더링 문제
+// setState를 호출하는데 state를 바꾸지 않아도 렌더링이 되는 문제가 있다.
+// shouldComponentUpdate()메서드 : render()처럼 리액트에서 지원하는 메서드
+// 따라서 shouldComponentUpdate 메서드를 사용하면 어떤 경우에 렌더링을 다시 해주어야 할지 정의해줄 수 있다.
+
 // map 메서드
 //
 
