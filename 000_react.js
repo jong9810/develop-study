@@ -220,6 +220,7 @@ module.exports = {
       {
         test: /\.jsx?/, // 규칙을 적용할 파일들(정규표현식: js와 jsx파일)
         loader: 'babel-loader', // 바벨 loader
+        exclude: path.join(__dirname, 'node_modules'),
         options: {
           presets: [
             ['@babel/preset-env', {
@@ -254,8 +255,8 @@ module.exports = {
 
   devServer: {
     devMiddleware:{publicPath: '/dist/'}, // 웹팩이 빌드한 파일들이 저장될 경로
-      static:{directory: path.resolve(__dirname)}, // 실제 존재하는 정적 파일들의 경로(index.html 등)
-      hot: true, // 핫 리로딩
+    static:{directory: path.resolve(__dirname)}, // 실제 존재하는 정적 파일들의 경로(index.html 등)
+    hot: true, // 핫 리로딩
   },
 };
 */
@@ -370,6 +371,13 @@ module.exports = {
 // react는 예전 state와 현재 state가 다를 때 렌더링 해준다.
 // 배열에 push를 하면 참조관계 때문에 예전 state도 바뀌기 때문에 예전 state === 현재 state : true가 된다.
 // 따라서 state가 배열인 경우에는 복사를 해서 요소를 추가한 후 setState를 통해 state를 바꿔주어야 한다.
+
+// 함수 컴포넌트에서 useState()는 값을 넣어주면 변수를 그 값으로 초기화 해주고,
+// useState()에 함수를 넣어주면 그 함수를 한 번 호출해서 리턴값으로 변수를 초기화 해준다(lazy init이라고 함). ex) useState(getNumbers)
+// 만약 useState(getNumbers)를 해주면 렌더링될 때마다 함수는 실행이 되지만 리턴값은 처음 한 번만 변수에 저장되고 나머지는 무시한다.
+// setAnswer()에는 함수(getNumbers)를 넣어주는 것보단, 함수의 리턴값(getNumbers())를 넣어주는게 맞다.
+// setAnswer()도 useState()와 마찬가지로 값과 함수를 넣어줄 수 있기 때문에 함수를 넣어주어도 동작할 수도 있긴 하다.
+// 하지만 setAnswer()에는 예전 스테이트로 현재 스테이트를 바꿔줄 때만 함수로 넣어주고, 그 이외에는 값을 넣어주자.
 
 // map 메서드
 //

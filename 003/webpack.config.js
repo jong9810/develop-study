@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   name: 'number-baseball-setting',
@@ -17,27 +18,35 @@ module.exports = {
       {
         test: /\.jsx?/,
         loader: 'babel-loader',
+        exclude: path.join(__dirname, 'node_modules'),
         options: {
           presets: [
             [
               '@babel/preset-env',
               {
                 targets: {
-                  browsers: ['>1% in KR', 'last 2 chrome versions'],
+                  browsers: ['last 2 chrome versions'],
                 },
                 debug: true,
               },
             ],
             '@babel/preset-react',
           ],
+          plugins: ['react-refresh/babel'],
         },
       },
     ],
   },
-  plugins: [new webpack.LoaderOptionsPlugin({ debug: true })],
+  plugins: [new webpack.LoaderOptionsPlugin({ debug: true }), new RefreshWebpackPlugin()],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'app.js',
-    publicPath: '/dist/',
+    publicPath: '/dist',
+  },
+  devServer: {
+    devMiddleware: { publicPath: '/dist' },
+    static: { directory: path.resolve(__dirname) },
+    port: 3000,
+    hot: true,
   },
 };

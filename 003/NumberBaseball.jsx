@@ -162,7 +162,7 @@ const NumberBaseball = () => {
   const [value, setValue] = useState('');
   const [result, setResult] = useState('');
   const [tries, setTries] = useState([]);
-  const [answer, setAnswer] = useState(getNumbers());
+  const [answer, setAnswer] = useState(getNumbers);
   const inputRef = useRef(null);
 
   const onSubmit = (e) => {
