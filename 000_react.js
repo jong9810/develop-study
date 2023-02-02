@@ -427,8 +427,47 @@ module.exports = {
 // Try.displayName = 'Try';
 // memo는 가장 아래에 있는 자손 컴포넌트에는 사용하는 것이 좋다.
 
+// React.createRef : 클래스 컴포넌트에 ref를 함수 컴포넌트의 ref와 비슷하게 만들어준다.
+// ex)
+/*
+// <input> 태그 DOM 받아올 때
+inputRef = createRef();
+...
+// 클래스 안의 함수 안에서 사용할 때
+inputRef.current.focus();
+...
+// inputRef에 ref 전달해줄 때
+<input ref={this.inputRef}> 
+*/
+// 기존의 클래스 컴포넌트에서 ref를 가져오는 방식은 함수를 정의하는 방법이었는데, 이 방법도 쓰이긴 한다.
+// onInputRef() 함수 안에 다른 동작을 더 작성할 수 있다(좀 더 자유롭게 정의할 수 있음).
+
+// 방법이 여러 개인 경우에는 방법에 따라 어떤 차이가 있고 왜 방법이 여러 개 생겼는지 알아두면 좋다.
+// 방법이 여러 개이면 방법에 따라 미세한 차이가 있고 완벽하게 같진 않다.
+
+// render() 안에 this.setState()를 사용하면 안된다(무한 루프).
+// render를 실행하면 setState가 실행되고, 다시 render가 실행되고... 무한 반복
+
+// 부모에게 받은 props는 자식 컴포넌트에서 절대로 직접 바꾸면 안된다(부모 컴포넌트에서만 변경해야함 - react 원칙?).
+// 자식이 props를 바꾸면 부모의 state도 바뀌기 때문에, 뜻하지 않게 부모 컴포넌트가 바뀌게 된다.
+// 자식 컴포넌트에서 props를 바꾸고 싶을 때
+// 1) 자식 컴포넌트에 state를 만들어서 props를 넣어준다.
+// 2) 그 다음 setState를 통해 자식 컴포넌트의 state를 바꿔준다.
+// 이렇게 하면 부모의 state는 바뀌지 않고 자식의 state(== props)만 바꿔줄 수 있다(자식이 부모에 영향을 미치지 않음).
+
+// 클래스 컴포넌트에서 생성자 함수 사용하면 생성자 함수 안에 다른 동작도 추가할 수 있어서 정밀한 제어를 할 수 있다.
+// 함수를 사용하는 경우는 정밀한 컨트롤이 필요한 경우나 기존 객체로는 안되는 경우가 대부분이다.
+
+// shouldComponentUpdate(nextProps, nextState, nextContext)
+// nextProps는 props가 바뀌었는지, nextState는 state가 바뀌었는지 판단할 때 사용하는 매개변수이다.
+// nextContext
+// ex) Context 개념
+// 부모가 증손자한테 props를 줄 때 부모 -> 자식 -> 손자 -> 증손자 처럼 자식, 손자는 필요하지 않은 props를 받게 된다.
+// 그 말은 props를 받을 때 쓸데없이 렌더링이 될 위험이 있다는 뜻이므로 좋지 않다.
+// 따라서 부모 -> 증손자로 바로 props를 주는 방법이 바로 Context이다.
+// Context를 응용한 것이 Redux이다.
+
 // map 메서드
-//
 
 // require : node의 모듈 시스템(common.js라고 부름, 웹팩에서는 꼭 node 모듈 시스템을 사용해야 함)
 // 클래스나 함수를 module.exports에 할당하면 다른 파일에서 require 해서 사용할 수 있다.

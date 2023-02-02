@@ -1,4 +1,5 @@
-import React, { useState, useRef, Component } from 'react';
+import React, { useState, useRef } from 'react';
+// import React, { Component, createRef } from 'react';
 import Try from './Try';
 
 // this를 사용하지 않는 함수들은 클래스 바깥으로 빼도 상관없다.
@@ -63,7 +64,7 @@ class NumberBaseball extends Component {
     answer: getNumbers(),
     tries: [],
   };
-  input;
+  inputRef = createRef();
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -127,13 +128,10 @@ class NumberBaseball extends Component {
         });
       }
     }
-    this.input.focus();
+    this.inputRef.current.focus();
   };
   onChange = (e) => {
     this.setState({ value: e.target.value });
-  };
-  inputRef = (c) => {
-    this.input = c;
   };
 
   render() {
