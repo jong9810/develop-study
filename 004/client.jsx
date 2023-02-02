@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom/client';
 
-import Reaction from './Reaction';
+import ResponseCheck from './ResponseCheck';
 
-ReactDom.createRoot(document.querySelector('#root')).render(<Reaction />);
+ReactDom.createRoot(document.querySelector('#root')).render(<ResponseCheck />);
