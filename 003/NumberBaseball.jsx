@@ -210,7 +210,7 @@ const NumberBaseball = () => {
   };
 
   return (
-    <div>
+    <>
       <div>{result}</div>
       <form onSubmit={onSubmit}>
         <input maxLength={4} value={value} onChange={onChange} ref={inputRef} />
@@ -222,7 +222,7 @@ const NumberBaseball = () => {
           return <Try key={`${i + 1}차 시도`} tryInfo={v} />;
         })}
       </ul>
-    </div>
+    </>
   );
 };
 //

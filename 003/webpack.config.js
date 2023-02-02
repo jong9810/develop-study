@@ -1,10 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+// process.env.NODE_ENV = 'production';
 
 module.exports = {
   name: 'number-baseball-setting',
-  mode: 'development',
+  mode: 'development', // development production
   devtool: 'eval',
   resolve: {
     extensions: ['.jsx', '.js'],

@@ -394,10 +394,38 @@ module.exports = {
 // 성능 문제를 해결할 때 가장 먼저 문제가 나타나는 부분을 확인할 수 있는 방법이다.
 // ex) 바뀌지 않는 컴포넌트가 다시 렌더링 되는 문제(이런 것들이 쌓여서 성능이 나빠짐).
 
+// react 리렌더링 되는 경우
+// 1) 컴포넌트의 state가 바뀔 때
+// 2) 컴포넌트의 props가 바뀔 때
+// 3) 부모 컴포넌트가 리렌더링 될 때
+
 // react setState 렌더링 문제
 // setState를 호출하는데 state를 바꾸지 않아도 렌더링이 되는 문제가 있다.
 // shouldComponentUpdate()메서드 : render()처럼 리액트에서 지원하는 메서드
 // 따라서 shouldComponentUpdate 메서드를 사용하면 어떤 경우에 렌더링을 다시 해주어야 할지 정의해줄 수 있다.
+// shouldComponentUpdate()메서드를 사용하지 않고 Component 대신 PureComponent를 import 해서 사용해도 된다.
+// 기본적으로 리액트는 부모 컴포넌트가 리렌더링 되면 자식 컴포넌트도 같이 리렌더링 된다.
+// PureComponent를 사용하면 부모를 따라 리렌더링 되는 문제도 해결할 수 있다.
+
+// PureComponent : shouldComponentUpdate()메서드를 알아서 적용한 Component(클래스 컴포넌트에 적용 가능)
+// state나 props가 바뀌었을 때만 컴포넌트를 리렌더링해준다(부모 리렌더링시 자식 리렌더링 막아줌).
+// 단점은 객체나 배열같은 참조관계가 있는 state들은 PureComponent로 적용하기 까다롭다(push 같은 메서드 사용하면 바뀌었는지 판단하는 게 어려움).
+// 따라서 참조관계가 있는 state들은 복사해서 값을 추가한 후 setState를 적용해야 한다(불변성 유지).
+// state에 객체 구조를 사용하면 setState()를 할 때 렌더링되므로 객체 구조는 state로 사용하지 않는 것이 좋다.
+// state는 복잡한 구조로 하면 PureComponent가 변화를 감지지 못해서 에러가 날 확률이 커지므로 간단한 구조로 하는 것이 좋다.
+
+// 컴포넌트가 복잡해지는 경우, PureComponent를 적용하지 못할 수도 있다.
+// 따라서 Component를 사용하고 shouldComponentUpdate 메서드를 사용해서 어떨 때 리렌더링 할지 정의해주는 경우도 많다.
+// PureComponent나 shouldComponentUpdate는 성능 문제가 없다면 굳이 사용하지 않아도 되지만, 성능 문제가 발생하면 사용하는 것이 좋다!
+
+// React.memo : 함수 컴포넌트에서 부모 컴포넌트 리렌더링시 자식 컴포넌트도 리렌더링 되는 것을 막아준다.
+// memo를 적용해도 state나 props가 바뀌었을 때는 정상적으로 리렌더링 된다.
+// memo를 적용하려면 memo()로 컴포넌트를 감싸주면 된다.
+// memo를 적용하면 개발자 도구에 나타나는 컴포넌트의 이름이 바뀐다.
+// 컴포넌트.displayName = '이름'; 을 작성해주면 해결 가능하다.
+// ex) const Try = memo(...);
+// Try.displayName = 'Try';
+// memo는 가장 아래에 있는 자손 컴포넌트에는 사용하는 것이 좋다.
 
 // map 메서드
 //
