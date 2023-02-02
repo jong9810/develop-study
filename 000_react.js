@@ -461,7 +461,7 @@ inputRef.current.focus();
 // shouldComponentUpdate(nextProps, nextState, nextContext)
 // nextProps는 props가 바뀌었는지, nextState는 state가 바뀌었는지 판단할 때 사용하는 매개변수이다.
 // nextContext
-// ex) Context 개념
+// ex) Context 개념(props의 상위개념)
 // 부모가 증손자한테 props를 줄 때 부모 -> 자식 -> 손자 -> 증손자 처럼 자식, 손자는 필요하지 않은 props를 받게 된다.
 // 그 말은 props를 받을 때 쓸데없이 렌더링이 될 위험이 있다는 뜻이므로 좋지 않다.
 // 따라서 부모 -> 증손자로 바로 props를 주는 방법이 바로 Context이다.
