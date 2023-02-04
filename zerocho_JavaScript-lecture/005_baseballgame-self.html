@@ -1,0 +1,168 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>야구게임</title>
+    <style>
+      * {
+        margin: 5px;
+      }
+
+      input {
+        width: 70px;
+        margin-right: 10px;
+      }
+
+      #input {
+        margin-left: 45px;
+        margin-right: 5px;
+      }
+
+      button {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 60px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <input type="text" id="input" />
+      <button>입력</button>
+    </div>
+    <hr />
+    <div class="row">
+      <p>
+        (<span id="order">0</span>)
+        <input readonly id="input-0" type="text" />
+        <span id="strike-0">0</span>스트라이크<span id="ball-0">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">1</span>)
+        <input readonly id="input-1" type="text" />
+        <span id="strike-1">0</span>스트라이크<span id="ball-1">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">2</span>)
+        <input readonly id="input-2" type="text" />
+        <span id="strike-2">0</span>스트라이크<span id="ball-2">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">3</span>)
+        <input readonly id="input-3" type="text" />
+        <span id="strike-3">0</span>스트라이크<span id="ball-3">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">4</span>)
+        <input readonly id="input-4" type="text" />
+        <span id="strike-4">0</span>스트라이크<span id="ball-4">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">5</span>)
+        <input readonly id="input-5" type="text" />
+        <span id="strike-5">0</span>스트라이크<span id="ball-5">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">6</span>)
+        <input readonly id="input-6" type="text" />
+        <span id="strike-6">0</span>스트라이크<span id="ball-6">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">7</span>)
+        <input readonly id="input-7" type="text" />
+        <span id="strike-7">0</span>스트라이크<span id="ball-7">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">8</span>)
+        <input readonly id="input-8" type="text" />
+        <span id="strike-8">0</span>스트라이크<span id="ball-8">0</span>볼
+      </p>
+    </div>
+    <div>
+      <p>
+        (<span id="order">9</span>)
+        <input readonly id="input-9" type="text" />
+        <span id="strike-9">0</span>스트라이크<span id="ball-9">0</span>볼
+      </p>
+    </div>
+    <script>
+      const array = Array(9)
+        .fill()
+        .map((item, index) => index + 1);
+      const answer = []; // 정답
+      while (answer.length < 4) {
+        const num = Math.floor(Math.random() * array.length);
+        answer.push(String(array[num]));
+        array.splice(num, 1);
+      }
+      let input = ''; // 플레이어가 입력한 수
+      let balls = 0; // 볼 개수
+      let strikes = 0; // 스트라이크 개수
+      let order = 0; // 몇 번째 차례인지
+
+      document.querySelector('#input').addEventListener('input', (event) => {
+        input = event.target.value;
+      });
+      document.querySelector('button').addEventListener('click', () => {
+        if (input.length === answer.length) {
+          for (let i = 0; i < answer.length; i++) {
+            for (let j = 0; j < input.length; j++) {
+              if (answer[i] === input[j]) {
+                if (i === j) {
+                  strikes++;
+                } else {
+                  balls++;
+                }
+              }
+            }
+          }
+          // 입력한 숫자, 볼, 스트라이크 개수를 해당 차례의 칸에 표시
+          document.querySelector('#input-' + order).value = input;
+          document.querySelector('#strike-' + order).textContent = strikes;
+          document.querySelector('#ball-' + order).textContent = balls;
+
+          // 스트라이크가 정답의 글자 수와 같으면 정답 처리
+          if (strikes === answer.length) {
+            alert('정답입니다.');
+            return;
+          }
+          // 차례가 모두 끝났는지 판단
+          if (order === 9) {
+            alert(
+              '차례를 모두 소진하였습니다. 정답은 ' + answer + '이었습니다.'
+            );
+          } else {
+            // 차례를 증가시키고, 볼, 스트라크 개수, 입력한 숫자를 초기화
+            order++;
+            balls = 0;
+            strikes = 0;
+            input = '';
+            // 입력창을 빈 칸으로 만들어 주고 커서를 옮김
+            document.querySelector('#input').value = '';
+            document.querySelector('#input').focus();
+          }
+        } else {
+          alert('숫자를 다시 입력해주세요.');
+        }
+      });
+    </script>
+  </body>
+</html>

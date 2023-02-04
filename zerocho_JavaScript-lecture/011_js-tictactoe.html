@@ -1,0 +1,195 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>틱택토 게임</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        border: 1px solid black;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      const { body } = document; // === const body = document.body; : 구조분해 할당 (destructuring)
+      const $table = document.createElement('table');
+      const $result = document.createElement('div');
+      const rows = [];
+      let turn = 'O';
+
+      // 함수 선언부
+      const checkWinner = (target) => {
+        // 승부 판단하기
+        const { rowIndex } = target.parentNode; // 행 인덱스, target.parentNode : tr
+        const cellIndex = target.cellIndex; // 열 인덱스, target : td
+        /* 위의 두 줄 코드와 같지만 반복문을 써서 인덱스를 찾음
+        let rowIndex;
+        let cellIndex;
+        rows.forEach((row, ri) => {
+          row.forEach((cell, ci) => {
+            if (cell === target) {
+              rowIndex = ri;
+              cellIndex = ci;
+            }
+          });
+        });
+        */
+        // 승자가 있는가?
+        let hasWinner = false;
+        // 가로줄 검사
+        if (
+          rows[rowIndex][0].textContent === turn &&
+          rows[rowIndex][1].textContent === turn &&
+          rows[rowIndex][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        // 세로줄 검사
+        if (
+          rows[0][cellIndex].textContent === turn &&
+          rows[1][cellIndex].textContent === turn &&
+          rows[2][cellIndex].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        // 대각선 검사
+        if (
+          rows[0][0].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        if (
+          rows[0][2].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][0].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
+      const callback = (event) => {
+        // 칸에 글자가 있나?
+        if (event.target.textContent) return; // 칸에 글자가 있으면 동작 X
+        event.target.textContent = turn;
+        // 승부 판단하기
+        if (checkWinner(event.target)) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener('click', callback); // 버튼 이벤트 제거
+          return;
+        }
+        /* 비효율적인 코드 : 이미 무승부 판정이 났음에도 반복문을 모두 돌기 때문에
+        // 무승부 검사, 이미 위 '승부 판단하기'에서 승부가 난 경우에는 return하기 때문에 승부가 나지 않은 상황에만 아래 코드 실행.
+        let draw = true; // 먼저 무승부라고 가정하고
+        rows.forEach((row) => {
+          row.forEach((cell) => {
+            // rows 배열 안 태그.textContent 중에서 하나라도 빈 경우
+            if (!cell.textContent) {
+              draw = false; // 무승부가 아니라고 판단
+            }
+          });
+        });
+        */
+        const draw = rows.flat().every((td) => td.textContent);
+        if (draw) {
+          $result.textContent = '무승부~';
+          return;
+        }
+        turn = turn === 'O' ? 'X' : 'O'; // 차례가 'O'이면 'X', 아니면 'O'
+      };
+
+      // 테이블, 게임판 데이터 만듦.
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement('tr');
+        const cells = [];
+        for (let j = 0; j < 3; j++) {
+          const $td = document.createElement('td');
+          $tr.append($td);
+          cells.push($td);
+        }
+        $table.append($tr);
+        rows.push(cells);
+      }
+      $table.addEventListener('click', callback);
+      body.append($table);
+      body.append($result);
+
+      // 객체에 대한 구조분해 할당
+      // 변수명과 어떤 객체(document 등) 안의 속성, 메서드의 이름이 같은 경우 구조분해 할당을 사용할 수 있다.
+      // 예시와 같이 여러 개의 변수를 선언할 때 코드 길이를 대폭 줄일 수 있다.
+      // ex)
+      // const { body } = document;
+      // ===
+      // const body = document.body;
+      // ex)
+      /* a, b, c, e를 구조분해 할당하고 싶다면,
+      const obj = {
+        a: 'hello',
+        b: {
+          c: 'hi',
+          d: { e: 'wow' },
+        },
+      };
+      const { a, b, b: { c }, b: { d: { e } } } = obj;
+      */
+
+      // 배열에 대한 구조분해 할당
+      // ex)
+      // const arr = [1, 2, 3];
+      // const [one, two, three] = arr;
+      // ===
+      // const one = arr[0]; const two = arr[1]; const three = arr[2];
+      // two를 사용하지 않으려면
+      // const [one, , three] =arr; // two를 스킵하고 one, three만 선언.
+
+      // 이벤트 버블링 : 기본값
+      // html은 body>table>tr>td 태그에서 td태그를 클릭하면 body, table, tr, td 모두에서 이벤트가 발생한다.
+      // 따라서 td를 눌렀을 때 $table.addEventListener('click', onClick); 코드도 $td.addEventListener('click', onClick); 과 동일하게 동작함.
+
+      // event.currentTarget
+      // 만약 td를 클릭했을 때, td가 아니라 table 태그에 동작을 넣고 싶으면 event.target이 아니라, event.currentTarget을 하면 됨.
+      // event.currentTarget은 addEventListener()를 붙인 태그를 가르킨다.
+
+      // event.stopPropagation()
+      // 이벤트 버블링 현상을 막기 위한 메서드
+
+      // 이벤트 캡쳐링 (<-> 이벤트 버블링)
+      // 부모 태그를 클릭했을 때, 자식한테도 이벤트가 발생하게 하는 것(잘 안쓰임)
+      // addEventListener(입력, 함수, useCapture) : useCapture 인수 자리에 true를 주면 캡쳐링을 사용할 수 있다.
+      // ex) 팝업이 떴을 때, 팝업 바깥쪽을 클릭하면 팝업이 사라지게 할 때 이벤트 캡쳐링을 쓰면 된다.
+
+      // 태그.parentNode : 태그의 부모 태그를 선택해줌.
+      // 태그.children : 태그의 자식 태그를 모두 반환해줌. (유사 배열로 반환 -> 인덱스로 접근 가능)
+      // td.cellIndex : 해당 태그가 테이블에서 몇 열에 있는지 알려줌.
+      // tr.rowIndex : 해당 태그가 테이블에서 몇 행에 있는지 알려줌.
+
+      // 유사배열 : 배열처럼 보이지만 실제로는 객체인 것.
+      // 유사배열은 배열과 달리 forEach나 map 메서드를 사용하지 못한다.
+      // Array.from(유사배열)을 하면 유사배열을 배열로 변환해줌.
+
+      // 1차원 배열.every() : 함수를 인수로 주고, 배열의 각각의 원소를 함수에 넣어서 판별.
+      // 함수에 넣은 결과가 배열의 원소 모두 다 true이어야만 true, 하나라도 false인 경우 false를 반환. (1차원 배열에만 가능)
+      // ex)
+      // rows.flat().every((td) => td.textContent);
+
+      // flat() : 다차원 배열의 차원을 하나 낮춰주는 배열 메서드
+
+      // some() : every()의 반대
+      // 배열의 원소가 하나라도 true인 경우 true, 모두 false인 경우 false.
+      // every()와 some()은 결과가 판정되면 바로 메서드를 빠져나감.
+      // some()은 하나라도 true면 true, every()는 모두 true여야 true!!!
+
+      // forEach('함수')에서 함수 안에서 return을 해도 forEach는 빠져나오지 않는다. forEach문을 빠져나오는 방법은 거의 없다?
+    </script>
+  </body>
+</html>

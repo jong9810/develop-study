@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?1" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Dotum, '돋움', Helvetica, 'Apple SD Gothic Neo', sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .float-left {
+        float: left;
+      }
+      header {
+        height: 170px;
+      }
+      /* #fixed {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+        border-radius: 50px;
+        text-align: center;
+      } */
+      .blind {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+      }
+      .center-align {
+        margin: 0 auto; /* 가운데 정렬 */
+        width: 1080px;
+      }
+      .relative {
+        position: relative;
+      }
+    </style>
+    <link rel="stylesheet" href="./naver.css" />
+    <title>네이버</title>
+  </head>
+  <body>
+    <header>
+      <!-- <div id="fixed">고정</div> -->
+      <div class="center-align">
+        <!-- 가운데 정렬용 div -->
+        <div id="header-top">
+          <span>네이버를 시작페이지로&nbsp&nbsp>&nbsp&nbsp|&nbsp</span>
+          <span>쥬니어네이버 | </span>
+          <span>해피빈 | </span>
+        </div>
+        <div id="header-search">
+          <form
+            class="inline-block"
+            action="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query="
+          >
+            <h1>
+              <a href="https://www.naver.com">
+                <span class="blind">네이버</span></a
+              >
+            </h1>
+            <h2 class="blind">검색창</h2>
+            <fieldset>
+              <legend class="blind">검색</legend>
+              <input />
+              <span id="search-keyboard"></span>
+              <span id="search-history"></span>
+              <button>
+                <span class="blind">검색</span>
+                <span id="search-image"></span>
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </header>
+    <nav>
+      <div class="center-align relative">
+        <div id="search-ranking">
+          <h2 class="blind">실시간 검색어</h2>
+          <div>
+            <span id="rank-number">1</span>
+            <span id="rank-title">제로초</span>
+          </div>
+          <ul>
+            <li>
+              <span class="rank-number">1</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">2</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">3</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">4</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">5</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">6</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">7</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">8</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">9</span>
+              <span class="rank-title">제로초</span>
+            </li>
+            <li>
+              <span class="rank-number">10</span>
+              <span class="rank-title">제로초</span>
+            </li>
+          </ul>
+          <!-- z-index 예제 -->
+          <!-- <div id="z-example">
+            <div id="z-inner"></div>
+          </div> -->
+        </div>
+        <ul id="nav-menu">
+          <li>
+            <a href="https://mail.naver.com/v2/folders/0/all"></a
+            ><span>메일</span>
+          </li>
+          <li>
+            <a href="https://section.cafe.naver.com/ca-fe/"></a
+            ><span>카페</span>
+          </li>
+          <li>
+            <a href="https://section.blog.naver.com/BlogHome.naver"></a
+            ><span>블로그</span>
+          </li>
+          <li><a href="https://kin.naver.com/"></a><span>지식인</span></li>
+          <li>
+            <a href="https://shopping.naver.com/home"></a><span class="blind"></span>쇼핑</span>
+          </li>
+          <li>
+            <a href="https://new-m.pay.naver.com/pcpay?page=1"></a
+            ><span>네이버페이</span>
+          </li>
+        </ul>
+        <div class="nav-divider"></div>
+      </div>
+    </nav>
+    <main>
+      <div id="main-centered" class="center-align">
+        <div id="main-first-block">
+          <section id="main-ad">
+            <h3>광고1</h3>
+          </section>
+          <section id="main-login">
+            <h3 class="blind">로그인</h3>
+            <div class="login-wrapper">
+              <span>네이버를 더 안전하고 편리하게 이용하세요.</span>
+              <a
+                class="login-button"
+                href="https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com"
+              >
+                <div>
+                  <span class="blind">NAVER</span>
+                  <span id="main-login-naver"></span>
+                  <span>로그인</span>
+                </div>
+              </a>
+              <a class="login-signup" href="">회원가입</a>
+              <a href=""></a>
+            </div>
+          </section>
+        </div>
+        <div id="main-second-block">
+          <div class="float-left">
+            <section id="main-seoul-news">
+              <h3>서울신문</h3>
+              <ol>
+                <li>충격) 제로초 지금 목아파...</li>
+              </ol>
+            </section>
+            <section id="main-newsstand">
+              <h3>뉴스스탠드</h3>
+              <ul>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+                <li>
+                  <img alt="뉴스타파" src="./뉴스타파.png" />
+                </li>
+              </ul>
+            </section>
+          </div>
+          <div class="float-left">
+            <section id="main-weather">
+              <h3>날씨</h3>
+            </section>
+            <section id="main-second-ad">
+              <h3>광고2</h3>
+            </section>
+          </div>
+        </div>
+        <div id="main-third-block">
+          <section id="main-category">
+            <h3 class="blind">주제별 보기</h3>
+            <div id="main-category-top">
+              <button id="subject-all">
+                <span class="blind">전체 주제 열기</span>
+                <span>=</span>
+              </button>
+              <div id="subject-list">
+                <ul>
+                  <div class="opacity left"></div>
+                  <li>리빙</li>
+                  <li>푸드</li>
+                  <li>스포츠</li>
+                  <li>자동차</li>
+                  <li>패션뷰티</li>
+                  <li>부모i</li>
+                  <li class="highlight">건강</li>
+                  <li>웹툰</li>
+                  <li>게임</li>
+                  <li>TV연예</li>
+                  <li>뮤직</li>
+                  <li>영화</li>
+                  <li>책문학</li>
+                  <div class="opacity right"></div>
+                </ul>
+              </div>
+              <button id="subject-prev">
+                <span class="blind">이전 주제</span>
+                <span><</span>
+              </button>
+              <button id="subject-next">
+                <span class="blind">다음 주제</span>
+                <span>></span>
+              </button>
+            </div>
+          </section>
+          <section id="main-shopping">
+            <h3 class="blind">쇼핑</h3>
+            <iframe
+              src="https://shopping.naver.com/home"
+              frameborder="0"
+            ></iframe>
+          </section>
+        </div>
+        <div id="main-last-block">
+          <section id="main-event">
+            <h3>이벤트</h3>
+          </section>
+          <section id="main-third-ad">
+            <h3>광고3</h3>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>공지사항</div>
+      <div>Creators</div>
+      <div>회사소개</div>
+    </footer>
+  </body>
+</html>

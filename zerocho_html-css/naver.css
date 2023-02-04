@@ -1,0 +1,471 @@
+#header-search {
+  clear: both;
+  padding-top: 45px;
+}
+div#header-search h1 {
+  /* id="header-search"인 태그의 자식 h1 선택*/
+  display: inline-block;
+}
+div#header-search h1 > a {
+  /* id="header-search"인 태그의 자식 h1 선택*/
+  width: 222px;
+  height: 52px;
+  display: inline-block;
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: 0 -158px;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+/* display:none 해당 태그를 스크린 리더(시각장애인용)도 읽지 못함 */
+/* #header-search h2 {
+  display: none;
+} */
+#header-search fieldset {
+  width: 521px;
+  height: 49px;
+  display: inline-block;
+  margin-left: 20px;
+  padding: 0 0 0 10px;
+  border: 2px solid #03cf5d; /* hew 표기법 (RGB표기법도 쓰임)*/
+  box-sizing: border-box;
+  vertical-align: middle;
+  position: relative;
+}
+#header-search fieldset input {
+  border: none;
+  padding: 0;
+  outline: none;
+  width: 444px;
+  height: 24px;
+  vertical-align: middle;
+  margin-top: 12px;
+  font-size: 13px;
+}
+#header-search fieldset button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  padding: 0;
+  background: #03cf5d;
+  position: absolute;
+  right: -2px;
+  top: -1px;
+}
+#search-image {
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-position: -420px -24px;
+}
+nav {
+  height: 46px;
+  border-top: 1px solid #f1f3f6;
+}
+#nav-menu {
+  margin: 0;
+  padding: 16px 0 0 4px;
+  list-style: none;
+  position: relative;
+  display: inline-block;
+}
+#nav-menu li {
+  display: inline-block;
+  padding-right: 14px;
+  color: #03c75a;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 30px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+#nav-menu a {
+  position: absolute;
+}
+#nav-menu li:nth-child(1) a {
+  top: 21px;
+  left: 4px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-menu li:nth-child(2) a {
+  top: 21px;
+  left: 53px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-menu li:nth-child(3) a {
+  top: 21px;
+  left: 102px;
+  width: 44.1px;
+  height: 20px;
+}
+#nav-menu li:nth-child(4) a {
+  top: 21px;
+  left: 166px;
+  width: 44.1px;
+  height: 20px;
+}
+#nav-menu li:nth-child(5) a {
+  top: 21px;
+  left: 230px;
+  width: 29.4px;
+  height: 20px;
+}
+#nav-menu li:nth-child(6) a {
+  top: 21px;
+  left: 279px;
+  width: 73.5px;
+  height: 20px;
+}
+.nav-divider {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  margin: 24px 16px 0;
+  background: #ebeef3;
+}
+#header-top {
+  float: right;
+}
+#header-top:first-child {
+  color: #888; /* hex 표기법에서 RGB가 두 글자씩 같은 경우 한 글자로 줄일 수 있다. */
+  font-size: 11px;
+  line-height: 22px;
+  letter-spacing: -1px;
+}
+#search-keyboard {
+  background: url(./sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: -398px -267px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 12px;
+  position: absolute;
+  top: 40%;
+  right: 75px;
+}
+#search-history {
+  background: url(./sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-position: -170px -151px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 5px;
+  position: absolute;
+  top: 45%;
+  right: 57px;
+}
+#search-ranking {
+  position: absolute;
+  width: 198px;
+  height: 20px;
+  vertical-align: middle;
+  right: 0;
+  top: 14px;
+}
+#search-ranking ul {
+  display: none;
+  list-style: none;
+  padding: 17px;
+  margin: 0;
+  width: 332px;
+  height: 334px;
+  border: 1px solid #aaa;
+  background: white;
+  position: absolute;
+  right: 0;
+  top: -15px;
+  z-index: 100;
+}
+/* z-index 예제 */
+/* #z-example {
+  position: absolute;
+  background-color: yellow;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+#z-inner {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 50px;
+  z-index: 1000;
+} */
+#search-ranking:hover ul {
+  display: inline-block;
+}
+#rank-number {
+  color: #03c75a;
+  font-weight: bold;
+}
+main {
+  background-color: #f2f3f7;
+  display: inline-block;
+  width: 100%;
+}
+#main-centered {
+  padding: 8px 10px 0;
+  width: 1100px;
+  margin-bottom: 8px;
+}
+#main-first-block {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 8px;
+}
+#main-ad {
+  width: 740px;
+  height: 120px;
+  background-color: #555;
+  margin-right: 8px;
+  float: left;
+}
+#main-login {
+  width: 332px;
+  height: 120px;
+  background-color: white;
+  float: left;
+  border: 1px solid #dae1e6;
+}
+#main-login .login-wrapper {
+  padding: 15px 25px;
+  background-color: #f7f9fa;
+}
+#main-login .login-wrapper > span {
+  font-size: 12px;
+  padding-left: 3px;
+  color: grey;
+}
+#main-login .login-wrapper .login-button {
+  width: 100%;
+  height: 43.6px;
+  margin-top: 11px;
+  background-color: #19ce60;
+  display: inline-block;
+  text-align: center;
+  padding: 14px 0;
+  text-decoration: none;
+}
+#main-login .login-wrapper a span {
+  font-size: 13px;
+  color: #fff;
+  line-height: 13px;
+}
+#main-login-naver {
+  background-image: url(https://s.pstatic.net/static/www/img/uit/sp_main_947f65.png);
+  background-size: 442px 428px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 60px;
+  height: 12px;
+  background-position: -202px -296px;
+  margin: 2px 5px 0 0;
+}
+#main-login .login-signup {
+  float: right;
+  font-size: 12px;
+  line-height: 38px;
+  color: #666;
+  text-decoration: none;
+}
+#main-login .login-signup:hover {
+  text-decoration: underline;
+}
+#main-second-block {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 8px;
+}
+#main-second-block .float-left:nth-of-type(1) {
+  width: 740px;
+  margin-right: 8px;
+}
+#main-second-block .float-left:nth-of-type(2) {
+  width: 332px;
+}
+#main-seoul-news h3,
+#main-seoul-news ol,
+#main-newsstand h3 {
+  font-size: 14px;
+  font-family: NanumSquare, Dotum, '돋움', Arial, Helvetica, sans-serif;
+  padding-left: 15px;
+  padding-top: 15px;
+}
+#main-seoul-news {
+  display: inline-block;
+  width: 740px;
+  height: 46px;
+  background-color: white;
+  margin-bottom: 8px;
+}
+#main-seoul-news h3,
+#main-seoul-news ol {
+  display: inline-block;
+  margin: 0;
+}
+#main-newsstand {
+  display: inline-block;
+  width: 740px;
+  height: 246px;
+  background-color: white;
+}
+#main-newsstand h3 {
+  height: 45px;
+  border-bottom: 1px #f2f3f7 solid;
+}
+#main-newsstand ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: inline-block;
+}
+#main-newsstand li {
+  float: left;
+  width: calc(100% / 6);
+  height: 67px;
+  border-right: 1px solid #f2f3f7;
+  border-bottom: 1px solid #f2f3f7;
+  text-align: center;
+}
+#main-newsstand li img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#main-weather {
+  float: left;
+  width: 332px;
+  height: 142px;
+  background-color: white;
+  margin-bottom: 8px;
+}
+#main-second-ad {
+  float: left;
+  width: 332px;
+  height: 150px;
+  background-color: #555;
+}
+#main-third-block {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 8px;
+}
+#main-category {
+  float: left;
+  width: 740px;
+  height: 837px;
+  background-color: white;
+  margin-right: 8px;
+}
+#main-category-top {
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #ebeef3;
+}
+#subject-list,
+#subject-all,
+#subject-prev,
+#subject-next {
+  float: left;
+  height: 45px;
+}
+#subject-all,
+#subject-prev,
+#subject-next {
+  width: 45px;
+  background: white;
+  border: none;
+  border-left: 1px solid #ebeef3;
+}
+#subject-all span:last-child {
+  font-size: 25px;
+}
+#subject-prev span:last-child {
+  font-size: 25px;
+}
+#subject-next span:last-child {
+  font-size: 25px;
+}
+#subject-list {
+  width: 603px;
+  position: relative;
+}
+#subject-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  height: 45px;
+  overflow: hidden;
+}
+#subject-list li {
+  float: left;
+  margin-right: 10px;
+  padding: 14px 7px 0;
+}
+#subject-list li.highlight {
+  border-bottom: 3px solid #00c73c;
+  color: #00b336;
+  height: 45px;
+  font-weight: 700;
+}
+.opacity {
+  opacity: 0.7;
+  background: white;
+}
+.opacity.left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 45px;
+}
+.opacity.right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 15px;
+  height: 45px;
+}
+#main-shopping {
+  width: 332px;
+  height: 837px;
+  background-color: white;
+  float: left;
+}
+#main-shopping iframe {
+  width: 100%;
+  height: 100%;
+}
+#main-last-block {
+  display: inline-block;
+  width: 100%;
+}
+#main-event {
+  float: left;
+  width: 740px;
+  height: 130px;
+  background-color: white;
+  vertical-align: top;
+  margin-right: 8px;
+}
+#main-third-ad {
+  float: left;
+  width: 332px;
+  height: 130px;
+  background-color: #555;
+  vertical-align: top;
+}
