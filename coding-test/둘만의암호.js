@@ -1,32 +1,40 @@
-// 코딩 테스트 연습용 파일
+// 프로그래머스 둘만의 암호
 
 function solution(s, skip, index) {
   let answer = '';
-  let additionalIdx = Array(s.length).fill(0);
-  const resultString = [];
 
+  const sCodeArray = [];
+  const skipCodeArray = [];
   for (let i = 0; i < s.length; i++) {
-    const charCode = s.charCodeAt(i);
-    for (let j = 1; j <= index; j++) {
-      let checkCode = charCode + j;
-      if (checkCode > 122) {
-        checkCode = 97;
+    sCodeArray.push(s.charCodeAt(i));
+  }
+  for (let i = 0; i < skip.length; i++) {
+    skipCodeArray.push(skip.charCodeAt(i));
+  }
+
+  const resultCodeArray = [];
+  sCodeArray.map((sCode) => {
+    let checkIdx = 0;
+    for (let j = 0; j < index; j++) {
+      checkIdx += 1;
+      let checkCode = sCode + checkIdx;
+      while (checkCode > 122) {
+        checkCode = checkCode - 26;
       }
-      let checkChar = String.fromCharCode(checkCode);
-      if (skip.indexOf(checkChar) !== -1) {
-        additionalIdx[i] += 1;
+      if (skipCodeArray.includes(checkCode)) {
+        j -= 1;
       }
     }
-  }
-  for (let i = 0; i < s.length; i++) {
-    let resultCode = s.charCodeAt(i) + index + additionalIdx[i];
-    if (resultCode > 122) {
+    let resultCode = sCode + checkIdx;
+    while (resultCode > 122) {
       resultCode = resultCode - 26;
     }
-    const resultChar = String.fromCharCode(resultCode);
-    resultString.push(resultChar);
-  }
-  answer = resultString.join('');
+    resultCodeArray.push(String.fromCharCode(resultCode));
+  });
+
+  answer = resultCodeArray.join('');
 
   return answer;
 }
+
+solution('zebraisbeautiful', 'abcdefg', 20);
