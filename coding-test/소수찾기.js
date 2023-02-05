@@ -16,8 +16,5 @@ function solution(n) {
       decimal.push(i);
     }
   }
-  // console.log(decimal);
   return decimal.length;
 }
-
-solution(2);
