@@ -3,18 +3,21 @@
 // n은 2이상 1000000이하의 자연수입니다.
 
 function solution(n) {
-  let count = 0;
-  for (let i = 1; i <= n; i++) {
-    for (let j = 1; j <= parseInt(n / 2); j++) {
+  const decimal = [];
+  for (let i = 2; i <= n; i++) {
+    let isDecimal = true;
+    for (let j of decimal) {
       if (i % j === 0) {
-        if (i !== j) {
-          break;
-        }
+        isDecimal = false;
+        break;
       }
     }
-    count += 1;
+    if (isDecimal) {
+      decimal.push(i);
+    }
   }
-  return count;
+  // console.log(decimal);
+  return decimal.length;
 }
 
 solution(2);
