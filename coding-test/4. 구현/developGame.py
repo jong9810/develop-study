@@ -24,66 +24,113 @@ import time
 # for i in range(n):
 #     gameBoard.append(list(map(int, input().split())))
 
-n, m = 4, 4                 # n : 맵의 세로 크기, m : 맵의 가로 크기
-A, B = 1, 1                 # A : 북쪽으로부터 떨어진 거리, B : 서쪽으로부터 떨어진 거리
-direction = 0               # direction(0, 1, 2, 3) : 북, 동, 남, 서
-gameBoard = [[1, 1, 1, 1],
-             [1, 0, 0, 1],
-             [1, 1, 0, 1],
-             [1, 1, 1, 1]]  # 게임판(0 : 육지, 1 : 바다)
-moves = [[-1, 0], [0, 1], [1, 0], [0, -1]]  # 북, 동, 남, 서 방향 움직임
-gameBoard[A][B] = 2         # 캐릭터가 가본 칸 : 2
+# n, m = 4, 4                 # n : 맵의 세로 크기, m : 맵의 가로 크기
+# A, B = 1, 1                 # A : 북쪽으로부터 떨어진 거리, B : 서쪽으로부터 떨어진 거리
+# direction = 0               # direction(0, 1, 2, 3) : 북, 동, 남, 서
+# gameBoard = [[1, 1, 1, 1],
+#              [1, 0, 0, 1],
+#              [1, 1, 0, 1],
+#              [1, 1, 1, 1]]  # 게임판(0 : 육지, 1 : 바다)
+# moves = [[-1, 0], [0, 1], [1, 0], [0, -1]]  # 북, 동, 남, 서 방향 움직임
+# gameBoard[A][B] = 2         # 캐릭터가 가본 칸 : 2
 
 start_time = time.time()
 
-# 방법1.
+# # 방법1.
 
 
-def turnLeft(_direction):
-    if _direction > 0 and _direction < 4:
-        _direction -= 1
-    elif _direction == 0:
-        _direction = 3
-    else:
-        _direction = 0
-    return _direction
+# def turnLeft(_direction):
+#     if _direction > 0 and _direction < 4:
+#         _direction -= 1
+#     elif _direction == 0:
+#         _direction = 3
+#     else:
+#         _direction = 0
+#     return _direction
 
 
-def turnAround(_direction):
-    return turnLeft(turnLeft(_direction))
+# def turnAround(_direction):
+#     return turnLeft(turnLeft(_direction))
 
 
-turnLeftCount = 0
+# turnLeftCount = 0
+# count = 1
+# while True:
+#     direction = turnLeft(direction)
+#     for dir, move in enumerate(moves):
+#         if direction == dir:
+#             nA = A + move[0]
+#             nB = B + move[1]
+#     if turnLeftCount >= 4:
+#         direction = turnAround(direction)
+#         for dir, move in enumerate(moves):
+#             if direction == dir:
+#                 nA = A + move[0]
+#                 nB = B + move[1]
+#         if gameBoard[nA][nB] == 1 or gameBoard[nA][nB] == 2:
+#             break
+#         else:
+#             direction = turnAround(direction)
+#             gameBoard[nA][nB] = 2
+#             A, B = nA, nB
+#             turnLeftCount = 0
+#             count += 1
+#             continue
+#     if gameBoard[nA][nB] == 1 or gameBoard[nA][nB] == 2:
+#         turnLeftCount += 1
+#         continue
+#     else:
+#         gameBoard[nA][nB] = 2
+#         A, B = nA, nB
+#         turnLeftCount = 0
+#         count += 1
+# print(count)
+
+# 방법2.
+n, m = map(int, input().split())
+d = [[0] * m for _ in range(n)]
+x, y, direction = map(int, input().split())
+d[x][y] = 1
+
+array = []
+for i in range(n):
+    array.append(list(map(int, input().split())))
+
+start_time = time.time()
+
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+
+def turn_left():
+    global direction
+    direction -= 1
+    if direction == -1:
+        direction = 3
+
+
 count = 1
+turn_time = 0
 while True:
-    direction = turnLeft(direction)
-    for dir, move in enumerate(moves):
-        if direction == dir:
-            nA = A + move[0]
-            nB = B + move[1]
-    if turnLeftCount >= 4:
-        direction = turnAround(direction)
-        for dir, move in enumerate(moves):
-            if direction == dir:
-                nA = A + move[0]
-                nB = B + move[1]
-        if gameBoard[nA][nB] == 1 or gameBoard[nA][nB] == 2:
-            break
-        else:
-            direction = turnAround(direction)
-            gameBoard[nA][nB] = 2
-            A, B = nA, nB
-            turnLeftCount = 0
-            count += 1
-            continue
-    if gameBoard[nA][nB] == 1 or gameBoard[nA][nB] == 2:
-        turnLeftCount += 1
+    turn_left()
+    nx = x + dx[direction]
+    ny = y + dy[direction]
+    if d[nx][ny] == 0 and array[nx][ny] == 0:
+        d[nx][ny] = 1
+        x, y = nx, ny
+        count += 1
+        turn_time = 0
         continue
     else:
-        gameBoard[nA][nB] = 2
-        A, B = nA, nB
-        turnLeftCount = 0
-        count += 1
+        turn_time += 1
+    if turn_time == 4:
+        nx = x - dx[direction]
+        ny = y - dy[direction]
+        if array[nx][ny] == 0:
+            x, y = nx, ny
+        else:
+            break
+        turn_time = 0
 print(count)
 
 end_time = time.time()
