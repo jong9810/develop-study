@@ -12,14 +12,15 @@ n = int(input())
 array = []
 for i in range(n):
     array.append(int(input()))
-print(array)
 
 start_time = time.time()
 
 # 방법1. 라이브러리 이용
-result = sorted(array)
-result.reverse()
-print(result)
+# result = sorted(array)
+# result.reverse()
+# print(result)
+
+# 방법2.
 
 end_time = time.time()
 print('\ntime:', end_time - start_time)
