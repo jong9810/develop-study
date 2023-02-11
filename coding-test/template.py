@@ -15,5 +15,4 @@ start_time = time.time()
 
 
 end_time = time.time()
-print()
-print('time:', end_time - start_time)
+print('\ntime:', end_time - start_time)
