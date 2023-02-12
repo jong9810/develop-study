@@ -20,7 +20,5 @@ result = sorted(array, reverse=True)
 for i in range(len(result)):
     print(result[i], end=' ')
 
-# 방법2.
-
 end_time = time.time()
 print('\ntime:', end_time - start_time)
