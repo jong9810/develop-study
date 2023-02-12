@@ -16,9 +16,9 @@ for i in range(n):
 start_time = time.time()
 
 # 방법1. 라이브러리 이용
-# result = sorted(array)
-# result.reverse()
-# print(result)
+result = sorted(array, reverse=True)
+for i in range(len(result)):
+    print(result[i], end=' ')
 
 # 방법2.
 
