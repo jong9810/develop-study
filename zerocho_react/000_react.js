@@ -580,7 +580,29 @@ inputRef.current.focus();
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
-// 5.
+// 5. 가위바위보 게임
+
+// 리액트 라이프사이클
+// 컴포넌트가 생겼다가 사라지는 동안을 컴포넌트의 라이프사이클이라고 한다.
+// 1) 클래스
+// constructor -> render -> ref -> componentDidMount ->
+// (state/props 바뀔 때마다) -> shouldComponentUpdate(true) -> render -> componentDidUpdate
+// (부모가 나를 없앴을 때) -> componentWillUnmount -> 소멸
+
+// componentDidMount() 메서드
+// render 함수가 실행되면 react가 RSPGame.jsx를 client.jsx의 DOM에 갖다 붙여준다.
+// 그 순간에 특정한 동작을 명령할 수 있다.
+// 렌더 함수가 처음 성공적으로 실행되면 react가 componentDidMount()를 실행해준다.
+// 그 다음 리렌더링될 때는 componentDidMount()는 실행되지 않는다.
+
+// componentDidUpdate() 메서드
+// 리렌더링 된 뒤마다 해줄 동작을 명시해주는 메서드이다.
+
+// componentWillUnmount() 메서드
+// 컴포넌트가 제거되기 직전에 react가 componentWillUnmount()를 실행해준다.
+// 컴포넌트가 사라지기 전에 해야하는 동작을 componentWillUnmount() 메서드 안에 명시해주면 된다.
+// componentDidMount() 메서드에서 했던 작업들을 제거하는 용도로 많이 사용된다.
+// 부모 컴포넌트가 componentWillUnmount()가 선언된 컴포넌트를 없앨 때 실행된다.
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
