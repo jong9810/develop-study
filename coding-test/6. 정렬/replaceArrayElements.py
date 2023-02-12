@@ -9,15 +9,26 @@
 import time
 
 # 입력
-n, k = map(int, input().split())
-A = list(map(int, input().split()))
-B = list(map(int, input().split()))
+# n, k = map(int, input().split())
+# A = list(map(int, input().split()))
+# B = list(map(int, input().split()))
+n, k = 5, 3
+A = [1, 2, 5, 4, 3]
+B = [5, 5, 6, 6, 5]
 
 # 프로그램 코드
 start_time = time.time()
 
 # 방법1.
+A.sort()
+B.sort(reverse=True)
 
+for i in range(n):
+    if A[i] < B[i]:
+        A[i], B[i] = B[i], A[i]
+    else:
+        break
+print(sum(A))
 
 # 프로그램 실행 시간 출력
 end_time = time.time()
