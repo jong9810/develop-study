@@ -44,12 +44,33 @@ def binary_search(array, target, start, end):  # 이진 탐색
         return binary_search(array, target, mid + 1, end)
 
 
-for i in range(len(request_parts)):
-    print(sequential_search(all_parts, request_parts[i]), end=' ')
-print()
-for i in range(len(request_parts)):
-    print(binary_search(
-        all_parts, request_parts[i], 0, len(all_parts) - 1), end=' ')
+print('1. 순차 탐색 이용')
+for i in request_parts:
+    print(sequential_search(all_parts, i), end=' ')
+
+print('\n2. 이진 탐색 이용')
+all_parts2 = sorted(all_parts)
+for i in request_parts:
+    print(binary_search(all_parts2, i, 0, len(all_parts) - 1), end=' ')
+
+print('\n3. 계수 정렬 이용')
+parts_list = [0] * 10001
+for i in all_parts:
+    parts_list[i] += 1
+for i in request_parts:
+    if parts_list[i] > 0:
+        print('yes', end=' ')
+    elif parts_list[i] == 0:
+        print('no', end=' ')
+
+print('\n4. 집합 자료형 이용')
+all_parts = set(all_parts)
+for i in request_parts:
+    if i in all_parts:
+        print('yes', end=' ')
+    else:
+        print('no', end=' ')
+
 
 # # # 프로그램 실행 시간 출력
 end_time = time.time()
