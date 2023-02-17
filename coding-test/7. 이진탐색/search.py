@@ -23,10 +23,8 @@ def binary_search1(array, target, start, end):  # 이진 탐색(반복문)
             return mid
         if target < array[mid]:
             end = mid - 1
-            mid = (start + end) // 2
         elif target > array[mid]:
             start = mid + 1
-            mid = (start + end) // 2
     return None
 
 
