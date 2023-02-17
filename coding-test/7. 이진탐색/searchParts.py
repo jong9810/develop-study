@@ -8,7 +8,6 @@
 
 # # # 모듈, 라이브러리 import
 import time
-import sys
 
 # # # 입력
 # n = int(input())
