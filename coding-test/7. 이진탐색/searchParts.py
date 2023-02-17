@@ -25,6 +25,32 @@ start_time = time.time()
 # # # 프로그램 코드
 
 
+def sequential_search(array, target):  # 순차 탐색
+    for i in range(len(array)):
+        if array[i] == target:
+            return 'yes'
+    return 'no'
+
+
+def binary_search(array, target, start, end):  # 이진 탐색
+    if start > end:
+        return 'no'
+    mid = (start + end) // 2
+    if target == array[start] or target == array[end] or target == array[mid]:
+        return 'yes'
+    if target < array[mid]:
+        return binary_search(array, target, start, mid - 1)
+    if target > array[mid]:
+        return binary_search(array, target, mid + 1, end)
+
+
+for i in range(len(request_parts)):
+    print(sequential_search(all_parts, request_parts[i]), end=' ')
+print()
+for i in range(len(request_parts)):
+    print(binary_search(
+        all_parts, request_parts[i], 0, len(all_parts) - 1), end=' ')
+
 # # # 프로그램 실행 시간 출력
 end_time = time.time()
 print('\ntime:', end_time - start_time)
