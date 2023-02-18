@@ -14,8 +14,7 @@ import sys
 
 # # # 입력
 n, m = 4, 6
-# length = list(map(int, sys.stdin.readline().rstrip().split()))
-length = [19, 15, 10, 17]
+length = list(map(int, sys.stdin.readline().rstrip().split()))
 length2 = sorted(length)
 
 # # # 시작 시간 저장
@@ -24,23 +23,24 @@ start_time = time.time()
 # # # 프로그램 코드
 
 
-# def binary_search(array, target, start, end):  # 방법1. 재귀 함수
-#     if start >= end:
-#         return None
-#     mid = (start + end) // 2
-#     sum = 0
-#     for i in array:
-#         if i > mid:
-#             sum += (i - mid)
-#     if sum == target:
-#         return mid
-#     if sum > target:
-#         return binary_search(array, target, mid + 1, end)
-#     if sum < target:
-#         return binary_search(array, target, start, mid - 1)
+def binary_search(array, target, start, end):  # 방법1. 재귀 함수
+    if start >= end:
+        return None
+    mid = (start + end) // 2
+    sum = 0
+    for i in array:
+        if i > mid:
+            sum += (i - mid)
+    if sum == target:
+        return mid
+    if sum > target:
+        return binary_search(array, target, mid + 1, end)
+    if sum < target:
+        return binary_search(array, target, start, mid - 1)
 
 
-# print(binary_search(length2, m, 0, max(length2)))
+print('1. 재귀 함수 이용')
+print(binary_search(length2, m, 0, max(length2)))
 
 # # # 방법2. 반복문
 start = 0
@@ -58,6 +58,7 @@ while start <= end:
         result = mid
         start = mid + 1
 
+print('2. 반복문 이용')
 print(result)
 
 # # # 프로그램 실행 시간 출력
