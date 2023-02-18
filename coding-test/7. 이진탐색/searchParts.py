@@ -10,13 +10,10 @@
 import time
 
 # # # 입력
-# n = int(input())
-# all_parts = list(map(int, input().split()))
-# m = int(input())
-# request_parts = list(map(int, input().split()))
-n, m = 5, 3
-all_parts = [8, 3, 7, 9, 2]
-request_parts = [5, 7, 9]
+n = int(input())
+all_parts = list(map(int, input().split()))
+m = int(input())
+request_parts = list(map(int, input().split()))
 
 # # # 시작 시간 저장
 start_time = time.time()
