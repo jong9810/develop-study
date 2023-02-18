@@ -3,9 +3,9 @@
 #
 
 # # # 모듈, 라이브러리 import
+# from collections import deque
+# import sys
 import time
-import sys
-from collections import deque
 
 # # # 입력
 
