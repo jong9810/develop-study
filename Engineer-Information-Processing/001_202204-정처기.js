@@ -427,7 +427,7 @@
 
 // 34. 소프트웨어를 보다 쉽게 이해할 수 있고 적은 비용으로 수정할 수 있도록 겉으로 보이는 동작의 변화 없이 내부 구조를 변경하는 것은?
 // <해설>
-// (X) Refactoring - 결과의 변경 없이 코드의 구조를 재조정함
+// (1) Refactoring - 결과의 변경 없이 코드의 구조를 재조정함
 // (X) Architecting - 기능면에서 바라본 본 구성 방식. 구조, 밑그림(설계 관련)
 // (X) Specification(규격, 사양) - 명세서
 // (X) Renewal(갱신) - 유지보수
@@ -471,8 +471,8 @@
 // - parent(부모), children(자식), sibling(형제), grandparent(조부모), ancestor(조상)
 // 기준이 되는 것의 바로 직계 상위 node를 부모, 바로 아래층의 node를 자식, 같은 부모를 둔 node들을 형제, 부모의 부모를 조부모, 직계 상위 노드들은 조상
 // - leaf(잎) : 자식이 없는 node
-// - subtree : 큰 tree에 속한 작은 tree
-// - node의 degree : 하위 subtree의 개수
+// - subtree(하위 나무) : 큰 tree에 속한 작은 tree
+// - node의 degree : 특정 node의 subtree 개수
 // - node의 level : root node 부터 최하위 node까지의 중첩되지 않은 path의 node 개수
 
 // 38. 인터페이스 구현 시 사용하는 기술로 속성-값 쌍(Attribute-Value Pairs)으로 이루어진 데이터 오브젝트를 전달하기 위해 사용하는 개방형 표준 포맷은?
@@ -487,7 +487,7 @@
 // 언어 독립형 데이터 포맷으로 다양한 프로그래밍 언어에서 사용되고 있다.
 // <용어 정리>
 // - DOF(Depth of Focus, 심도)
-// - AJAX(Asynchronous Javascript And Xml)
+// - AJAX(Asynchronous Javascript And Xml) (asynchronous : 비동기적인)
 // Ajax는 빠르게 동작하는 동적인 웹 페이지를 만들기 위한 개발 기법의 하나이다.
 // Ajax는 웹 페이지 전체를 다시 로딩하지 않고도, 웹 페이지의 일부분만을 갱신할 수 있다.
 // 즉, Ajax를 이용하면 백그라운드 영역에서 서버와 통신하여, 그 결과를 웹 페이지의 일부분에만 표시할 수 있다.
