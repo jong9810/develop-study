@@ -1,6 +1,6 @@
 // Spring
 
-// - spring 프로젝트 생성
+// - Spring 프로젝트 생성
 // 1) https://start.spring.io/에 접속하여 양식을 작성한 후에 Generate 버튼을 누른다.
 // - Maven, Gradle project
 // 필요한 라이브러리를 임포트하고 빌드하는 라이프사이클까지 다 관리해주는 툴
@@ -18,7 +18,7 @@
 // ex) Spring Web, Thymeleaf(HTML 템플릿 엔진) 등
 // 2) 다운로드된 zip 파일을 압축해제하여 원하는 디렉토리에 저장한 후에 IntelliJ로 build.gradle을 열어준다.
 
-// - spring 프로젝트 구조
+// - Spring 프로젝트 구조
 // 1) .idea : IntelliJ가 사용하는 설정 파일.
 // 2) gradle\wrapper : gradle을 쓰는 폴더.
 // 3) src\main\java : 실제 java 소스 코드 파일들을 저장하는 디렉토리.
@@ -27,3 +27,5 @@
 // 6) build.gradle : 프로젝트에 대한 기본적인 정보, 설정들을 정의하는 파일.
 //    repositories { mavenCentral() } : 라이브러리를 다운로드 받는 사이트를 보여준다.
 //    dependencies {} : 임포트한 라이브러리들을 보여준다.
+
+// - Spring 라이브러리
