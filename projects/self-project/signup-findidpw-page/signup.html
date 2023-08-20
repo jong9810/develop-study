@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 페이지</title>
+    <!-- 기본 css -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Dotum, '돋움', Helvetica, 'Apple SD Gothic Neo', sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      header,
+      section,
+      footer {
+        width: 100%;
+      }
+      body > div {
+        width: 1080px;
+      }
+      .font-none {
+        font-size: 0px;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .block {
+        display: block;
+      }
+      .inline {
+        display: inline;
+      }
+      .float-left {
+        float: left;
+      }
+      .float-right {
+        float: right;
+      }
+      .float-none {
+        float: none;
+      }
+      .blind {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+      }
+      .center-align {
+        margin: 0 auto;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .relative {
+        position: relative;
+      }
+      .border {
+        border: solid 2px lightGray;
+      }
+    </style>
+    <link rel="stylesheet" href="./signup.css" />
+    <script src="../jquery-3.6.4.min.js"></script>
+    <!-- <script src="./signup.js"></script> -->
+    <script>
+      $(document).ready(function () {
+        //
+      });
+    </script>
+  </head>
+  <body>
+    <div class="center-align">
+      <form action="" method="post">
+        <h1>회원가입</h1>
+        <p>
+          <label>이름 : <input type="text" id="name" /></label>
+        </p>
+        <p>
+          <label>
+            주민등록번호 : <input type="text" id="first-rrn" maxlength="6" /> -
+            <input type="text" id="first-rrn" maxlength="7" />
+          </label>
+        </p>
+        <p>
+          <label>전화번호 : <input type="text" /> <button>본인확인</button></label>
+        </p>
+        <p>
+          <label>id : <input type="text" /> <button>중복확인</button></label>
+        </p>
+        <p>
+          <label>pw : <input type="password" /></label>
+        </p>
+        <p>
+          <label>pw 확인 : <input type="password" /></label>
+        </p>
+        <input type="submit" value="회원가입" />
+      </form>
+    </div>
+  </body>
+</html>

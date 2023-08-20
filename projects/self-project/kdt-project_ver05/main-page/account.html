@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <form autocomplete="off" method="POST" action="" onsubmit="return registerUser()">
+      <h3>회원가입</h3>
+      <span>아이디</span><br />
+      <input type="text" id="id" name="id" maxlength="41" value="" /><br />
+      <span>비밀번호</span><br />
+      <input type="password" id="pw" name="pw" maxlength="16" value="" /><br />
+      <span>이름</span><br />
+      <input type="text" id="username" name="username" maxlength="41" value="" /><br />
+      <span>생년월일</span><br />
+      <input type="text" id="yy" name="yy" placeholder="년(4자)" maxlength="4" value="" />
+      <select id="mm" name="mm" aria-label="월">
+        <option value="">월</option>
+        <option value="01">1</option>
+        <option value="02">2</option>
+        <option value="03">3</option>
+        <option value="04">4</option>
+        <option value="05">5</option>
+        <option value="06">6</option>
+        <option value="07">7</option>
+        <option value="08">8</option>
+        <option value="09">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+
+      <input type="text" id="dd" name="dd" placeholder="일" maxlength="2" value="" /><br />
+
+      <span>성별</span><br />
+      <select id="sex" name="sex" value="">
+        <option>성별</option>
+        <option>남자</option>
+        <option>여자</option>
+        <option>선택 안함</option></select
+      ><br />
+      <span>전화번호</span><br />
+      <input type="tel" id="phone" placeholder="전화번호 입력" maxlength="16" value="" /><br />
+      <br />
+      <button type="submit">회원가입</button>
+    </form>
+    <script>
+      function registerUser() {
+        var id = document.getElementById('id').value;
+        var pw = document.getElementById('pw').value;
+        var yy = document.getElementById('yy').value;
+        var mm = document.getElementById('mm').value;
+        var dd = document.getElementById('dd').value;
+        var sex = document.getElementById('sex').value;
+        var phone = document.getElementById('phone').value;
+      }
+    </script>
+  </body>
+</html>

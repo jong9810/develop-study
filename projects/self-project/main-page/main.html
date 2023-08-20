@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?1" />
+    <title>메인 페이지</title>
+    <!-- 기본 css -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Dotum, '돋움', Helvetica, 'Apple SD Gothic Neo', sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      header,
+      section,
+      footer {
+        width: 100%;
+      }
+      body > div {
+        width: 1080px;
+      }
+      .font-none {
+        font-size: 0px;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .block {
+        display: block;
+      }
+      .inline {
+        display: inline;
+      }
+      .float-left {
+        float: left;
+      }
+      .float-right {
+        float: right;
+      }
+      .float-none {
+        float: none;
+      }
+      .blind {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+      }
+      .center-align {
+        margin: 0 auto;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .relative {
+        position: relative;
+      }
+      .border {
+        border: solid 2px lightGray;
+      }
+    </style>
+    <link rel="stylesheet" href="./main.css" />
+    <script src="../jquery-3.6.4.min.js"></script>
+    <script src="./main.js"></script>
+  </head>
+  <body>
+    <div class="center-align font-none">
+      <section id="pop-search-container">
+        <header class="inline-block float-left">
+          <div id="header-sort-bar" class="inline-block">
+            <ul>
+              <li><span id="recommend-sort">추천수</span> |</li>
+              <li><span id="view-sort">조회수</span> |</li>
+              <li><span id="comment-sort">댓글수</span> |</li>
+            </ul>
+          </div>
+          <h1 id="logo" class="inline-block"><a src=""></a></h1>
+          <form id="search-bar" class="inline-block">
+            <input id="search" name="search" type="text" />
+            <input id="search-btn" type="submit" value="검색" />
+          </form>
+        </header>
+        <button id="prev-pop-btn">&lt</button>
+        <div id="popular-reviews-container" class="center-align">
+          <div class="pop-reviews recommend-pop">
+            <img />
+            <span>1위의 리뷰</span>
+          </div>
+          <div class="pop-reviews recommend-pop">
+            <img />
+            <span>2위의 리뷰</span>
+          </div>
+          <div class="pop-reviews recommend-pop">
+            <img />
+            <span>3위의 리뷰</span>
+          </div>
+          <div class="pop-reviews recommend-pop">
+            <img />
+            <span>4위의 리뷰</span>
+          </div>
+          <div class="pop-reviews recommend-pop">
+            <img />
+            <span>5위의 리뷰</span>
+          </div>
+        </div>
+        <button id="next-pop-btn">&gt</button>
+      </section>
+      <section id="main-contents">
+        <div id="main-contents-left" class="inline-block">
+          <div id="todays-review-container" class="inline-block">
+            <!--  -->
+            <div class="todays-review"></div>
+            <div class="todays-review">
+              <hr />
+            </div>
+            <div class="todays-review">
+              <hr />
+            </div>
+            <div class="todays-review">
+              <hr />
+            </div>
+          </div>
+        </div>
+        <div id="main-contents-right" class="inline-block">
+          <div id="login" class="inline-block">
+            <form id="before-login" autocomplete="off" method="post">
+              <p>
+                <label for="userId">아이디:</label>
+                <input type="text" id="userId" />
+              </p>
+              <p>
+                <label for="userPw">비밀번호:</label>
+                <input type="password" id="userPw" />
+              </p>
+              <a href="" id="find-id">Id 찾기</a>
+              <a href="" id="find-pw">PW 찾기</a>
+              <a href="" id="sign-up">회원가입</a>
+              <input type="submit" value="로그인" />
+            </form>
+            <div id="after-login" class="blind">
+              <img src="" />
+              <h4>admin님 환영합니다.</h4>
+              <a href="../personal-page/personal-home-page.html">블로그 가기</a>
+            </div>
+          </div>
+          <div id="ranking" class="inline-block"></div>
+        </div>
+      </section>
+      <footer></footer>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function () {
+      //
+    });
+  </script>
+</html>
