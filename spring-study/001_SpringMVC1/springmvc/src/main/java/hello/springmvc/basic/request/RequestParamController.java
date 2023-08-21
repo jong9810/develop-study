@@ -1,5 +1,6 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -70,8 +71,8 @@ public class RequestParamController {
             @RequestParam(required = true, defaultValue = "guest") String username,
             @RequestParam(required = false, defaultValue = "-1") int age
     ) {
-        // 파라미터 입력값이 ""나 null인 경우에 defaultValue 값이 들어옴.
-        // defaultValue가 있으면 required는 사용하지 않아도 됨(값이 null이나 ""이면 자동으로 defalutValue가 들어옴).
+        // 파라미터 입력값이 ""나 null인 경우에 defaultValue 값이 입력됨.
+        // defaultValue가 있으면 required는 사용하지 않아도 됨(값이 null이나 ""이면 자동으로 defalutValue가 입력됨).
         log.info("username={}, age={}", username, age);
         return "ok";
     }
@@ -83,6 +84,19 @@ public class RequestParamController {
         return "ok";
     }
 
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
+        return "ok";
+    }
 
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        return "ok";
+    }
 
 }
