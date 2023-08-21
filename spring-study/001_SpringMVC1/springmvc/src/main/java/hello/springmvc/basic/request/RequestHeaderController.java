@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Locale;
 
 @Slf4j
-@@RestController
+@RestController
 public class RequestHeaderController {
 
     @RequestMapping("/headers")
