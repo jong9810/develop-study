@@ -53,8 +53,8 @@ public class RequestBodyStringController {
 
     @ResponseBody
     // @RequestHeader : 헤더 정보를 조회할 수 있다.
-    @PostMapping("/request-body-string-v3")
-    public String requestBodyStringV3(@RequestBody String messageBody) {
+    @PostMapping("/request-body-string-v4")
+    public String requestBodyStringV4(@RequestBody String messageBody) {
         log.info("messageBody={}", messageBody);
         return "ok";
     }
