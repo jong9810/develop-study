@@ -17,7 +17,8 @@ import java.util.List;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
-
+    
+    // 상품목록 페이지
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
@@ -25,13 +26,15 @@ public class BasicItemController {
         return "basic/items";
     }
 
+    // 상품 상세 페이지
     @GetMapping("/{itemId}")
     public String item(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "basic/item";
     }
-
+    
+    // 상품 등록 페이지
     @GetMapping("/add")
     public String addForm() {
         return "basic/addForm";
@@ -74,7 +77,8 @@ public class BasicItemController {
 
         return "basic/item";
     }
-
+    
+    // 상품 등록 처리
     @PostMapping("/add")
     // @ModelAttribute 자체를 생략할 수도 있다.
     public String addItemV4(Item item) {
@@ -82,6 +86,21 @@ public class BasicItemController {
         itemRepository.save(item);
 
         return "basic/item";
+    }
+
+    // 상품 수정 페이지
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    // 상품 수정 처리
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
     }
 
     /**
