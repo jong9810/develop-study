@@ -78,14 +78,20 @@ public class BasicItemController {
         return "basic/item";
     }
     
-    // 상품 등록 처리
-    @PostMapping("/add")
+    //@PostMapping("/add")
     // @ModelAttribute 자체를 생략할 수도 있다.
     public String addItemV4(Item item) {
 
         itemRepository.save(item);
 
-        return "basic/item";
+        return "/basic/item";
+    }
+
+    // 상품 등록 처리(PRG(Post/Redirect/Get 처리)
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     // 상품 수정 페이지
