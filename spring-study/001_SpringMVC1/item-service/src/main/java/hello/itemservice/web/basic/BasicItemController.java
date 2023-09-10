@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,8 +40,9 @@ public class BasicItemController {
     public String addForm() {
         return "basic/addForm";
     }
-
-//    @PostMapping("/add")
+    
+    // 상품 등록 처리
+    //@PostMapping("/add")
     public String addItemV1(
             @RequestParam String itemName,
             @RequestParam Integer price,
@@ -59,7 +61,7 @@ public class BasicItemController {
         return "basic/item";
     }
 
-//    @PostMapping("/add") // 개인적으로는 이 방법이 가장 명확하고 깔끔한 거 같음.
+    //@PostMapping("/add") // 개인적으로는 이 방법이 가장 명확하고 깔끔한 거 같음.
     public String addItemV2(@ModelAttribute("item") Item item) {
 
         itemRepository.save(item);
@@ -69,7 +71,7 @@ public class BasicItemController {
         return "basic/item";
     }
 
-//    @PostMapping("/add")
+    //@PostMapping("/add")
     // @ModelAttribute의 name 속성을 생략하면 클래스명의 첫 글자만 소문자로 바꿔서 Model 객체에 추가해준다.
     public String addItemV3(@ModelAttribute Item item) {
 
@@ -87,11 +89,19 @@ public class BasicItemController {
         return "/basic/item";
     }
 
-    // 상품 등록 처리(PRG(Post/Redirect/Get 처리)
-    @PostMapping("/add")
+    // PRG(Post/Redirect/Get 처리
+    //@PostMapping("/add")
     public String addItemV5(Item item) {
         itemRepository.save(item);
         return "redirect:/basic/items/" + item.getId();
+    }
+
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId()); // url에 포함시킨다.
+        redirectAttributes.addAttribute("status", true); // url에 포함되지 않은 경우 쿼리 파라미터로 들어간다.
+        return "redirect:/basic/items/{itemId}";
     }
 
     // 상품 수정 페이지
