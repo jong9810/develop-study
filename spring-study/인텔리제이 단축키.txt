@@ -28,6 +28,7 @@ ctrl + shift + Enter : 문장 완성(세미콜론, 괄호닫기 등).
 ctrl + shift + 방향키 : 코드를 방향키 방향으로 이동시킨다.
 ctrl + shift + f : 파일 검색
 ctrl + shift + t : 클래스에 있는 메소드들에 대해 테스트 코드의 틀을 만들어준다.
+ctrl + shift + f9 : 해당 파일을 리컴파일 해준다.
 
 5) ctrl + alt
 ctrl + alt + s : setting 창 열기
