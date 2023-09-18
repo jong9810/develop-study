@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import static jakarta.persistence.FetchType.*;
 @Table(name="orders")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // protected로 기본 생성자 정의하는 것과 동일.
 public class Order {
 
     @Id
@@ -31,7 +34,10 @@ public class Order {
     // 컬렉션은 필드에서 초기화하는 것이 안전하다(null문제 X).
     // 하이버네이트가 엔티티를 영속화할 때, 컬렉션을 감싸서 하이버네이트가 제공하는 내장 컬렉션으로 변경한다.
     // 따라서 컬렉션 필드는 처음 객체를 생성할 때 초기화를 한 후에 변경을 하지 않고 있는 그대로 사용하는 것이 가장 좋다.
-    //
+    // cascade = CascadeType.ALL : Order가 persist될 때 orderItems도 강제로 persist 시켜준다.
+    // private owner인 경우(라이프 사이클이 똑같음)에 CascadeType.ALL을 사용하는 것이 좋다.
+    // ex) Order -> OrderItem, Delivery : OrderItem, Delivery는 Order만 참조해서 사용한다.
+    // 라이프 사이클이 다른 경우에는 별도의 repository를 생성해서 persist를 따로 다 해주는 것이 낫다.
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -107,7 +113,5 @@ public class Order {
                 .mapToInt(OrderItem::getTotalPrice)
                 .sum();
     }
-
-
 
 }
