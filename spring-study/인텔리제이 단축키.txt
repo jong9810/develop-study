@@ -10,6 +10,7 @@ ctrl + d : 아래줄에 해당 코드를 복사한다.
 ctrl + y : 현재 커서가 있는 줄을 삭제한다.
 ctrl + o : override methods
 ctrl + f : 현재 파일에서 검색
+ctrl + ctrl + ↑, ↓ : 다중 커서 생성
 
 2) alt
 alt + 1 : project 탭을 열고 닫는다.
@@ -43,7 +44,7 @@ ctrl + alt + -> : 이전 파일에서 원래 작업하던 파일로 이동
 ctrl + alt + p : 메서드의 파라미터를 추가해준다.
 
 6) alt + shift
-alt + shift + click : 다중 커서 생성
+alt + shift + click or ctrl + ctrl + ↑, ↓ : 다중 커서 생성
 alt + shift + j : 같은 단어 찾기 취소
 
 7) ctrl + alt + shift
