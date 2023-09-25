@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -49,4 +51,40 @@ public class ItemController {
         return "items/itemList";
     }
 
+    @GetMapping("/items/{itemId}/edit")
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
+        // 실무에서는 캐스팅해서 사용하는 것은 좋지 않다.
+        // 예제를 간소화하기 위해 캐스팅한 것.
+        Book item = (Book) itemService.findOne(itemId);
+
+        BookForm form = new BookForm();
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        form.setAuthor(item.getAuthor());
+        form.setIsbn(item.getIsbn());
+
+        model.addAttribute("form", form);
+
+        return "items/updateItemForm";
+    }
+
+    @PostMapping("/items/{itemId}/edit")
+    public String updateItem(@ModelAttribute("form") BookForm form) {
+
+        // id 값은 다른 사람이 조작하지 못하도록 프론트와 백에서 권한이 있는 사용자인지 체크하는 로직이 필요하다.
+        // 좀 복잡한 방법이지만 update할 객체 자체를 session에 담아두고 풀어내는 방법도 있다(요즘 session 객체는 잘 안 쓰임).
+        Book book = new Book();
+        book.setId(form.getId());
+        book.setName(form.getName());
+        book.setPrice(form.getPrice());
+        book.setStockQuantity(form.getStockQuantity());
+        book.setAuthor(form.getAuthor());
+        book.setIsbn(form.getIsbn());
+
+        itemService.saveItem(book);
+
+        return "redirect:/items";
+    }
 }
