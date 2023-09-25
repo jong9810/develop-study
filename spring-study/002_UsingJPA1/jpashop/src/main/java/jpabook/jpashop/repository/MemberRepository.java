@@ -31,7 +31,7 @@ public class MemberRepository {
 
     public List<Member> findAll() {
         // jpql : Entity 클래스를 대상으로 쿼리를 한다.
-        return em.createQuery("select m from member m", Member.class)
+        return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
 
