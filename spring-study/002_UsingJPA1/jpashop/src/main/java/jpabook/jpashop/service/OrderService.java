@@ -8,6 +8,7 @@ import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,10 @@ public class OrderService {
     /**
      * 주문 
      */
+    // Controller가 아니라 Service에서 order 로직을 구현해놓으면 유지보수성도 올라가고 컨트롤러가 지저분해지는 것도 막을 수 있다.
+    // @Transactional에서 JPA가 가장 깔끔하게(영속상태로) 동작하기 때문에 Controller에서는 식별자만 넘기고 Service에서 JPA를 사용하는 것이 좋다.
+    // Test를 구현할 때도 이렇게 해놓으면 편리하다.
+    // 받아온 식별자로 엔티티를 찾아오는 것부터 하면 엔티티들도 영속 상태로 흘러가기 때문에 엔티티의 값도 바꿀 수 있어서 좋다(조회는 상관 없음).
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
@@ -65,8 +70,8 @@ public class OrderService {
     /**
      * 검색
      */
-//    public List<Order> findOrders(OrderSearch orderSearch) {
-//        return orderRepository.findAll(orderSearch);
-//    }
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
+    }
 
 }
