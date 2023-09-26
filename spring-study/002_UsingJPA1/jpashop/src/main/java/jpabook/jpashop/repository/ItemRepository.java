@@ -19,7 +19,8 @@ public class ItemRepository {
             em.persist(item);
         } else {
             // update와 비슷
-            em.merge(item);
+            // merge는 영속성 컨텍스트로 변경되지만, item은 영속성 컨텍스트로 변경되지 않는다.
+            Item merge = em.merge(item);
         }
     }
 

@@ -71,20 +71,32 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form) {
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
 
         // id 값은 다른 사람이 조작하지 못하도록 프론트와 백에서 권한이 있는 사용자인지 체크하는 로직이 필요하다.
         // 좀 복잡한 방법이지만 update할 객체 자체를 session에 담아두고 풀어내는 방법도 있다(요즘 session 객체는 잘 안 쓰임).
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
 
-        itemService.saveItem(book);
+        // DB에 한 번 들어갔다가 나온(식별자가 있는) 엔티티를 준영속 엔티티라고 한다.
+        // JPA가 식별할 수 있는 ID를 가지고 있지만 영속성 컨텍스트가 더는 관리하지 않는 엔티티.
+        // JPA가 관리하지 않기 때문에 변경 감지가 되지 않는다.
+
+        // 컨트롤러에서 어설프게 엔티티를 생성하지 말자(유지보수성)!
+        // 트랜잭션이 있는 서비스 계층에 식별자와 변경할 데이터를 명확하게 전달하자(파라미터 or Dto)!
+        // 트랜잭션이 있는 서비스 계층에서 영속 상태의 엔티티를 조회하고, 엔티티의 데이터를 직접 변경하자(변경 감지로 업데이트)!
+        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 
         return "redirect:/items";
     }
+
+    // 변경 감지(Dirty Checking)와 병합(Merge) (매우매우 중요!!)
+    // 변경 감지는 식별자로 영속성 컨텍스트나 DB에서 엔티티를 가져와서 setter로 값을 변경하면 된다(merge 같이 따로 메서드가 존재하지 않음).
+    // 엔티티를 변경할 때는 항상 변경 감지를 사용하자!
+
+    // 병합 동작 방식
+    // 1) 준영속 엔티티의 식별자 값으로 영속 엔티티를 조회한다.
+    // 2) 영속 엔티티의 값을 준영속 엔티티의 값으로 모두 교체(병합)한다.
+    // 3) 트랜잭션 커밋 시점에 변경 감지 기능이 동작해서 데이터베이스에 update sql이 실행된다.
+    // 주의: 변경 감지를 사용하면 원하는 속성만 선택해서 변경할 수 있지만, 병합을 사용하면 모든 속성이 변경된다.
+    // 병합시 값이 없으면 null로 업데이트할 위험도 있다(병합은 모든 필드를 교체하기 때문).
+    // 병합은 사용하면 안된다고 생각하는 게 편하다.
 }
