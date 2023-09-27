@@ -3,6 +3,7 @@ package jpabook.jpashop.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jpabook.jpashop.api.OrderSimpleApiController;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -94,7 +95,19 @@ public class OrderRepository {
         return query.getResultList();
     }
 
-    // Querydsl로 동적 쿼리 처리
+    // 회원 이름 검색 또 다른 방법 : Querydsl로 동적 쿼리 처리
+
+    // fetch join 사용하기
+    // Order, Member, Delivery 를 한 번의 쿼리로 다 가져온다.
+    // 이미 조회된 상태이기 때문에 지연 로딩이 되지 않고, Proxy 값도 아닌 실제 값을 채워서 가져온다.
+    // 실무에서 성능 최적화할 때 굉장히 자주 사용되기 때문에 100% 이해하는 것을 추천한다.
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
 
 
 }
