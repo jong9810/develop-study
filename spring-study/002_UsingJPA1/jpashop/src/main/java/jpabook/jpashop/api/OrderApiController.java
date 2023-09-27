@@ -48,6 +48,17 @@ public class OrderApiController {
         return result;
     }
 
+    // V2와 V3의 코드는 같지만 repository에서 로직만 다르기 때문에 repository 메서드만 고쳐주면 튜닝이 된다.
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
     @Data // @Getter, @Setter, @ToString, @EqualsAndHashCode(equals, hashcode 메서드), @RequiredArgsConstructor
     static class OrderDto {
 
