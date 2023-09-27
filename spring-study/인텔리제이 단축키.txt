@@ -11,6 +11,7 @@ ctrl + y : 현재 커서가 있는 줄을 삭제한다.
 ctrl + o : override methods
 ctrl + f : 현재 파일에서 검색
 ctrl + ctrl + ↑, ↓ : 다중 커서 생성
+ctrl + n : 클래스, 파일 등 검색
 
 2) alt
 alt + 1 : project 탭을 열고 닫는다.
