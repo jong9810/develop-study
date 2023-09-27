@@ -10,6 +10,7 @@ import jpabook.jpashop.service.OrderService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -48,10 +49,27 @@ public class OrderApiController {
         return result;
     }
 
-    // V2와 V3의 코드는 같지만 repository에서 로직만 다르기 때문에 repository 메서드만 고쳐주면 튜닝이 된다.
+    // V2와 V3의 코드는 같지만 repository에서 로직만 다르기 때문에 repository 메서드만 고쳐주면 튜닝이 된다(정규화가 안 된 하나의 테이블).
+    // 쿼리는 한 번만 날리지만, 중복 데이터가 너무 많고 페이징 처리를 할 수 없다.
     @GetMapping("/api/v3/orders")
     public List<OrderDto> ordersV3() {
         List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    // V3를 페이징 처리 할 수 있도록 repository 수정(V3보다 성능은 조금 떨어지지만 페이징 처리 가능).
+    // 데이터가 엄청나게 많은 경우에는 중복 데이터가 없는 V3.1이 더 성능이 나을 수도 있다(정규화된 상태).
+    // 페이징을 해야 하는 경우에는 무조건 V3.1 사용,
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> ordersV3_page(
+            @RequestParam(value = "offset", defaultValue = "0") int offset,
+            @RequestParam(value = "offset", defaultValue = "100") int limit
+    ) {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
                 .collect(Collectors.toList());

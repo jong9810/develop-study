@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Order {
     // private owner인 경우(라이프 사이클이 똑같음)에 CascadeType.ALL을 사용하는 것이 좋다.
     // ex) Order -> OrderItem, Delivery : OrderItem, Delivery는 Order만 참조해서 사용한다.
     // 라이프 사이클이 다른 경우에는 별도의 repository를 생성해서 persist를 따로 다 해주는 것이 낫다.
+    @BatchSize(size = 1000) // default_batch_fetch_size를 개별 속성에 적용하고 싶은 경우 사용.
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 

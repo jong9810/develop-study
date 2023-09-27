@@ -133,4 +133,39 @@ public class OrderRepository {
                 .setMaxResults(100)
                 .getResultList();
     }
+
+    // 컬렉션 페치 페이징 처리
+    // 1) xToOne 관계를 모두 페치 조인한다(toOne 관계는 row 수를 증가시키지 않으므로 페이징 쿼리에 영향을 주지 않음).
+    // 2) 컬렉션(OneToMany)은 지연 로딩으로 조회한다.
+    // 3) 지연 로딩 성능 최적화를 위해 hibernate.default_batch_fetch_size, @BatchSize를 적용한다.
+    //    hibernate.default_batch_fetch_size : 글로벌 설정
+    //    @BatchSize : 개별 최적화
+    //    이 옵션을 사용하면 컬렉션이나, 프록시 객체를 한꺼번에 설정한 size만큼 where in 쿼리(Hibernate6 미만)나 array_contains(Hibernate6 이상)로 조회한다.
+    //    1 + N + M 개의 쿼리 -> 1 + 1 + 1 개 쿼리로 바뀜
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                        // 아래 코드로 해도 되지만 네트워크를 더 많이 탄다(쿼리 1개 -> 쿼리 3개, toOne 관계는 fetch join을 하자).
+                        //"select o from Order o", Order.class)
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    // V3.1 장점
+    // 1) 쿼리 호출 수가 1 + N에서 1 + 1로 최적화된다.
+    // 2) 조인보다 DB 데이터 전송량이 최적화된다.
+    // 3) 페치 조인 방식과 비교해서 쿼리 호출 수가 약간 증가하지만, DB 데이터 전송량이 줄어든다.
+    // 4) 컬렉션 페치 조인은 페이징이 불가능하지만 이 방법은 페이징이 가능하다(가장 큰 장점!).
+
+    // 결론
+    // ToOne 관계는 페치 조인으로 쿼리 수를 줄이고, 나머지(컬렉션, OneToMany)는 hibernate.default_batch_fetch_batch_size 로 최적화하자!!
+
+    // 참고 : default_batch_fetch_size의 미니멈은 따로 없고, 맥시멈은 1000개로 하는 게 좋다(in에 1000개 데이터가 들어가면 오류를 일으키는 db가 있기 때문).
+    // 애플리케이션에 따라 100 ~ 1000 사이에 적당한 수를 선택하는 것을 추천한다.
+    // 높은 수로 설정할 경우 시간은 줄어들지만 db, 애플리케이션(WAS)에 순간적으로 부하가 증가할 수 있기 때문에 적당한 수로 설정하는 게 좋다.
+    // 메모리 사용량은 default_batch_fetch_size가 크든 작든 상관없이 동일하다.
+
 }
