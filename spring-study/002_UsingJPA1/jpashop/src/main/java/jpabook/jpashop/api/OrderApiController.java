@@ -6,6 +6,8 @@ import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.query.OrderFlatDto;
+import jpabook.jpashop.repository.order.query.OrderItemQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
 import jpabook.jpashop.service.OrderService;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +51,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return result;
     }
@@ -59,7 +63,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return result;
     }
@@ -75,7 +79,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return result;
     }
@@ -95,6 +99,25 @@ public class OrderApiController {
     @GetMapping("/api/v5/orders")
     public List<OrderQueryDto> ordersV5() {
         return orderQueryRepository.findAllByDto_optimization();
+    }
+
+    // 쿼리 1번(장점)
+    // 단점
+    // 쿼리는 한번이지만, 조인으로 인해 DB에서 애플리케이션으로 전달하는 데이터에 중복 데이터가 추가되므로 상황에 따라 V5보다 느릴 수도 있다.
+    // 애플리케이션에 추가되는 코드가 복잡하다.
+    // 페이징이 불가능하다(OrderItem으로는 가능하지만, Order를 기준으로는 불가능).
+    @GetMapping("/api/v6/orders")
+    public List<OrderQueryDto> ordersV6() {
+        List<OrderFlatDto> flats = orderQueryRepository.findAllByDto_flat();
+
+        return flats.stream()
+                .collect(groupingBy(o -> new OrderQueryDto(o.getOrderId(), o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
+                        mapping(o -> new OrderItemQueryDto(o.getOrderId(), o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
+                )).entrySet().stream()
+                .map(e -> new OrderQueryDto(e.getKey().getOrderId(),
+                        e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(),
+                        e.getKey().getAddress(), e.getValue()))
+                .collect(toList());
     }
 
     @Data // @Getter, @Setter, @ToString, @EqualsAndHashCode(equals, hashcode 메서드), @RequiredArgsConstructor
@@ -117,7 +140,7 @@ public class OrderApiController {
             order.getOrderItems().stream().forEach(o -> o.getItem().getName());
             orderItems = order.getOrderItems().stream()
                     .map(orderItem -> new OrderItemDto(orderItem))
-                    .collect(Collectors.toList());
+                    .collect(toList());
         }
     }
 
@@ -134,5 +157,44 @@ public class OrderApiController {
             count = orderItem.getCount();
         }
     }
+
+    // API 개발 고급(컬렉션) 정리
+    // 1. 엔티티 조회 : 코드를 거의 수정하지 않고, 옵션만 약간 변경해서 다양한 성능 최적화를 시도할 수 있다.
+    // 엔티티를 조회해서 그대로 반환(V1)
+    // 엔티티 조회 후 DTO로 변환(V2)
+    // 페치 조인으로 쿼리 수 최적화(V3)
+    // 컬렉션 페이징 한계 돌파(V3.1)
+
+    // 2. DTO 직접 조회 : 성능을 최적화하거나 성능 최적화 방식을 변경할 때 많은 코드를 변경해야 한다.
+    // JPA에서 DTO를 직접 조회(V4)
+    // 컬렉션 조회 최적화 - 일대 다 관계인 컬렉션은 in절을 활용해서 메모리에 미리 조회해서 최적화(V5)
+    // 플랫 데이터 최적화 = join 결과를 그대로 조회 후 애플리케이션에서 원하는 모양으로 직접 변환(V6)
+
+    // 권장 순서
+    //  1. 엔티티 조회 방식으로 우선 접근(V2)
+    //      1. 페치 조인으로 쿼리 수를 최적화(V3)
+    //      2. 컬렉션 최적화
+    //          1. 페이징 필요(hibernate.default_batch_fetch_size, @BatchSize 로 최적화)(V3.1)
+    //          2. 페이징 필요 X(페치 조인 사용)(V3)
+    //  2. 엔티티 조회 방식으로 해결이 안되면 DTO 조회 방식 사용(V4 or V5 or V6)
+    //  3. DTO 조회 방식으로 해결이 안되면 NativeSQL(JPA) or 스프링 JdbcTemplate 사용
+
+    // 참고
+    // DTO 직접 조회 방식은 캐시를 사용해도 성능 최적화가 안될 정도로 트래픽이 많은 경우에 시도해보는 것을 추천한다.
+    // 엔티티는 직접 캐싱을 하면 안된다(엔티티는 영속성 컨텍스트에 의해 관리되기 때문에 캐시에 잘못 올라가면 굉장히 피곤해짐).
+    // 영속성 컨텍스트에서 관리하고 있는데 캐시에 올라가면 지워지지 않기 때문에 꼬일 수 있다.
+    // 엔티티는 무조건 DTO로 변환을 해서 캐싱을 해야 한다.
+    // 캐시 방법 : 레디스, 로컬에 메모리 캐시 등
+
+    // 참고
+    // 개발자는 성능 최적화와 코드 복잡도 사이에서 줄타기를 해야 한다(대부분의 경우).
+    // 엔티티 조회 방식은 JPA가 많은 부분을 최적화해주기 때문에, 단순한 코드를 유지하면서 성능을 최적화할 수 있다.
+    // DTO 직접 조회 방식은 SQL을 직접 다루는 것과 유사하기 때문에, 둘 사이에 줄타기를 해야 한다.
+
+    // DTO 조회 방식의 선택지
+    // V4 : V4는 코드가 단순하다. 특정 주문 한 건만 조회하면 이 방식을 사용해도 성능이 잘 나온다(1+N문제 발생).
+    // V5 : V5는 코드가 복잡하다. 여러 주문을 한꺼번에 조회하는 경우에는 V5 방식을 사용해야 한다(1+N문제 X).
+    // V6 : V6는 완전히 다른 접근방식이다. 쿼리 한 번으로 최적화되어서 상당히 좋아보이지만, Order(일대 다에서 일)를 기준으로 페이징이 불가능하다.
+    //      실무에서는 페이징 처리가 필요한 경우가 많으므로 사용하기 어렵다. 데이터가 많으면 중복 전송이 증가해서 V5와 비교해서 성능 차이도 미비하다.
 
 }
