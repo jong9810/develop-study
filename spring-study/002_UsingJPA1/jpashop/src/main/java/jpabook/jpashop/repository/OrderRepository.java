@@ -1,11 +1,14 @@
 package jpabook.jpashop.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-import jpabook.jpashop.api.OrderApiController;
-import jpabook.jpashop.api.OrderSimpleApiController;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderStatus;
+import jpabook.jpashop.domain.QMember;
+import jpabook.jpashop.domain.QOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -18,6 +21,12 @@ import java.util.List;
 public class OrderRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory query;
+
+    public OrderRepository(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);
+    }
 
     public void save(Order order) {
         em.persist(order);
@@ -97,6 +106,34 @@ public class OrderRepository {
     }
 
     // 회원 이름 검색 또 다른 방법 : Querydsl로 동적 쿼리 처리
+    // Querydsl은 SQL(JPQL)과 모양이 유사하면서 자바코드로 동적 쿼리를 편리하게 생성할 수 있다.
+    // 직관적인 문법, 컴파일 시점에 빠른 문법 오류 발견, 코드 자동 완성, 코드 재사용(이것은 자바다), JPQL new 명령어와는 비교가 안될 정도로 깔끔한 DTO 변환 조회를 지원한다.
+    // Querydsl은 JPQL을 코드로 만드는 빌더 역할을 할 뿐이다. 따라서 JPQL을 잘 이해하면 금방 배울 수 있다.
+    // Querydsl은 JPA로 애플리케이션을 개발할 때 선택이 아닌 필수라 생각한다.
+    // QOrder 같이 생성된 파일들은 github에 업로드하지 않도록 하자.
+    public List<Order> findAll(OrderSearch orderSearch) {
+        return query
+                .select(QOrder.order)
+                .from(QOrder.order)
+                .join(QOrder.order.member, QMember.member)
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName()))
+                .limit(1000)
+                .fetch();
+    }
+
+    private static BooleanExpression nameLike(String memberName) {
+        if (!StringUtils.hasText(memberName)) {
+            return null;
+        }
+        return QMember.member.name.like(memberName);
+    }
+
+    private BooleanExpression statusEq(OrderStatus statusCond) {
+        if (statusCond == null) {
+            return null;
+        }
+        return QOrder.order.status.eq(statusCond);
+    }
 
     // fetch join 사용하기
     // Order, Member, Delivery 를 한 번의 쿼리로 다 가져온다.
