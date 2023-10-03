@@ -20,27 +20,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //Member findMember = em.find(Member.class, 1L); // 조회
-            //System.out.println("findMember.id = " + findMember.getId());
-            //System.out.println("findMember.name = " + findMember.getName());
-            //findMember.setName("HelloJPA"); // 수정
-            //em.remove(findMember); // 삭제
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZZ"); // 변경 감지
+            // em.persist(member); // 수정할 때는 persist()를 할 필요가 없다.
 
-            // JPQL : SQL을 추상화한 객체 지향 쿼리 언어.
-            // 엔티티 객체를 대상으로 쿼리를 작성한다.
-            // db 방언에 맞춰서 JPA가 번역을 해준다.
-            // SQL 문법과 유사하다(select, from, where, group by, having, join 지원).
-            List<Member> result = em.createQuery("select m from Member as m", Member.class) // Member 엔티티를 선택해옴.
-                    .setFirstResult(0)
-                    .setMaxResults(10)
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("member.id = " + member.getId());
-                System.out.println("member.name = " + member.getName());
-            }
-
-            tx.commit();
+            tx.commit(); // 이 때 db에 쿼리를 날림.
         } catch (Exception e){
             tx.rollback();
         } finally {
