@@ -1,36 +1,27 @@
 package hellojpa;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Member {
 
-    @Id
+    @Id // 기본키 직접 할당
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동 할당
     private Long id;
-    private String name;
-
-    public Member(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @Column(name = "name")
+    private String username;
+    private Integer age;
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate createdDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate lastModifiedDate;
+    @Lob
+    private String description;
 
     public Member() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
