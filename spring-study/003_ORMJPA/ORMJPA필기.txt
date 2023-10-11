@@ -42,10 +42,125 @@ SQL 문법과 유사하다(select, from, where, group by, having, join 지원).
 * 그 다음 update 쿼리를 db에 반영하고 commit을 한다.
 * 참고: em.remove() 함수도 비슷하게 동작하지만 update 쿼리가 delete 쿼리로 바뀐다는 점만 다르다.
 
-플러시(flush) : 영속성 컨텍스트의 변경 내용을 db에 반영하는 것.
+<플러시(flush)>
+* 영속성 컨텍스트의 변경 내용을 db에 반영하는 것(영속성 컨텍스트와 db를 동기화).
+* 플러시를 해도 1차 캐시는 모두 유지가 되고, 쓰기 지연 SQL 저장소에 있는 SQL만 db에 반영한다.
+* 커밋 직전에만 동기화하면 된다(트랜잭션이라는 작업단위가 중요!).
+* 사용법
+1) em.flush() : 직접 호출.
+2) 트랜잭션 커밋 전 : 플러시 자동 호출.
+3) JPQL 쿼리 실행 전 : 플러시 자동 호출.
+* 플러시 모드 옵션(쓸 일은 잘 없음) : em.setFlushMode(FlushModeType.COMMIT)
+1) FlushModeType.AUTO : 커밋이나 쿼리를 실행할 때 플러시(기본값)
+2) FlushModeType.COMMIT : 커밋할 때만 플러시
 
+<준영속 상태>
+* 영속 상태의 엔티티가 영속성 컨텍스트에서 분리(detached)된 상태.
+* 영속성 컨텍스트가 제공하는 기능을 사용할 수 없다(변경 감지, 지연 로딩 등).
+* 준영속 상태 만드는 방법
+1) em.detach(entity) : 특정 엔티티만 준영속 상태로 전환.
+2) em.clear() : 영속성 컨텍스트를 완전히 초기화.
+3) em.close() : 영속성 컨텍스트를 종료
 
+<db 스키마 자동 생성>
+* ddl을 애플리케이션 실행 시점에 자동 생성.
+* db 방언을 활용해서 db에 적절한 ddl을 생성.
+* 생성된 ddl은 꼭 개발 단계에서만 사용해야 함.
+* 생성된 ddl은 운영서버에서는 사용하지 않거나 적절히 다듬은 후 사용해야 함.
+* hibername.hbm2ddl.auto(maven)을 persistence.xml 파일에 등록해서 사용.
+* 옵션
+1) create : 기존 테이블 삭제 후 다시 생성(drop + create)
+2) create-drop : create와 같으나 종료시점에 테이블 drop(drop + create + drop, 테스트 케이스인 경우)
+3) update : 변경분만 반영(운영 db에서는 사용하면 안됨, 컬럼 삭제는 안됨)
+4) validate : 엔티티와 테이블이 정상 매핑되었는지만 확인.
+5) none : 사용하지 않음.
+* 주의점
+1) 운영 장비에는 절대 create, create-drop, update를 사용하면 안된다!
+2) 개발 초기 단계는 create 또는 update
+3) 테스트 서버는 update 또는 validate
+4) 스테이징과 운영 서버는 validate 또는 none
+5) 개발 서버나 테스트 서버에서도 가급적이면 create, create-drop, update는 사용을 지양하자(JPA가 생성하는 sql은 위험할 수 있음).
 
+<ddl 생성 기능>
+* 런타임에 영향을 주지 않는 ddl을 자동으로 생성해주는 기능.
+* ddl 생성 기능은 ddl을 자동 생성할 때만 사용되고 JPA의 로직에는 영향을 주지 않는다.
+* ex) 제약조건 추가(unique, not null, length 등)
+
+<객체와 테이블 매핑>
+1. @Entity
+* JPA가 관리 하는 클래스 위에 붙인다.
+* JPA를 사용해서 테이블과 매핑할 클래스에 필수.
+* 주의!
+1) 기본 생성자 필수(파라미터가 없는 public 또는 protected 생성자)
+2) final 클래스, enum, interface, inner 클래스에는 사용 못함
+3) 저장할 필드에 final 사용하면 안됨
+* 속성
+1) name : JPA에서 사용할 엔티티 이름을 지정한다(기본값 : 클래스 이름, 같은 이름을 클래스가 없으면 기본값을 사용하자).
+
+2. @Table
+* 속성
+1) name : 엔티티와 매핑할 테이블을 지정한다.
+2) uniqueConstraints : 
+
+<필드와 컬럼 매핑>
+1. @Column
+* 속성
+1) name : 필드와 매핑할 db 컬럼명을 지정.
+2) insertable, updateable : 등록, 변경 가능 여부 지정(기본값은 true).
+3) nullable : null 값의 허용 여부 지정(false는 not null, true(기본값)은 null).
+4) unique : 유니크 제약 조건 여부 지정(true는 unique, false는 unique X). 이름이 랜덤하게 생성돼서 잘 안 쓰임.
+5) columnDefinition : db 컬럼 정보를 직접 줄 수 있다. ex) varchar(100) default 'EMPTY'
+6) length : 문자 길이 제약조건, String 타입에만 사용한다.
+7) precision, scale
+* BigDecimal이나 BigInteger 타입에 사용한다.
+* precision은 소수점을 포함한 전체 자릿수를 지정한다.
+* scale은 소수의 자릿수를 지정한다.
+* 참고로 double, float 타입에는 적용되지 않는다(정밀한 소수를 다루어야할 때만 사용).
+
+2. @Enumerated(EnumType.STRING)
+* Enum 타입을 사용할 컬럼 위에 선언한다.
+* Enum 타입은 STRING이나 ORDINAL(기본값)이 있는데 STRING을 사용하는 게 에러를 줄일 수 있다.
+
+3. @Temporal(TemporalType.TIMESTAMP)
+* 날짜 타입을 쓸 컬럼 위에 선언한다.
+* LocalDate, LocalDateTime을 사용하면 생략할 수 있다.
+* Temporal 타입
+1) DATE : 날짜
+2) TIME : 시간
+3) TIMESTAMP : 날짜 + 시간
+
+4. @Lob
+* varchar 타입을 넘어서는 크기가 큰 컨텐츠(blob, clob)를 넣을 경우 사용한다.
+* 속성을 지정할 게 없다.
+* 매핑할 타입이 문자이면 clob(String, char[], java.sql.CLOB), 나머지는 blob(byte[], java.sql.BLOB)으로 매핑된다.
+
+5. @Transient
+* 테이블에 매핑을 하지 않고 메모리에서만 사용할 멤버변수 위에 선언한다.
+
+<기본키 매핑>
+1. @Id : 직접 할당
+2. @GeneratedValue : 자동 할당
+* 속성
+1) strategy : 기본키 자동 생성 전략을 선택한다.
+GenerationType.IDENTITY : 기본키 생성을 데이터베이스에 위임(MySql의 Auto_Increment).
+GenerationType.SEQUENCE : 시쿼스 오브젝트를 통해 값을 가져오고 세팅해줌(Oracle에서 주로 사용됨, @SequenceGenerator로 설정할 수 있음).
+GenerationType.TABLE : 키 생성 전용 테이블을 하나 만들어서 db 시퀀스를 흉내내는 전략(모든 db에 적용 가능, 성능이 낮음, @TableGenerator로 설정할 수 있음). 
+* 권장하는 식별자 전략
+자연키 : 주민등록번호, 전화번호 등
+대리키(대체키) : 자동 생성 키, 랜덤 값 등
+기본키는 null이면 안되고, 유일하고, 변하면 안된다.
+이 조건을 만족하는 자연키는 찾기 어렵기 때문에 대리키를 사용하는 것을 권장한다.
+ex) Long형 + 대체키 + 키 생성 전략 사용
+* IDENTITY 전략
+1) db에 값을 넣어봐야 기본키 값을 알 수 있기 때문에 이 전략만 예외적으로 em.persist()하면 insert 쿼리를 db에 날린다.
+2) 그리고나서 jpa가 내부적으로 insert한 데이터를 가져온다(영속 상태).
+3) 그렇기 때문에 IDENTITY 전략에서는 데이터를 모아서 한 번에 insert하는 것이 불가능하다(버퍼링해서 insert 하는 게 큰 메리트는 아님, 작은 단점).
+참고 : 트랜잭션을 여러 번 잘라서 하는 건 성능에 문제가 될 수 있지만 한 트랜잭션 안에서 여러 번 쿼리를 날리는 것은 크게 문제가 되진 않는다.
+* SEQUENCE 전략
+1) em.persist()하면 시퀀스에서 pk값을 가져오고 tx.commit()할 때 insert 쿼리를 날린다(영속 상태로 만들기 위해서는 pk값이 필요하기 때문).
+2) @SequenceGenerator 속성 중 initialValue, allocationSize를 사용하면 db에 allocationSize만큼 시퀀스를 미리 생성해놓고 생성된 시퀀스를 다 쓰기 전까지는 메모리에서 시퀀스를 사용(db 시퀀스 쿼리x)하게 된다.
+* TABLE 전략
+테이블 전략도 SEQUENCE 전략과 마찬가지로 @TableGenerator 속성 중 initialValue, allocationSize를 사용하여 최적화할 수 있다(동시성 문제 없음).
 
 
 
