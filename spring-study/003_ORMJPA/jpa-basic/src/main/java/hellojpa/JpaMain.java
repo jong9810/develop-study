@@ -11,19 +11,34 @@ public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-        // 엔티티 매니저는 쓰레드 간에 공유하면 절대 안된다.
         EntityManager em = emf.createEntityManager();
 
-        // JPA의 모든 데이터 변경은 트랜잭션 내에서 실행해야 한다(수정, 삭제, 삽입).
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         try {
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZ"); // 변경 감지
-            // em.persist(member); // 수정할 때는 persist()를 할 필요가 없다.
+            // 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            tx.commit(); // 이 때 db에 쿼리를 날림.
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
+
+            Team newTeam = new Team();
+            newTeam.setName("newTeam");
+            em.persist(newTeam);
+
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam.name = " + findTeam.getName());
+
+            //
+            findMember.setTeam(newTeam);
+
+            tx.commit();
         } catch (Exception e){
             tx.rollback();
         } finally {

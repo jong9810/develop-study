@@ -1,27 +1,28 @@
 package hellojpa;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
 public class Member {
 
-    @Id // 기본키 직접 할당
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동 할당
+    @Id
+    @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "username")
     private String username;
-    private Integer age;
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate createdDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate lastModifiedDate;
-    @Lob
-    private String description;
 
-    public Member() {
-    }
+//    @Column(name = "team_id")
+//    private Long teamId;
+
+    @ManyToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
 }
