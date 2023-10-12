@@ -100,7 +100,7 @@ SQL 문법과 유사하다(select, from, where, group by, having, join 지원).
 2. @Table
 * 속성
 1) name : 엔티티와 매핑할 테이블을 지정한다.
-2) uniqueConstraints : 
+2) uniqueConstraints : unique 제약조건(이름, 컬럼 등)을 직접 작성할 수 있다.
 
 <필드와 컬럼 매핑>
 1. @Column
@@ -234,6 +234,7 @@ ex) @OneToMany(mappedBy = "team") : 반대편 Entity의 멤버변수 team과 연
 * 단방향 매핑을 잘 사용하고 양방향은 필요할 때만 추가하자.
 * 양방향 매핑을 사용하는 경우 연관관계 편의 메서드를 사용해서 양쪽 엔티티에 값을 넣어주자.
 * 연관관계의 주인을 정하는 기준은 비즈니스 로직이 아니라 외래키이다(외래키가 있는 테이블(다쪽)이 연관관계 주인).
+참고 : 복잡한 JPQL을 짤 때 양방향 연관관계가 필요한 경우가 있고 그때 양방향 연관관계를 만들면 된다.
 
 
 
