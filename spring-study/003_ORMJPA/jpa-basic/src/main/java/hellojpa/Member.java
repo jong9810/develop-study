@@ -18,16 +18,14 @@ public class Member {
     @Column(name = "username")
     private String username;
 
-//    @Column(name = "team_id")
-//    private Long teamId;
-
+    // 읽기 전용으로 일대다 양방향을 구현할 수도 있다.
     @ManyToOne//(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", insertable = false, updatable = false)
     private Team team;
 
     // 연관관계 편의 메서드
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
 }
