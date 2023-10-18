@@ -18,16 +18,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
+            Movie movie = new Movie();
+            movie.setDirector("aaaaa");
+            movie.setActor("bbbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
+            em.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
+            em.flush();
+            em.clear();
 
-            // 일대다 단방향 매핑이므로 외래키를 update하기 위해 member 테이블에 쿼리를 날린다.
-            team.getMembers().add(member);
-            em.persist(team);
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();
         } catch (Exception e){
