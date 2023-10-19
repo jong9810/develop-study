@@ -371,9 +371,19 @@ d) 일대다 단방향 연관관계의 딜레마(DBA vs 개발자)
 
 
 
+<jpashop db 테이블 삭제>
+drop table album;
+drop table book;
+drop table movie;
+drop table category_item;
+drop table category;
+drop table orderitem;
+drop table orders;
+drop table delivery;
+drop table item;
+drop table member;
 
-
-
+<test db 테이블 삭제>
 drop table album;
 drop table book;
 drop table movie;
