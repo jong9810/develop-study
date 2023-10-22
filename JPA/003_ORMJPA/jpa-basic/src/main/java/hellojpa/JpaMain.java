@@ -21,57 +21,12 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Team team1 = new Team();
-//            team1.setName("teamA");
-//            em.persist(team1);
-//
-//            Team team2 = new Team();
-//            team2.setName("teamB");
-//            em.persist(team2);
-//
-//            Member member1 = new Member();
-//            member1.setUsername("hello1");
-//            member1.setTeam(team1);
-//            em.persist(member1);
-//
-//            Member member2 = new Member();
-//            member2.setUsername("hello2");
-//            member2.setTeam(team2);
-//            em.persist(member2);
 
-//            em.flush();
-//            em.clear();
-
-//            Member m = em.find(Member.class, member1.getId());
-//            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass()); // Proxy 객체
-//
-//            System.out.println("=======================");
-//            System.out.println("teamName = " + m.getTeam().getName()); // 강제 초기화
-//            System.out.println("=======================");
-
-//            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
-//                    .getResultList();
-            // SQL : select * from member;
-            // SQL : select * from team where team_id = xxx;
-
-
-            // 영속성 전이 : Cascade
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-            em.persist(parent);
-            em.persist(child1);
-            em.persist(child2);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-//            findParent.getChildList().remove(0);
-            em.remove(findParent);
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city", "street", "10000"));
+            member.setWorkPeriod(new Period());
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e){

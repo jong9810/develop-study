@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Member extends BaseEntity {
+public class Member /* extends BaseEntity */ {
 
     @Id
     @GeneratedValue
@@ -23,9 +23,9 @@ public class Member extends BaseEntity {
     private String username;
 
     // 읽기 전용으로 일대다 양방향을 구현할 수도 있다.
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "team_id", insertable = false, updatable = false)
-    private Team team;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "team_id", insertable = false, updatable = false)
+//    private Team team;
 
     // 연관관계 편의 메서드
 //    public void changeTeam(Team team) {
@@ -39,5 +39,24 @@ public class Member extends BaseEntity {
 
 //    @OneToMany(mappedBy = "member")
 //    private List<MemberProduct> memberProducts = new ArrayList<>();
+
+    // Period
+    @Embedded
+    private Period workPeriod;
+
+    // Address
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city",
+                column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street",
+                    column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode",
+                    column = @Column(name = "work_zipcode"))
+    })
+    private Address workAddress;
 
 }
