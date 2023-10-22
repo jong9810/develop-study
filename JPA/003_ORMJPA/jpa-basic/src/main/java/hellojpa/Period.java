@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
-@Setter
 @NoArgsConstructor
 public class Period {
 
@@ -21,4 +20,12 @@ public class Period {
         return true;
     }
 
+    public Period(LocalDateTime startDate, LocalDateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Period(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
 }

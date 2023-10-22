@@ -8,7 +8,6 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
-@Setter
 @NoArgsConstructor
 public class Address {
 
