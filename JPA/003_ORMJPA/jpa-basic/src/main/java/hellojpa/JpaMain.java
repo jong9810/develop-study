@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -21,29 +22,49 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Address address = new Address("city", "street", "10000");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
-            Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
-            member1.setHomeAddress(newAddress);
+            member.getAddressHistory().add(new Address("old1", "street", "10000"));
+            member.getAddressHistory().add(new Address("old2", "street", "10000"));
 
-//            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("================== 조회 START ==================");
+            Member findMember = em.find(Member.class, member.getId());
+
+            // 이때 프록시 객체의 target에 실제 데이터의 참조가 매핑됨.
+//            List<Address> addressHistory = findMember.getAddressHistory();
+//            for (Address address : addressHistory) {
+//                System.out.println("address.city = " + address.getCity());
+//            }
 //
-//            Member member2 = new Member();
-//            member2.setUsername("member2");
-//            member2.setHomeAddress(copyAddress);
-//            em.persist(member2);
+//            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+//            for (String favoriteFood : favoriteFoods) {
+//                System.out.println("favoriteFood = " + favoriteFood);
+//            }
 
-            // 값 타입을 공유하면 member1, member2의 city가 둘다 변경된다.
-            // 인스턴스를 복사한 경우에는 member1의 city만 변경된다.
-            // Address 클래스를 불변 객체로 설계하면 부작용을 걱정하지 않아도 된다(생성자로만 값 지정, setter 삭제).
-            //member1.getHomeAddress().setCity("newCity");
+            System.out.println("================== 수정 START ==================");
+            // homeCity -> newCity
+            findMember.setHomeAddress(new Address("newCity", findMember.getHomeAddress().getStreet(), findMember.getHomeAddress().getZipcode()));
 
-            tx.commit();
+            // 치킨 -> 한식
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("한식");
+
+            // remove()는 equals() 메서드를 기반으로 동작하기 때문에 equals()를 제대로 작성해주어야 한다.
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
+            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "10000"));
+
+             tx.commit();
         } catch (Exception e){
             tx.rollback();
             e.printStackTrace();

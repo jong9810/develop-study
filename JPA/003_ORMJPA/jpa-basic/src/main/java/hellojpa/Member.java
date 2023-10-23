@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,31 +24,26 @@ public class Member /* extends BaseEntity */ {
     @Column(name = "username")
     private String username;
 
-    // 읽기 전용으로 일대다 양방향을 구현할 수도 있다.
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "team_id", insertable = false, updatable = false)
-//    private Team team;
-
-    // 연관관계 편의 메서드
-//    public void changeTeam(Team team) {
-//        this.team = team;
-//        team.getMembers().add(this);
-//    }
-
-//    @ManyToMany
-//    @JoinTable(name = "MEMBER_PRODUCT")
-//    private List<Product> products = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member")
-//    private List<MemberProduct> memberProducts = new ArrayList<>();
-
-    // Period
-    @Embedded
-    private Period workPeriod;
-
-    // Address
     @Embedded
     private Address homeAddress;
 
+    @ElementCollection
+    @CollectionTable(
+            name = "FAVORITE_FOOD",
+            joinColumns = @JoinColumn(name = "MEMBER_ID")
+    )
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "ADDRESS",
+//            joinColumns = @JoinColumn(name = "MEMBER_ID")
+//    )
+//    private List<Address> addressHistory = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
 
 }
