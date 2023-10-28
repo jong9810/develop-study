@@ -29,6 +29,7 @@ public class JPQLMain {
             Member member = new Member();
             member.setUsername("teamA");
             member.setAge(10);
+            member.setType(MemberType.ADMIN);
 
             member.changeTeam(team);
 
@@ -37,28 +38,20 @@ public class JPQLMain {
             em.flush();
             em.clear();
 
-            // 1) 내부 조인
-//            String query = "select m from Member m join m.team t where t.name =: teamName";
+            String query = "select m.username, 'HELLO', TRUE, false from Member m" +
+                    " where m.type =: userType";
 
-            // 2) 외부 조인(left, right)
-//            String query = "select m from Member m left join m.team t where t.name =: teamName";
-
-            // 3) 세타 조인(막 조인, cross join)
-//            String query = "select m from Member m, Team t where m.username = t.name";
-
-            // 4-1) 조인 ON 절(필터링)
-//            String query = "select m from Member m left join m.team t on t.name = 'teamA'";
-
-            // 4-2) 조인 ON 절(연관관계 없는 엔티티 외부 조인)
-            String query = "select m from Member m left join Team t on m.username = t.name";
-
-            List<Member> result = em.createQuery(query, Member.class)
+            List<Object[]> result = em.createQuery(query, Object[].class)
+                    .setParameter("userType", MemberType.ADMIN)
                     .getResultList();
 
             System.out.println("result.size() = " + result.size());
 
-            for (Member member1 : result) {
-                System.out.println("member1 = " + member1);
+            for (Object[] objects : result) {
+                System.out.println("objects[0] = " + objects[0]);
+                System.out.println("objects[1] = " + objects[1]);
+                System.out.println("objects[2] = " + objects[2]);
+                System.out.println("objects[3] = " + objects[3]);
             }
 
             tx.commit();

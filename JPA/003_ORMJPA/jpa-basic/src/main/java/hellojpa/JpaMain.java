@@ -25,43 +25,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // JPQL
-//            List<Member> result = em.createQuery(
-//                    "select m from Member m where m.username like '%kim%'", Member.class
-//            ).getResultList();
-//
-//            for (Member member : result) {
-//                System.out.println("member = " + member);
-//            }
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+            em.persist(book);
 
-            // JPA Criteria
-//            CriteriaBuilder cb = em.getCriteriaBuilder();
-//            CriteriaQuery<Member> query = cb.createQuery(Member.class);
-//
-//            Root<Member> m = query.from(Member.class);
-//
-//            CriteriaQuery<Member> cq = query.select(m);
-//
-//            String username = "kim";
-//            if (username != null) {
-//                cq = cq.where(cb.equal(m.get("username"), "kim"));
-//            }
-//
-//            List<Member> resultList = em.createQuery(cq).getResultList();
-
-            // 네이티브 SQL
-//            Member member = new Member();
-//            member.setUsername("member1");
-//            em.persist(member);
-//
-//            // flush -> commit, query
-//
-//            List<Member> resultList = em.createNativeQuery("select  MEMBER_ID, city, street, zipcode, USERNAME from MEMBER", Member.class)
-//                    .getResultList();
-//
-//            for (Member member1 : resultList) {
-//                System.out.println("member1 = " + member1);
-//            }
+            // Item을 상속받은 엔티티 중 DTYPE이 Book인 것만 가져오는 쿼리.
+            List<Item> result = em.createQuery("select i from Item i where type(i) = Book", Item.class)
+                    .getResultList();
 
             tx.commit();
         } catch (Exception e){

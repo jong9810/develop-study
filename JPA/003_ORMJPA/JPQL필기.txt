@@ -165,12 +165,23 @@ select m from Member m where m.team = any (select t from Team t)
 * from 절 서브 쿼리를 어떻게 해서든 사용하고 싶으면 네이티브 SQL을 사용하거나, 
 쿼리를 두 개로 나눠서 보낸 후 애플리케이션에서 조작해야 한다.
 
-5. 
-
 <JPQL 타입 표현과 기타식>
+1. JPQL 타입 표현
+* 문자 : 'HELLO', 'Sh''s'
+* 숫자 : 10L(Long), 10D(Double), 10F(Float)
+* Boolean : TRUE, FALSE
+* ENUM : jpabook.MemberType.Admin (패키지명 포함)
+* 엔티티 타입 : TYPE(m) = Member (상속 관계에서 사용)
 
+2. JPQL 기타
+* SQL과 문법이 거의 같다.
+* exists, in
+* and, or, not
+* =, >, >=, <, <=, <>
+* between, like, is null
 
 <조건식(CASE 등)>
+* 
 
 <JPQL 함수>
 
