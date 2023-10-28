@@ -22,20 +22,37 @@ public class JPQLMain {
         tx.begin();
 
         try {
-            for (int i = 0; i < 100; i++) {
-                Member member = new Member();
-                member.setUsername("member" + i);
-                member.setAge(i);
-                em.persist(member);
-            }
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("teamA");
+            member.setAge(10);
+
+            member.changeTeam(team);
+
+            em.persist(member);
 
             em.flush();
             em.clear();
 
-            // 페이징 쿼리
-            List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
+            // 1) 내부 조인
+//            String query = "select m from Member m join m.team t where t.name =: teamName";
+
+            // 2) 외부 조인(left, right)
+//            String query = "select m from Member m left join m.team t where t.name =: teamName";
+
+            // 3) 세타 조인(막 조인, cross join)
+//            String query = "select m from Member m, Team t where m.username = t.name";
+
+            // 4-1) 조인 ON 절(필터링)
+//            String query = "select m from Member m left join m.team t on t.name = 'teamA'";
+
+            // 4-2) 조인 ON 절(연관관계 없는 엔티티 외부 조인)
+            String query = "select m from Member m left join Team t on m.username = t.name";
+
+            List<Member> result = em.createQuery(query, Member.class)
                     .getResultList();
 
             System.out.println("result.size() = " + result.size());
