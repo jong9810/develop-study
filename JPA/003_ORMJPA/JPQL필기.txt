@@ -99,7 +99,7 @@
 4) select m.username, m.age from Member m -> 스칼라 타입 프로젝션
 
 2. 프로젝션 - 여러 값 조회
-* select m.username, m.age from Member m
+* ex) select m.username, m.age from Member m
 (1) Query 타입으로 조회
 (2) Object[] 타입으로 조회
 (3) new 명령어로 조회
