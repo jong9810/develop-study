@@ -181,7 +181,30 @@ select m from Member m where m.team = any (select t from Team t)
 * between, like, is null
 
 <조건식(CASE 등)>
-* 
+1. 조건식 - CASE 식
+(1) 기본 CASE 식
+select 
+	case when m.age <= 10 then '학생요금'
+	     when m.age >= 60 then '경로요금'
+	     else '일반요금'
+	end
+from Member m
+
+(2) 단순 CASE 식
+select
+	case t.name
+		when '팀A' then '인센티브110%'
+		when '팀B' then '인센티브120%'
+		else '인센티브105%'
+	end
+from Team t
+
+(3) COALESCE, NULLIF
+* COALESCE : 하나씩 조회해서 null이 아니면 반환한다.
+* ex) select coalesce(m.username, '이름 없는 회원') from Member m
+* NULLIF : 두 값이 같으면 null을 반환하고 다르면 첫 번째 값을 반환한다.
+* ex) select nullif(m.username, '관리자') from Member m
+	
 
 <JPQL 함수>
 
