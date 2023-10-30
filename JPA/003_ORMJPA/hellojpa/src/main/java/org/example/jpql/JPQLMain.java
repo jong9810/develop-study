@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +38,7 @@ public class JPQLMain {
             member2.setType(MemberType.ADMIN);
 
             member.changeTeam(team);
+            member2.changeTeam(team);
 
             em.persist(member);
             em.persist(member2);
@@ -44,38 +46,30 @@ public class JPQLMain {
             em.flush();
             em.clear();
 
-            // CONCAT : 문자열 이어붙이기
-//            String query = "select concat('a', 'b') from Member m";
-//            String query = "select 'a' || 'b' from Member m"; // ||를 사용해서 단어를 이어줄 수도 있음.
+            // 상태 필드
+//            String query = "select m.username from Member m";
 
-            // SUBSTRING : 문자열 자르기
-//            String query = "select substring(m.username, 2, 3) from Member m";
+            // 단일 값 연관 경로
+            // 묵시적 내부 조인 발생(중요!! 조심해서 사용해야 함. 웬만하면 사용하지 말자)
+//            String query = "select m.team from Member m";
 
-            // TRIM : 문자열 좌우 공백 제거
-            // LOWER, UPPER : 문자열을 각각 소문자, 대문자로 변환
-            // LENGTH : 문자열 길이를 출력
+            // 컬렉션 값 연관 경로
+            // t.members 이상은 탐색이 불가능하다(size 정도만 가능).
+//            String query = "select t.members from Team t";
 
-            // LOCATE : 'abcdefg' 문자열에서 'de'가 있는 위치(1부터 시작)값을 Integer.class로 반환
-//            String query = "select locate('de', 'abcdefg') from Member m";
+            // t.members
+            // 이렇게 사용하는 경우는 없다.
+//            List<Collection> result = em.createQuery(query, Collection.class).getResultList();
 
-            // ABS, SQRT, MOD : 각각 절대값, 제곱근, 나머지를 계산해서 반환
+            // t.members.size
+//            Integer result = em.createQuery(query, Integer.class).getSingleResult();
 
-            // SIZE : 컬렉션의 원소 개수를 반환
-//            String query = "select size(t.members) From Team t";
+            // 컬렉션 값 연관 경로 명시적 조인(별칭을 얻으면 더 탐색하는 것이 가능해짐)
+            // 묵시적 조인은 실무에서 절대 사용하지 말자!(쿼리 예측 어려움, 튜닝 어려움)
+            String query = "select m.username from Team t join t.members m";
+            List<Member> result = em.createQuery(query, Member.class).getResultList();
 
-            // INDEX(JPA 용도) : 값 타입 컬렉션에서 @OrderColumn을 사용할 경우 컬렉션에서 원소의 인덱스를 반환(잘 안 쓰임)
-            // 값 타입 컬렉션의 원소가 빠지면 데이터가 Null로 들어오는 문제가 있어서 사용하지 않는 것이 좋음.
-//            String query = "select size(t.members) From Team t";
-
-            // 사용자 정의 함수
-//            String query = "select function('group_concat', m.username) from Member m"; // 표준 문법
-            String query = "select group_concat(m.username) from Member m"; // 이렇게 사용해도 됨(hibernate 사용하면).
-
-            List<String> result = em.createQuery(query, String.class).getResultList();
-
-            for (String s : result) {
-                System.out.println("s = " + s);
-            }
+            System.out.println("result = " + result);
 
             tx.commit();
         } catch (Exception e){
