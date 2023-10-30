@@ -603,36 +603,6 @@ ex) 첨부파일을 관리자, 게시판 엔티티가 관리할 때
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <jpashop db 테이블 삭제>
 drop table album;
 drop table book;
@@ -657,46 +627,3 @@ drop table product;
 drop table locker;
 drop table child;
 drop table parent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
