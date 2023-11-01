@@ -59,14 +59,18 @@ public class JPQLMain {
             em.flush();
             em.clear();
 
-            // 네임드 쿼리 사용
-            List<Member> result = em.createNamedQuery("Member.findByUsername", Member.class)
-                    .setParameter("username", "회원1")
-                    .getResultList();
+            // 벌크 연산
+            int resultCnt = em.createQuery("update Member m set m.age = :age")
+                    .setParameter("age", 20)
+                    .executeUpdate();
 
-            for (Member member : result) {
-                System.out.println("member = " + member);
-            }
+            System.out.println("resultCnt = " + resultCnt);
+
+            // 현재는 영속성 컨텍스트에 update 쿼리가 반영되어 있지 않다(회원의 나이가 모두 0).
+            // 그렇기 때문에 영속성 컨텍스트를 한 번 초기화해주어야 db와 영속성 컨텍스트의 정합성이 맞아 떨어진다.
+            em.clear();
+            Member findMember = em.find(Member.class, member1.getId());
+            System.out.println("findMember.getAge() = " + findMember.getAge());
 
             tx.commit();
         } catch (Exception e){

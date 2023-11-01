@@ -502,60 +502,14 @@ List<Member> result = em.createNamedQuery("Member.findByUsername", Member.class)
 String query = "update Product p set p.price = p.price * 1.1 where p.stockAmount < :stockAmount";
 int resultCnt = em.createQuery(query)
 	.setParameter("stockAmount", 10)
-	.executeUpdate();'
+	.executeUpdate();
 
+3. 벌크 연산 주의
+* 벌크 연산은 영속성 컨텍스트를 무시하고 데이터베이스에 직접 쿼리를 한다.
+* 벌크 연산을 수행하기 전에 JPA가 자동으로 em.flush()를 호출한다. 
+* 벌크 연산 사용법(2가지)
+  1) 벌크 연산을 먼저 실행(영속성 컨텍스트가 빈 상태에서).
+  2) 벌크 연산을 수행 후 영속성 컨텍스트 초기화(em.clear(), 웬만하면 해주는 게 좋음).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<jpashop db 테이블 삭제>
-drop table album;
-drop table book;
-drop table movie;
-drop table category_item;
-drop table category;
-drop table orderitem;
-drop table orders;
-drop table delivery;
-drop table item;
-drop table member;
-
-<test db 테이블 삭제>
-drop table album;
-drop table book;
-drop table movie;
-drop table item;
-drop table memberproduct;
-drop table member;
-drop table team;
-drop table product;
-drop table locker;
-drop table child;
-drop table parent;
-drop table orders;
-drop table product;
+* 참고 : 스프링 데이터 JPA에서 @Modifying을 사용하면 벌크 연산을 수행할 수 있다(clearAutomatically 속성 : em.clear() 자동 수행 여부).
+* 참고 : 식별자로 조회하여 벌크 연산으로 값을 업데이트하거나 삭제해도 되지만 JPA가 제공하는 변경 감지를 사용하는 것이 더 낫다.
