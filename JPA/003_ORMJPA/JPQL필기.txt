@@ -371,8 +371,71 @@ where T.name = '팀A'
   필요한 데이터들만 조회해서 DTO로 반환하는 것이 효과적이다.
 
 <다형성 쿼리>
+1. TYPE
+* 조회 대상을 특정 자식으로 한정하는 것.
+
+* ex) Item 중에 Book, Movie를 조회하라.
+* JPQL
+select i from Item i
+where type(i) in (Book, Movie)
+* SQL
+select I.* from ITEM I
+where I.DTYPE in ('B', 'M') 
+
+2. TREAT(JPA 2.1)
+* 자바의 타입 캐스팅과 유사한 개념이다.
+* 상속 구조에서 부모 타입을 특정 자식 타입으로 다룰 때 사용한다.
+* from, where, select(하이버네이트 지원) 절에 사용 가능하다.
+
+* ex) 부모인 Item과 자식 Book이 있을 때,
+* JPQL
+select i from Item i
+where treat(i as Book).author = 'kim'
+* SQL
+select I.* from ITEM I
+where I.DTYPE = 'B' and I.author = 'kim'
 
 <엔티티 직접 사용>
+1. 엔티티 직접 사용 - 기본키 값
+* JPQL에서 엔티티를 직접 사용하면 SQL에서 해당 엔티티의 기본키 값을 사용한다.
+
+* ex1) select 절에 엔티티 직접 사용 | 식별자 사용
+(1) JPQL
+  1) select count(m.id) from Member m -> 엔티티의 아이디를 사용.
+  2) select count(m) from Member m -> 엔티티를 직접 사용.
+(2) SQL
+     select count(m.id) as cnt from Member m -> 위 JPQL 두 문장 모두 다음 SQL을 실행함.
+
+* ex2) where 절에 엔티티 직접 사용 | 식별자 사용
+(1) JPQL
+  1) 엔티티를 파라미터로 전달
+    String jpql = "select m from Member m where m = :member";
+    List resultList = em.createQuery(jpql)
+	    .setParameter("member", member)
+	    .getResultList();
+  2) 식별자를 직접 전달
+    String jpql = "select m from Member m where m.id = :memberId";
+    List resultList = em.createQuery(jpql)
+	    .setParameter("memberId", memberId)
+	    .getResultList();
+(2) SQL
+    select m.* from Member m where m.id = ?
+
+2. 엔티티 직접 사용 - 외래키 값
+(1) JPQL
+  1) 엔티티 직접 사용
+    Team team = em.find(Team.class, 1L);
+    String query = "select m from Member m where m.team = :team";
+    List<Member> result = em.createQuery(query, Member.class)
+	    .setParameter("team", team)
+	    .getResultList();
+  2) 식별자 사용
+    String query = "select m from Member m where m.team.id = :teamId";
+    List<Member> result = em.createQuery(query, Member.class)
+	    .setParameter("teamId", teamId)
+	    .getResultList();
+(2) SQL
+    select M.* from MEMBER M where M.team_id = ?
 
 <Named 쿼리>
 
