@@ -23,53 +23,76 @@ public class JPQLMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
+            Team teamA = new Team();
+            teamA.setName("teamA");
+            em.persist(teamA);
 
-            Member member = new Member();
-            member.setUsername("관리자");
-            member.setAge(10);
-            member.setType(MemberType.ADMIN);
+            Team teamB = new Team();
+            teamB.setName("teamB");
+            em.persist(teamB);
+
+            Team teamC = new Team();
+            teamC.setName("teamC");
+            em.persist(teamC);
+
+            Member member1 = new Member();
+            member1.setUsername("회원1");
 
             Member member2 = new Member();
-            member2.setUsername("관리자2");
-            member2.setAge(10);
-            member2.setType(MemberType.ADMIN);
+            member2.setUsername("회원2");
 
-            member.changeTeam(team);
-            member2.changeTeam(team);
+            Member member3 = new Member();
+            member3.setUsername("회원3");
 
-            em.persist(member);
+            Member member4 = new Member();
+            member4.setUsername("회원4");
+
+            member1.changeTeam(teamA);
+            member2.changeTeam(teamA);
+            member3.changeTeam(teamB);
+
+            em.persist(member1);
             em.persist(member2);
+            em.persist(member3);
+            em.persist(member4);
 
             em.flush();
             em.clear();
 
-            // 상태 필드
-//            String query = "select m.username from Member m";
+            // 페치 조인
 
-            // 단일 값 연관 경로
-            // 묵시적 내부 조인 발생(중요!! 조심해서 사용해야 함. 웬만하면 사용하지 말자)
-//            String query = "select m.team from Member m";
+            // (1) 다대일 페치 조인
+//            String query = "select m from Member m left join fetch m.team";
+//            List<Member> result = em.createQuery(query, Member.class).getResultList();
+//
+//            for (Member member : result) {
+//                if (member.getTeam() != null) {
+//                    System.out.println("member = " + member.getUsername() + ", " + member.getTeam().getName());
+//                } else {
+//                    System.out.println("member = " + member.getUsername());
+//                }
+//                // 1) 페치 조인를 사용하지 않은 경우,
+//                // 회원1, 팀A(SQL)
+//                // 회원2, 팀A(1차 캐시)
+//                // 회원3, 팀B(SQL)
+//                // 회원 100명 -> 최악의 경우에 쿼리 1 + 100 번 날림.
+//
+//                // 2) 페치 조인을 사용하면 쿼리 한 방에 처리할 수 있다!
+//                // 지연 로딩으로 설정을 해놓아도 페치 조인이 우선적으로 실행된다.
+//            }
 
-            // 컬렉션 값 연관 경로
-            // t.members 이상은 탐색이 불가능하다(size 정도만 가능).
-//            String query = "select t.members from Team t";
+            // (2) 일대다 페치 조인
+            // 일대다 관계에서 조인을 하는 경우 데이터가 중복(뻥튀기)될 수 있다.
+            // 이 경우 distinct를 사용해서 중복을 제거할 수 있다.
+            String query = "select distinct t from Team t join fetch t.members";
+            List<Team> result = em.createQuery(query, Team.class).getResultList();
 
-            // t.members
-            // 이렇게 사용하는 경우는 없다.
-//            List<Collection> result = em.createQuery(query, Collection.class).getResultList();
-
-            // t.members.size
-//            Integer result = em.createQuery(query, Integer.class).getSingleResult();
-
-            // 컬렉션 값 연관 경로 명시적 조인(별칭을 얻으면 더 탐색하는 것이 가능해짐)
-            // 묵시적 조인은 실무에서 절대 사용하지 말자!(쿼리 예측 어려움, 튜닝 어려움)
-            String query = "select m.username from Team t join t.members m";
-            List<Member> result = em.createQuery(query, Member.class).getResultList();
-
-            System.out.println("result = " + result);
+            for (Team team : result) {
+                System.out.println("team = " + team.getName() + " | members.size = " + team.getMembers().size());
+                for (Member member : team.getMembers()) {
+                    System.out.println("-> member = " + member.getUsername());
+                }
+            }
 
             tx.commit();
         } catch (Exception e){

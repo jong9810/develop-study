@@ -277,6 +277,65 @@ select m.team from Member m
 * 묵시적 조인은 조인이 일어나는 상황을 한눈에 파악하기 어렵다.
 
 <페치 조인1 - 기본>
+1. 페치 조인(fetch join)
+* SQL 조인 종류가 아니고, JPQL에서 성능 최적화를 위해 제공하는 기능이다.
+* 연관된 엔티티나 컬렉션을 SQL 한 번에 함께 조회하는 기능이다.
+* 지연 로딩보다 페치 조인이 우선순위가 높다(지연로딩 + 페치 조인 => 페치 조인).
+* join fetch 명령어로 사용한다.
+* 페치 조인 ::= [left [outer] | inner] join fetch 조인경로
+
+2. 엔티티 페치 조인
+* 회원을 조회하면서 연관된 팀도 함께 조회한다(SQL 한 번에).
+* SQL을 보면 회원 뿐만 아니라 팀(T.*)도 함께 select 한다.
+* JPQL : select m from Member m join fetch m.team
+* SQL : select M.*, T.* from MEMBER M inner join TEAM T on M.TEAM_ID = T.ID
+
+3. 컬렉션 페치 조인
+* 일대다 관계, 컬렉션 페치 조인.
+
+(1) JPQL
+select t 
+from Team t join fetch t.members
+where t.name = '팀A'
+
+(2) SQL
+select T.*, M.*
+from team T 
+inner join member M on T.ID = M.TEAM_ID
+where T.name = '팀A'
+
+4. 페치 조인과 DISTINCT
+* SQL의 DISTINCT는 중복된 결과를 제거하는 명령이다.
+* JPQL의 DISTINCT는 2가지 기능을 제공한다.
+1) SQL에 DISTINCT를 추가한다.
+2) 애플리케이션에서 엔티티 중복을 제거한다.
+
+* JPQL
+select distinct t
+from Team t join fetch t.members
+where t.name = '팀A'
+
+* SQL에 DISTINCT를 추가하지만 데이터가 다르므로 SQL 결과에서 중복제거는 실패한다.
+* 그렇기 때문에 JPQL에서 DISTINCT가 추가로 애플리케이션에서 중복제거를 시도한다(컬렉션에서같은 식별자를 가진 Team 엔티티를 제거).
+
+5. 페치 조인과 일반 조인의 차이
+* 일반 조인실행시 연관된 엔티티를 함께 조회하지 않는다(1 + N 문제 발생).
+* JPQL
+select t
+from Team t join t.members m
+where t.name = '팀A'
+
+* SQL
+select T.*
+from Team t inner join Member M on T.id = M.team_id
+where T.name = '팀A'
+
+* JPQL은 결과를 반환할 때 연관관계를 고려하지 않는다.
+* 단지 select 절에 지정한 엔티티만 조회할 뿐이다.
+* 여기서는 팀 엔티티만 조회하고, 회원 엔티티는 조회하지 않는다.
+
+* 페치 조인을 사용할 때만 연관된 엔티티를 함께 조회한다(명시적 즉시로딩).
+* 페치 조인은 객체 그래프를 SQL 한 번에 조회하는 개념이다.
 
 <페치 조인2 - 한계>
 
