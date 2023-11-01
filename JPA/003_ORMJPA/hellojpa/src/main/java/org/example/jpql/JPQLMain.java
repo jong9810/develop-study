@@ -59,36 +59,9 @@ public class JPQLMain {
             em.flush();
             em.clear();
 
-            // 엔티티 직접 사용 - 기본키 값
-//            String query = "select m from Member m where m = :member";
-//            Member findMember = em.createQuery(query, Member.class)
-//                    .setParameter("member", member1)
-//                    .getSingleResult();
-//
-//            System.out.println("findMember = " + findMember);
-
-            // 식별자 사용 - 기본키 값
-//            String query = "select m from Member m where m.id = :memberId";
-//            Member findMember = em.createQuery(query, Member.class)
-//                    .setParameter("memberId", member1.getId())
-//                    .getSingleResult();
-//
-//            System.out.println("findMember = " + findMember);
-
-            // 엔티티 직접 사용 - 외래키 값
-//            String query = "select m from Member m where m.team = :team";
-//            List<Member> result = em.createQuery(query, Member.class)
-//                    .setParameter("team", teamA)
-//                    .getResultList();
-//
-//            for (Member member : result) {
-//                System.out.println("member = " + member);
-//            }
-
-            // 식별자 사용 - 외래키 값
-            String query = "select m from Member m where m.team.id = :teamId";
-            List<Member> result = em.createQuery(query, Member.class)
-                    .setParameter("teamId", teamA.getId())
+            // 네임드 쿼리 사용
+            List<Member> result = em.createNamedQuery("Member.findByUsername", Member.class)
+                    .setParameter("username", "회원1")
                     .getResultList();
 
             for (Member member : result) {
