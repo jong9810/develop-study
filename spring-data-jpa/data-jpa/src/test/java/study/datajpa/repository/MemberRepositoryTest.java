@@ -9,7 +9,10 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -145,9 +148,61 @@ class MemberRepositoryTest {
         for (MemberDto dto : memberDto) {
             System.out.println("dto = " + dto);
         }
-
     }
 
+    @Test
+    public void testFindByNames() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("BBB", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
 
+        List<String> names = Arrays.asList("AAA", "BBB");
+
+        List<Member> result = memberRepository.findByNames(names);
+
+        for (Member member : result) {
+            System.out.println("member = " + member);
+        }
+
+        assertThat(result.get(0)).isEqualTo(m1);
+        assertThat(result.get(1)).isEqualTo(m2);
+    }
+
+    @Test
+    public void returnType() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("AAA", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> list = memberRepository.findListByUsername("AAA");
+        Member member = memberRepository.findMemberByUsername("AAA");
+        Optional<Member> optional = memberRepository.findOptionalByUsername("AAA");
+
+        System.out.println("list = " + list.get(0));
+        System.out.println("member = " + member);
+        System.out.println("optional = " + optional.get());
+
+        // 만약 컬렉션으로 조회했을 때 결과가 없으면 null을 반환하지 않고 비어있는 컬렉션을 반환한다.
+        // 컬렉션으로 조회하면 절대 null이 아니다!!
+        List<Member> result1 = memberRepository.findListByUsername("sdjklnfgs");
+        System.out.println("result1.size() = " + result1.size());
+
+        // 단건 조회를 했을 때 결과가 없으면 null을 반환한다(스프링 데이터 JPA에서).
+        // 순수 JPA에서는 .getSingleResult()를 했을 때 결과가 없으면 NoResultException을 터뜨린다.
+        Member result2 = memberRepository.findMemberByUsername("sdlfkjs");
+        System.out.println("result2 = " + result2);
+
+        // 데이터가 있을지 없을지 모를 떄는 그냥 Optional을 쓰면 된다.
+        Optional<Member> result3 = memberRepository.findOptionalByUsername("sdlfkjs");
+        System.out.println("result3 = " + result3);
+
+        // 단건 조회를 했을 때 결과가 두 건 이상이면 Optional이든 아니든 예외가 터진다((javax.persistence.)NonUniqueResultException -> (org.springframework.dao.)IncorrectResultSizeDataAccessException).
+        Member result4 = memberRepository.findMemberByUsername("AAA");
+        Optional<Member> result5 = memberRepository.findOptionalByUsername("AAA");
+        System.out.println("result4 = " + result4);
+        System.out.println("result5 = " + result5);
+    }
 
 }
