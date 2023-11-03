@@ -3,6 +3,10 @@ package study.datajpa.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
@@ -203,6 +207,56 @@ class MemberRepositoryTest {
         Optional<Member> result5 = memberRepository.findOptionalByUsername("AAA");
         System.out.println("result4 = " + result4);
         System.out.println("result5 = " + result5);
+    }
+
+    @Test
+    public void paging() {
+        // given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+
+        // 참고 : 스프링 데이터 JPA에서 페이지는 0번 부터 시작한다.
+        int age = 10;
+        // PageRequest는 Pageable 인터페이스의 구현체이고 가장 많이 쓰인다.
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        // when
+        // 1) Page 객체로 반환
+//        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+        
+        // 2) Slice 객체로 반환
+//        Slice<Member> page = memberRepository.findByAge(age, pageRequest);
+
+        // 3) 엔티티 컬렉션 객체로 반환
+//        List<Member> page = memberRepository.findByAge(age, pageRequest);
+//        for (Member member : page) {
+//            System.out.println("member = " + member);
+//        }
+
+        // 4) DTO 컬렉션 객체로 반환
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+        Page<MemberDto> toMap = page.map(m -> new MemberDto(m.getId(), m.getUsername(), m.getTeam().getName()));
+
+        // then
+        List<Member> content = page.getContent();
+        long totalElements = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        for (Member member : content) {
+            System.out.println("member = " + member);
+        }
+        System.out.println("totalElements = " + totalElements);
+        System.out.println("totalPages = " + totalPages);
+
+        assertThat(content.size()).isEqualTo(3);
+        assertThat(page.getNumber()).isEqualTo(0);
+        assertThat(page.isFirst()).isTrue();
+        assertThat(page.hasNext()).isTrue();
+        assertThat(page.getTotalElements()).isEqualTo(5);
+        assertThat(page.getTotalPages()).isEqualTo(2);
     }
 
 }
