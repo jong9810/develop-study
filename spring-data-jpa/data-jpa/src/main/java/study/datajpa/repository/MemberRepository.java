@@ -1,12 +1,11 @@
 package study.datajpa.repository;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
@@ -97,6 +96,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findNamedEntityQueryByUsername(@Param("username") String username);
 
     // JPA 힌트
+    @QueryHints(
+        value = @QueryHint(name = "org.hibernate.readOnly", value = "true")
+    )
+    // readOnly를 true로 설정하면 변경 감지를 위한 스냅샷(원본 - 복사본)을 만들지 않는다(변경 감지 안함).
+    // 정말정말 트래픽이 많은 API 몇 개에만 사용하고 그 외에는 별로 효과가 없기 때문에 잘 쓰이지 않는다.
+    // 성능 테스트를 먼저 수행해본 후에 사용할지 말지를 결정하는 것이 좋다.
+    Member findReadOnlyByUsername(String username);
 
+    // @Lock
+    // ex) select ... for update : 비관적 락(다른 곳에서 접근을 허용하지 않음)
+    // 실시간 트래픽이 많은 서비스에서는 가급적이면 락을 걸면 안된다.
+    @Lock(LockModeType.PESSIMISTIC_WRITE) // from JPA
+    List<Member> findLockByUsername(@Param("username") String username);
 
 }
