@@ -3,7 +3,9 @@ package study.datajpa.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
@@ -63,6 +65,38 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     )
     Page<Member> findByAge(int age, Pageable pageable);
     // 만약 sorting 조건이 너무 복잡해서 Sort.by로 할 수 없다면 @Query(value = "")에 직접 sorting 조건을 넣어주면 된다.
+
+    // 벌크성 수정 쿼리
+    // 주의점!
+    // 벌크성 수정 쿼리는 영속성 컨텍스트를 무시하고 db에 수정 쿼리를 강제로 날리기 때문에 영속성 컨텍스트와 db 데이터가 맞지 않을 수 있다.
+    @Modifying(clearAutomatically = true) // @Modifying 어노테이션이 있어야 .excuteUpdate() 메서드를 호출한다(없으면 InvalidDataAccessApiUsingException 터짐).
+    @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
+    int bulkAgePlus(@Param("age") int age);
+
+    // @EntityGraph : 스프링 데이터 JPA에서 fetch join을 사용하는 방법.
+    // 간단한 쿼리일 경우 @EntityGraph(attributePaths = {})를 사용하고 복잡한 경우에는 @Query()에 직접 작성하는 것이 편하다.
+    // 1) @Query로 직접 JPQL 작성
+    @Query("select m from Member m left join fetch m.team")
+    List<Member> findMemberFetchJoin();
+
+    // 2) 메서드명으로 쿼리 생성 + @EntityGraph
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findEntityGraphByUsername(@Param("username") String username);
+
+    // 3) JPQL + @EntityGraph
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraph();
+
+    // 4) 엔티티 객체에 @NamedEntityGraph 정의해서 사용
+    @EntityGraph("Member.all")
+    List<Member> findNamedEntityQueryByUsername(@Param("username") String username);
+
+    // JPA 힌트
 
 
 }

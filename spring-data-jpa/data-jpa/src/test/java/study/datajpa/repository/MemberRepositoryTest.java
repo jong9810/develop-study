@@ -1,5 +1,7 @@
 package study.datajpa.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +31,8 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -257,6 +261,66 @@ class MemberRepositoryTest {
         assertThat(page.hasNext()).isTrue();
         assertThat(page.getTotalElements()).isEqualTo(5);
         assertThat(page.getTotalPages()).isEqualTo(2);
+    }
+
+    @Test
+    void bulkUpdate() {
+        // Given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
+        memberRepository.save(new Member("member6", 90));
+
+        // When
+        int resultCount = memberRepository.bulkAgePlus(20);
+
+        // 벌크성 수정 쿼리는 1) 영속성 컨텍스트가 빈 상태에서 수행하거나
+        // 2) 벌크성 수정 쿼리 수행 후 영속성 컨텍스트를 초기화해주어야 한다.
+        //em.flush(); // JPA가 JPQL을 수행하기 전에 flush는 자동으로 날려준다.
+        //em.clear(); // @Modifying 어노테이션에서 clearAutomatically = true를 주면 생략 가능하다.
+
+        List<Member> result = memberRepository.findByUsername("member5");
+        Member member5 = result.get(0);
+        System.out.println("member5 = " + member5);
+
+        // Then
+        assertThat(resultCount).isEqualTo(4);
+    }
+
+    @Test
+    void findMemberLazy() {
+        // Given
+        // member1 -> teamA
+        // member2 -> teamB
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member1", 10, teamB);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        // When
+//        List<Member> members = memberRepository.findAll();
+//        List<Member> members = memberRepository.findMemberFetchJoin();
+//        List<Member> members = memberRepository.findEntityGraphByUsername("member1");
+        List<Member> members = memberRepository.findNamedEntityQueryByUsername("member1");
+
+        for (Member member : members) {
+            System.out.println("member = " + member.getUsername());
+            System.out.println("member.team.class(before) = " + member.getTeam().getClass());
+            System.out.println("member.team.name = " + member.getTeam().getName());
+            System.out.println("member.team.class(after) = " + member.getTeam().getClass());
+        }
+
+        // Then
     }
 
 }
