@@ -26,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @Rollback(value = false)
 class MemberRepositoryTest {
+    @PersistenceContext EntityManager em;
 
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    TeamRepository teamRepository;
-    @PersistenceContext
-    EntityManager em;
+    @Autowired MemberRepository memberRepository;
+    @Autowired TeamRepository teamRepository;
+
+    // @Autowired보다 생성자 injection이 더 낫다.
+    @Autowired MemberQueryRepository memberQueryRepository;
 
     @Test
     public void testMember() {
@@ -319,8 +319,6 @@ class MemberRepositoryTest {
             System.out.println("member.team.name = " + member.getTeam().getName());
             System.out.println("member.team.class(after) = " + member.getTeam().getClass());
         }
-
-        // Then
     }
     
     @Test
@@ -336,8 +334,6 @@ class MemberRepositoryTest {
         findMember.setUsername("member2");
 
         em.flush();
-
-        // Then
     }
     
     @Test
@@ -350,8 +346,16 @@ class MemberRepositoryTest {
 
         // When
         List<Member> findMember = memberRepository.findLockByUsername("member1");
+    }
 
-        // Then
+    @Test
+    void callCustom() {
+        List<Member> result = memberRepository.findMemberCustom();
+    }
+
+    @Test
+    void callMemberQueryRepository() {
+        List<Member> result = memberQueryRepository.findAllMembers();
     }
 
 }
