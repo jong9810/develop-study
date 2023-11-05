@@ -348,6 +348,7 @@ class MemberRepositoryTest {
         List<Member> findMember = memberRepository.findLockByUsername("member1");
     }
 
+    // 사용자 정의 레포지토리 구현
     @Test
     void callCustom() {
         List<Member> result = memberRepository.findMemberCustom();

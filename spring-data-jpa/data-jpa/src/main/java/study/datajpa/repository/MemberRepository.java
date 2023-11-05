@@ -110,4 +110,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     @Lock(LockModeType.PESSIMISTIC_WRITE) // from JPA
     List<Member> findLockByUsername(@Param("username") String username);
 
+    // Auditing
+    // 엔티티를 생성, 변경할 때 변경한 사람과 시간을 추적하기 위해 등록일, 수정일, 등록자, 수정자 등의 컬럼을 추가한다.
+
+
 }
