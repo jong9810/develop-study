@@ -115,7 +115,15 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     // 엔티티를 생성, 변경할 때 변경한 사람과 시간을 추적하기 위해 등록일, 수정일, 등록자, 수정자 등의 컬럼을 추가한다.
 
 
-    // Specifications(명세, 실무에서 잘 안 쓰임)
+    // Projections 사용 예시
+    // 1) UsernameOnly 인터페이스로 Projection하기 : 결과가 Proxy 객체로 반환된다.
+//    List<UsernameOnly> findProjectionsByUsername(@Param("username") String username);
+    
+    // 2) UsernameOnlyDto 클래스로 Projection하기 : 결과가 UsernameOnlyDto로 반환되기 때문에 Dto로 변환해야 하는 경우 사용하면 편리하다.
+//    List<UsernameOnlyDto> findProjectionsByUsername(@Param("username") String username);
+
+    // 3) 동적 Projection : 사용할 필드를 동적으로 변경해야 하는 경우에 사용하면 편리하다.
+    <T> List<T> findProjectionsByUsername(@Param("username") String username, Class<T> type);
 
 
 

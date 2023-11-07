@@ -426,7 +426,37 @@ class MemberRepositoryTest {
 
         // Then
         assertThat(result.get(0).getUsername()).isEqualTo("m1");
+    }
 
+    // Projections(실무의 복잡한 쿼리를 해결하기에는 한계가 있음)
+    // 조인이 필요한 경우에는 최적화가 루트 엔티티에만 적용되므로 사용하기 조금 애매해진다(root 엔티티만 조회할 경우에 유용함).
+    // 프로젝션 대상이 root 엔티티면, JPQL select 절이 최적화(필드만 조회)가 된다.
+    // 프로젝션 대상이 root 엔티티가 아니면, left join으로 처리하고 모든 필드를 select해서 엔티티로 조회한 다음 계산해서 필요한 필드만 가져온다.
+    @Test
+    void  projections() {
+        // Given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // When
+        //List<UsernameOnlyDto> result = memberRepository.findProjectionsByUsername("m1");
+        List<NestedClosedProjections> result = memberRepository.findProjectionsByUsername("m1", NestedClosedProjections.class);
+
+        // Then
+        for (NestedClosedProjections nestedClosedProjections : result) {
+            String username = nestedClosedProjections.getUsername();
+            String teamName = nestedClosedProjections.getTeam().getName();
+            System.out.println("username = " + username);
+            System.out.println("teamName = " + teamName);
+        }
     }
 
 }
