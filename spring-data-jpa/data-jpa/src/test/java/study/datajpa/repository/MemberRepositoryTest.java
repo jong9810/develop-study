@@ -459,4 +459,43 @@ class MemberRepositoryTest {
         }
     }
 
+    // Native Query(가급적이면 사용하지 않는 게 좋음, 어쩔 수 없을 때만 사용)
+    // * Native Query보다는 Custom Repository를 만들어서 JdbcTemplate이나 MyBatis를 사용하는 것이 더 낫다.
+    // * 반환 타입
+    //   1) Object[] (안씀)
+    //   2) Tuple (안씀)
+    //   3) DTO(스프링 데이터 인터페이스 Projections 지원)
+    // * 제약
+    //   1) Sort 파라미터를 통한 정렬이 정상 동작하지 않을 수 있다(믿지 말고 직접 처리하자).
+    //   2) JPQL처럼 애플리케이션 로딩 시점에 문법 확인이 불가능하다.
+    //   3) 동적 쿼리를 사용하지 못한다.
+    // * Projections 활용
+    // 정적 쿼리인 경우에는 Projections를 Native Query와 함께 사용하는 것도 좋다.
+    // 동적 쿼리는 JdbcTemplate이나 MyBatis, jooq 등을 사용해야 한다.
+    @Test
+    void nativeQuery() {
+        // Given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+                
+        // When
+//        Member result = memberRepository.findByNativeQuery("m1");
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+
+        // Then
+        List<MemberProjection> content = result.getContent();
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection.username = " + memberProjection.getUsername());
+            System.out.println("memberProjection.teamName = " + memberProjection.getTeamName());
+        }
+    }
+
 }
