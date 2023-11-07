@@ -57,6 +57,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 //    Page<Member> findByAge(int age, Pageable pageable); // Page : totalCount 쿼리를 같이 날린다.
 //    Slice<Member> findByAge(int age, Pageable pageable); // Slice : 데이터를 limit 보다 한 개 더 조회한다(다음 페이지 있는지 없는지 확인, totalCount 쿼리 안 날림).
 //    List<Member> findByAge(int age, Pageable pageable); // 그냥 리스트(컬렉션)로 반환받을 수도 있다.
+    
     // 페이징과 정렬 - countQuery 분리하기(count 쿼리에서 성능 최적화가 필요할 때)
     @Query(
             value = "select m from Member m left join m.team t",
@@ -100,7 +101,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
         value = @QueryHint(name = "org.hibernate.readOnly", value = "true")
     )
     // readOnly를 true로 설정하면 변경 감지를 위한 스냅샷(원본 - 복사본)을 만들지 않는다(변경 감지 안함).
-    // 정말정말 트래픽이 많은 API 몇 개에만 사용하고 그 외에는 별로 효과가 없기 때문에 잘 쓰이지 않는다.
+    // 정말정말 트래픽이 많은 API 몇 개에만 사용하고 그 외에는 별로 효과가 크지 않기 때문에 잘 쓰이지 않는다.
     // 성능 테스트를 먼저 수행해본 후에 사용할지 말지를 결정하는 것이 좋다.
     Member findReadOnlyByUsername(String username);
 

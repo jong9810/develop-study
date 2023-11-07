@@ -60,7 +60,7 @@ public class MemberController {
                 .map(MemberDto::new); // 메서드 레퍼런스 : MemberDto의 new 메서드(생성자)를 호출해서 파라미터를 넘긴다.
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int i = 0; i < 100; i++) {
             memberRepository.save(new Member("member" + i, i));
