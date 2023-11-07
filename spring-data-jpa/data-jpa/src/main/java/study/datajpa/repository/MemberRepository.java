@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 // @Repository 어노테이션 생략 가능
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor<Member> {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
@@ -113,6 +113,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 
     // Auditing
     // 엔티티를 생성, 변경할 때 변경한 사람과 시간을 추적하기 위해 등록일, 수정일, 등록자, 수정자 등의 컬럼을 추가한다.
+
+
+    // Specifications(명세, 실무에서 잘 안 쓰임)
+
 
 
 }
