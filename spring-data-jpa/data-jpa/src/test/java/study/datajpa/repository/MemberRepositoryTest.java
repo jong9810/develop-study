@@ -6,10 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -365,11 +363,11 @@ class MemberRepositoryTest {
     @Test
     void specBasic() {
         // Given
-        Team team = new Team("teamA");
-        em.persist(team);
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
 
-        Member m1 = new Member("m1", 0, team);
-        Member m2 = new Member("m2", 0, team);
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
         em.persist(m1);
         em.persist(m2);
 
@@ -381,7 +379,54 @@ class MemberRepositoryTest {
         List<Member> result = memberRepository.findAll(spec);
 
         // Then
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    // QueryByExample Test(실무에서 사용하기에는 애매함)
+    // 장점
+    //   1) 동적 쿼리를 편리하게 처리할 수 있다.
+    //   2) 도메인 객체를 그대로 사용한다.
+    //   3) 데이터저장소를 RDB에서 NOSQL로 변경해도 코드 변경이 없게 추상화 되어 있다.
+    //   4) 스프링 데이터 JPA의 JpaRepository 인터페이스에 포함되어 있다.
+    // 단점
+    //   1) 내부 조인은 가능하지만 외부 조인은 불가능하다(외부 조인이 하나라도 생기면 사용하지 못함).
+    //   2) 다음 예시와 같은 중첩 제약조건은 안된다.
+    //      firstName = ?0 or (firstName = ?1 and lastname = ?2)
+    //   3) 매칭 조건이 매우 단순하다.
+    //        문자는 starts/contains/ends/regexp 정도만 가능하다.
+    //        다른 속성은 정확한 매칭(=)만 가능하다.
+    @Test
+    public void queryByExample() {
+        // Given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // When
+        // Probe 생성
+        Member member = new Member("m1");
+        Team team = new Team("teamA");
+        member.setTeam(team);
+
+        // age 속성은 검색 조건에서 제외(null은 기본적으로 무시하지만 primitive 타입은 무시하지 않음(값이 초기화되기 때문))
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("age");
+
+        // Probe와 ExampleMatcher를 가지고 쿼리를 생성할 때 필요한 Example 객체를 생성한다.
+        Example<Member> example = Example.of(member, matcher);
+
+        List<Member> result = memberRepository.findAll(example);
+
+        // Then
+        assertThat(result.get(0).getUsername()).isEqualTo("m1");
+
     }
 
 }
