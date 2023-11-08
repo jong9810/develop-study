@@ -34,7 +34,8 @@ ctrl + shift + 방향키 : 코드를 방향키 방향으로 이동시킨다.
 ctrl + shift + f : 모든 파일에서 검색
 ctrl + shift + t : 클래스에 대해 테스트 코드 파일을 만들어준다. 파일이 있다면 테스트 파일과 원본 파일을 이동할 수 있다.
 ctrl + shift + f9 : 해당 파일을 리컴파일 해준다.
-ctrl + shift + U : 영문 문자열을 대문자로 바꿔줌. 
+ctrl + shift + U : 영문 문자열을 대문자로 바꿔줌.
+ctrl + shift + f12 : IDE 화면 크기 최대로 하기.
 
 5) ctrl + alt
 ctrl + alt + s : setting 창 열기
