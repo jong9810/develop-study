@@ -292,4 +292,50 @@ public class QuerydslBasicTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0)).isEqualTo("member4");
     }
+
+    // 조인
+    /**
+     * 1) 기본 조인 : join(), innerJoin(), leftJoin(), rightJoin() 등
+     * teamA에 소속된 모든 회원을 조회하라.
+     */
+    @Test
+    void join() throws Exception {
+        //when
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .leftJoin(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+
+        //then
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("member1", "member2");
+    }
+
+    /**
+     * 세타 조인 : 연관 관계가 없는 테이블을 조인하는 것.
+     * 회원의 이름이 팀 이름과 같은 회원을 조회하라.
+     * 세타 조인을 사용하면 내부 조인은 가능하지만 외부 조인은 불가능하다(조인 on을 사용하면 가능).
+     */
+    @Test
+    void theta_join() throws Exception {
+        //given
+        em.persist(new Member("teamA"));
+        em.persist(new Member("teamB"));
+        em.persist(new Member("teamC"));
+
+        //when
+        List<Member> result = queryFactory
+                .select(member)
+                .from(member, team) // 카테시안 곱(cross join)
+                .where(member.username.eq(team.name))
+                .fetch();
+
+        //then
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("teamA", "teamB");
+    }
+
 }
