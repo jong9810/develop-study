@@ -12,6 +12,7 @@ import study.querydsl.entity.QMember;
 import study.querydsl.entity.Team;
 
 import static org.assertj.core.api.Assertions.*;
+import static study.querydsl.entity.QMember.*;
 
 @SpringBootTest
 @Transactional
@@ -57,19 +58,57 @@ public class QuerydslBasicTest {
         assertThat(findMember.getUsername()).isEqualTo("member1");
     }
 
+    // Querydsl은 JPQL의 빌더 역할을 한다.
+    // Querydsl로 생성된 JPQL을 보고 싶으면 application 파일에 spring.jpa.properties.hibernate.use_sql_comments를 true로 설정해주면 된다.
     @Test
     void startQuerydsl() {
         // When
-        QMember m = new QMember("m");
+        // Q-Type을 선언해서 사용할 수도 있지만 static import를 해서 사용하는 것을 권장한다.
+        // 같은 테이블을 조인해야 하는 경우에는 alias가 같으면 안되기 때문에 new 키워드로 선언해서 사용해야 한다.
+        //QMember m1 = new QMember("m1");
 
         Member findMember = queryFactory
-                .select(m)
-                .from(m)
-                .where(m.username.eq("member1")) // 파라미터 바인딩 처리
+                .select(member)
+                .from(member)
+                .where(member.username.eq("member1")) // 파라미터 바인딩 처리
                 .fetchOne();
 
         // Then
         assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    // 검색 조건 쿼리
+    // and(조건) [and], or(조건) [or]
+    // eq(10) [=], ne(10) [!=], eq(10).not() [!=]
+    // isNotNull() [is not null]
+    // in(10, 20, 30) [in], notIn(10, 20, 30) [not in], between(10, 30) [between]
+    // goe(30) [>=], gt(30) [>], loe(30) [<=], lt(30) [<]
+    // like("member%") [like], contains["member"] [like "%member%"], startsWith("member") [like "member%"]
+    @Test
+    public void search() {
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .where(member.username.eq("member1")
+                        .and(member.age.between(10, 30)))
+                .fetchOne();
+
+        assertThat(findMember.getUsername()).isEqualTo("member1");
+        assertThat(findMember.getAge()).isEqualTo(10);
+    }
+
+    // and 연산은 ,로 이어붙일 수도 있다(and()로 이어붙이는 것보다 깔끔).
+    // ,로 이어붙일 때는 중간에 null이 들어가면 무시한다(동적쿼리에서 많이 사용).
+    @Test
+    public void searchAndParam() {
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .where(
+                        member.username.eq("member1"),
+                        member.age.eq(10))
+                .fetchOne();
+
+        assertThat(findMember.getUsername()).isEqualTo("member1");
+        assertThat(findMember.getAge()).isEqualTo(10);
     }
 
 }
