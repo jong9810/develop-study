@@ -3,6 +3,7 @@ package study.querydsl;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -584,6 +585,38 @@ public class QuerydslBasicTest {
         }
     }
 
+    // 상수 사용하기(Expressions.constant() 사용)
+    @Test
+    void constant() throws Exception {
+        //when
+        List<Tuple> result = queryFactory
+                .select(member.username, Expressions.constant("A"))
+                .from(member)
+                .fetch();
 
+        //then
+        for (Tuple tuple : result) {
+            System.out.println("tuple = " + tuple);
+        }
+    }
+
+    // 문자 더하기(concat(), stringValue() 등 사용)
+    // stringValue() : 문자가 아닌 다른 타입의 데이터를 문자로 변환한다.
+    // enum 타입은 값이 안 나오는데, 그 때 stringValue()를 사용하면 된다.
+    @Test
+    void concat() throws Exception {
+        //when
+        // username_age
+        List<String> result = queryFactory
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.username.eq("member1"))
+                .fetch();
+
+        //then
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 
 }
