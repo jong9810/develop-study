@@ -38,6 +38,7 @@ ctrl + shift + f9 : 해당 파일을 리컴파일 해준다.
 ctrl + shift + U : 영문 문자열을 대문자로 바꿔줌.
 ctrl + shift + f12 : IDE 화면 크기 최대로 하기.
 ctrl + shift + f10 : test 파일에서는 현재 커서가 위치한 테스트 메서드를 실행한다.
+ctrl + shift + ↑, ↓ : 메서드 이름이 있는 행에서 사용하면 메서드 위치를 바꿔준다.
 
 5) ctrl + alt
 ctrl + alt + s : setting 창 열기

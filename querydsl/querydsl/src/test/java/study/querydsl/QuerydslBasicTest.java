@@ -4,7 +4,9 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -821,7 +823,45 @@ public class QuerydslBasicTest {
                 .fetch();
     }
 
-    // 2. Where 다중 파라미터 사용
+    // 2. Where 다중 파라미터 사용!!(실무에서 많이 사용됨)
+    // * 장점
+    // 1) 쿼리 자체의 가독성이 높아진다(where()에서 메서드 이름으로 어떤 조건인지 확인이 가능함).
+    // 2) 조건을 메서드로 빼기 때문에 조건을 다른 쿼리에서 재사용할 수 있다.
+    // 3) 여러 조건을 조합할 수 있다(null 체크는 주의해야 함).
+    // * 단점 : 조건을 메서드로 빼는 것이 번거롭다.
+    @Test
+    void dynamicQuery_WhereParam() throws Exception {
+        //given
+        String usernameParam = "member1";
+        Integer ageParam = 10;
 
+        //when
+        List<Member> result = searchMember2(usernameParam, ageParam);
+
+        //then
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private List<Member> searchMember2(String usernameCond, Integer ageCond) {
+        return queryFactory
+                .selectFrom(member)
+                //.where(usernameEq(usernameCond), ageEq(ageCond))
+                .where(allEq(usernameCond, ageCond))
+                .fetch();
+    }
+
+    private BooleanExpression usernameEq(String usernameCond) {
+        return usernameCond != null ? member.username.eq(usernameCond) : null; // where()에 null이 들어가면 무시한다.
+    }
+
+    private BooleanExpression ageEq(Integer ageCond) {
+        return ageCond != null ? member.age.eq(ageCond) : null;
+    }
+
+    // 여러 조건을 조합하여 하나의 메서드로 만들 수도 있다(Predicate 대신 BooleanExpression을 반환값으로 사용해야 함).
+    // 예) 광고 상태가 isValid, 날짜가 In이면 isServiceable.
+    private BooleanExpression allEq(String usernameCond, Integer ageCond) {
+        return usernameEq(usernameCond).and(ageEq(ageCond));
+    }
 
 }
