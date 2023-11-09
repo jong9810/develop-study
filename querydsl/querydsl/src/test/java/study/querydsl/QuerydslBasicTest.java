@@ -942,5 +942,39 @@ public class QuerydslBasicTest {
                 .execute();
     }
 
+    // SQL function 호출하기(Expressions.stringTemplate())
+    // 문자인 경우 stringTemplate()을 쓰고 숫자나 다른 타입인 경우는 numberTemplate() 등을 사용하면 된다.
+    @Test
+    void sqlFunction() throws Exception {
+        //when
+        List<String> result = queryFactory
+                .select(Expressions.stringTemplate(
+                        "function('replace', {0}, {1}, {2})",
+                        member.username, "member", "M"))
+                .from(member)
+                .fetch();
+
+        //then
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+    
+    @Test
+    void sqlFunction2() throws Exception {
+        //when
+        List<String> result = queryFactory
+                .select(member.username)
+                .from(member)
+                // lower 같은 간단한 함수는 querydsl이 어느 정도 지원해준다(ANSI 표준은 거의 제공됨).
+                //.where(member.username.eq(Expressions.stringTemplate("function('lower', {0})",member.username)))
+                .where(member.username.eq(member.username.lower()))
+                .fetch();
+
+        //then
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 
 }
