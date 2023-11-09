@@ -619,4 +619,42 @@ public class QuerydslBasicTest {
         }
     }
 
+    // 프로젝션 결과 반환 - 기본
+    // 1. 프로젝션 대상이 하나 : 타입을 명확하게 지정할 수 있다.
+    @Test
+    void simpleProjection() throws Exception {
+        //when
+        List<String> result = queryFactory
+                .select(member.username) // member 객체를 넣어도 프로젝션 대상이 하나인 것처럼 동작한다.
+                .from(member)
+                .fetch();
+
+        //then
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    // 2. 프로젝션 대상이 둘 이상 : 튜플이나 DTO로 조회해야 한다.
+    //   1) 튜플로 조회
+    //   * 튜플을 리포지토리 계층에서 사용하는 것은 괜찮지만 서비스나 컨트롤러 계층까지 가지고 가는 것은 좋은 설계가 아니다(튜플이 com.querydsl 하위 클래스이기 때문).
+    //   * 리포지토리 외의 계층에서 사용해야 하는 경우 DTO로 변환해서 반환하는 것이 좋다.
+    @Test
+    void tupleProjection() throws Exception {
+        //when
+        List<Tuple> result = queryFactory
+                .select(member.username, member.age)
+                .from(member)
+                .fetch();
+
+        //then
+        for (Tuple tuple : result) {
+            String username = tuple.get(member.username);
+            System.out.print("username = " + username + ", ");
+            Integer age = tuple.get(member.age);
+            System.out.println("age = " + age);
+        }
+    }
+    
+    
 }
