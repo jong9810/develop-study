@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
 import study.querydsl.dto.QMemberDto;
@@ -863,5 +864,83 @@ public class QuerydslBasicTest {
     private BooleanExpression allEq(String usernameCond, Integer ageCond) {
         return usernameEq(usernameCond).and(ageEq(ageCond));
     }
+
+    // 수정, 삭제 배치 쿼리(벌크 연산)
+    // 쿼리 한 번으로 대량의 데이터를 수정, 삭제할 때 사용한다.
+
+    // 주의! 벌크 연산은 영속성 컨텍스트를 무시하고 db에 바로 쿼리를 날리기 때문에 영속성 컨텍스트와 db의 데이터가 안 맞을 수 있다.
+    // * 해결법
+    // 1) 영속성 컨텍스트가 완전히 비어있는 상태에서 벌크 연산을 수행한다(잘 안 쓰임).
+    // 2) 영속성 컨텍스트가 비어있지 않은 상태라면, 벌크 연산을 수행하고 나서 영속성 컨텍스트를 완전히 초기화해준다(em.flush(), em.clear(), 실무에서 많이 쓰임).
+    @Test
+    //@Commit
+    void bulkUpdate() throws Exception {
+        //when
+        /*
+        1. member1 = 10 -> db: member1
+        2. member2 = 20 -> db: member2
+        3. member3 = 30 -> db: member3
+        4. member4 = 40 -> db: member4
+        */
+
+        long count = queryFactory
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
+
+        /*
+        1. member1 = 10 -> db: 비회원, 영속성 컨텍스트: member1
+        2. member2 = 20 -> db: 비회원, 영속성 컨텍스트: member2
+        3. member3 = 30 -> db: member3, 영속성 컨텍스트: member3
+        4. member4 = 40 -> db: member4, 영속성 컨텍스트: member4
+        */
+
+        em.flush();
+        em.clear();
+
+        // Repeatable Read(db 조회 결과보다 영속성 컨텍스트의 값이 우선임)
+        // 영속성 컨텍스트를 초기화하지 않으면,
+        // db에서 가져올 때는 "비회원"이 포함된 결과를 가져오지만, 영속성 컨텍스트에 이미 있는 인스턴스인 경우에는 db에서 가져온 것을 버리고 현재 값을 유지한다.
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .fetch();
+
+        for (Member member1 : result) {
+            System.out.println("member1 = " + member1);
+        }
+    }
+
+    // 기존 숫자에 더하기 벌크 연산
+    // 빼기를 하려면 add(-1)로 하면 된다.
+    @Test
+    void bulkAdd() throws Exception {
+        //when
+        long count = queryFactory
+                .update(member)
+                .set(member.age, member.age.add(1))
+                .execute();
+    }
+
+    // 기존 숫자에 곱하기 벌크 연산
+    @Test
+    void bulkMultiply() throws Exception {
+        //when
+        long count = queryFactory
+                .update(member)
+                .set(member.age, member.age.multiply(2))
+                .execute();
+    }
+    
+    // 삭제 벌크 연산
+    @Test
+    void bulkDelete() throws Exception {
+        //when
+        long count = queryFactory
+                .delete(member)
+                .where(member.age.gt(18))
+                .execute();
+    }
+
 
 }
