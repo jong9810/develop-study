@@ -2,6 +2,7 @@ package study.querydsl;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -542,7 +543,47 @@ public class QuerydslBasicTest {
     // 참고 : 한 번의 쿼리로 모든 데이터를 가져오려고만 하지 말고 복잡한 쿼리는 여러 번 나누어서 실행하는 것도 고려해보자(무조건 한 방 쿼리가 좋은 것은 아님, SQL AntiPatterns 책 참고).
 
 
-    //
+    // Case 문(select, where 절에서 사용 가능)
+    // 정말 case문을 써야하는지는 고민해보아야 한다(db에서는 데이터를 가져오는 용도로만 사용(필터링, 그룹핑, 계산 정도만)).
+    // 1. 단순한 조건
+    @Test
+    void basicCase() throws Exception {
+        //when
+        List<String> result = queryFactory
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .otherwise("기타")
+                )
+                .from(member)
+                .fetch();
+
+
+        //then
+        for (String age : result) {
+            System.out.println("age = " + age);
+        }
+    }
+    
+    // 2. 복잡한 조건
+    @Test
+    void complexCase() throws Exception {
+        //when
+        List<String> result = queryFactory
+                .select(new CaseBuilder()
+                        .when(member.age.between(0, 20)).then("0~20살")
+                        .when(member.age.between(21, 30)).then("21~30살")
+                        .otherwise("기타")
+                )
+                .from(member)
+                .fetch();
+
+        //then
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
 
 
 }
