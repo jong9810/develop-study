@@ -2,6 +2,8 @@ package study.querydsl;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -14,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
 import study.querydsl.entity.QTeam;
@@ -636,9 +640,9 @@ public class QuerydslBasicTest {
     }
 
     // 2. 프로젝션 대상이 둘 이상 : 튜플이나 DTO로 조회해야 한다.
-    //   1) 튜플로 조회
-    //   * 튜플을 리포지토리 계층에서 사용하는 것은 괜찮지만 서비스나 컨트롤러 계층까지 가지고 가는 것은 좋은 설계가 아니다(튜플이 com.querydsl 하위 클래스이기 때문).
-    //   * 리포지토리 외의 계층에서 사용해야 하는 경우 DTO로 변환해서 반환하는 것이 좋다.
+    // 1) 튜플로 조회
+    // * 튜플을 리포지토리 계층에서 사용하는 것은 괜찮지만 서비스나 컨트롤러 계층까지 가지고 가는 것은 좋은 설계가 아니다(튜플이 com.querydsl 하위 클래스이기 때문).
+    // * 리포지토리 외의 계층에서 사용해야 하는 경우 DTO로 변환해서 반환하는 것이 좋다.
     @Test
     void tupleProjection() throws Exception {
         //when
@@ -655,6 +659,111 @@ public class QuerydslBasicTest {
             System.out.println("age = " + age);
         }
     }
+
+    // 2-0) DTO로 조회(JPQL)
+    // 순수 JPA에서는 DTO를 조회할 때 new 명령어를 사용해야 한다.
+    // DTO의 패키지 이름을 다 적어주어야 한다.
+    // 생성자 방식만 지원한다.
+    @Test
+    void findDtoByJPQL() throws Exception {
+        //when
+        List<MemberDto> result = em.createQuery("select new study.querydsl.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+                .getResultList();
+
+        //then
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    // Querydsl은 결과를 조회할 때 프로퍼티 접근, 필드 직접 접근, 생성자 사용의 세 가지 방법을 지원한다.
+
+    // 2-1) DTO로 조회(Querydsl - Setter, Projections.bean())
+    // DTO에 getter, setter, 기본 생성자가 있어야 한다.
+    // 필드 이름과 getter, setter 이름을 보고 값을 넣어준다.
+    @Test
+    void findDtoBySetter() throws Exception {
+        //when
+        List<MemberDto> result = queryFactory
+                .select(Projections.bean(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        //then
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    // 2-2) DTO로 조회(Querydsl - Field, Projections.fields())
+    // DTO에 getter, setter가 없어도 필드에 직접 값을 넣어준다(기본 생성자는 필요함).
+    // DTO 필드 이름과 테이블 필드 이름이 같아야 한다(다른 경우 테이블에 alias 주어야 함).
+    @Test
+    void findDtoByField() throws Exception {
+        //when
+        List<MemberDto> result = queryFactory
+                .select(Projections.fields(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        //then
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    // 2-3) DTO로 조회(Querydsl - Constructor, Projections.constructor())
+    // DTO에 getter, setter가 없어도 생성자를 활용해서 값을 넣어준다(생성자와 조회하는 데이터의 값 타입, 순서가 일치해야 함).
+    // 생성자 조회는 필드 이름이 아니라 값 타입으로 구분한다.
+    @Test
+    void findDtoByConstructor() throws Exception {
+        //when
+        List<UserDto> result = queryFactory
+                .select(Projections.constructor(UserDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        //then
+        for (UserDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    // 참고 : DTO 필드 이름과 엔티티 필드 이름이 다른 경우 DTO 필드 이름을 as() 안에 넣어주면 된다.
+    // 참고 : 서브 쿼리를 사용해서 DTO 필드에 값을 넣어주고 싶은 경우에는 ExpressionUtils.as()를 사용한다.
+    //       첫 번째 파라미터에 서브 쿼리(JPAExpressions), 두 번쨰 파라미터에 값을 넣어줄 DTO 필드 이름을 문자열로 넣어주면 된다.
+    @Test
+    void findUserDto() throws Exception {
+        //given
+        QMember memberSub = new QMember("memberSub");
+
+        //when
+        List<UserDto> result = queryFactory
+                .select(Projections.fields(UserDto.class,
+                        member.username.as("name"),
+                        //ExpressionsUtils.as(member.username, "name"), // 바로 윗줄 코드와 동일한 기능.
+
+                        ExpressionUtils.as(JPAExpressions
+                                .select(memberSub.age.max())
+                                .from(memberSub), "age"
+                        )
+                ))
+                .from(member)
+                .fetch();
+
+        //then
+        for (UserDto userDto : result) {
+            System.out.println("userDto = " + userDto);
+        }
+    }
+
+
     
     
 }
