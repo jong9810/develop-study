@@ -2,6 +2,7 @@ package study.querydsl;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -18,6 +19,7 @@ import study.querydsl.entity.Team;
 
 import java.util.List;
 
+import static com.querydsl.jpa.JPAExpressions.*;
 import static org.assertj.core.api.Assertions.*;
 import static study.querydsl.entity.QMember.*;
 import static study.querydsl.entity.QTeam.*;
@@ -431,7 +433,116 @@ public class QuerydslBasicTest {
         //then
         assertThat(loaded).as("페치 조인 적용").isTrue();
     }
-    
+
+    // 서브 쿼리(com.querydsl.jpa.JPAExpressions 사용)
+    // 1. where 절 서브 쿼리
+    /**
+     * 예) 나이가 가장 많은 회원을 조회하라.
+     */
+    @Test
+    void subQueryEq() throws Exception {
+        //given
+        QMember memberSub = new QMember("memberSub");
+
+        //when
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.eq(
+                        select(memberSub.age.max())
+                                .from(memberSub)
+                ))
+                .fetch();
+
+        //then
+        assertThat(result)
+                .extracting("age")
+                .containsExactly(40);
+    }
+
+    /**
+     * 예) 나이가 평균 이상인 회원을 조회하라.
+     */
+    @Test
+    void subQueryGoe() throws Exception {
+        //given
+        QMember memberSub = new QMember("memberSub");
+
+        //when
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.goe(
+                        select(memberSub.age.avg())
+                                .from(memberSub)
+                ))
+                .fetch();
+
+        //then
+        assertThat(result)
+                .extracting("age")
+                .containsExactly(30, 40);
+    }
+
+    /**
+     * 예) 나이가 10살 보다 많은 회원을 서브쿼리로 조회하라(효율적이지 않은 쿼리).
+     */
+    @Test
+    void subQueryIn() throws Exception {
+        //given
+        QMember memberSub = new QMember("memberSub");
+
+        //when
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.in(
+                        select(memberSub.age)
+                                .from(memberSub)
+                                .where(memberSub.age.gt(10))
+                ))
+                .fetch();
+
+        //then
+        assertThat(result)
+                .extracting("age")
+                .containsExactly(20, 30, 40);
+    }
+
+    // 2. select 절 서브 쿼리
+    /**
+     * 예) 모든 회원 나이의 평균과 이름을 조회하라.
+     */
+    @Test
+    void selectSubQuery() throws Exception {
+        //given
+        QMember memberSub = new QMember("memberSub");
+
+        //when
+        List<Tuple> result = queryFactory
+                .select(member.username,
+                        select(memberSub.age.avg())
+                                .from(memberSub)
+                )
+                .from(member)
+                .fetch();
+
+        //then
+        for (Tuple tuple : result) {
+            System.out.println("tuple = " + tuple);
+        }
+    }
+
+    // 참고 : JPQL은 from 절 서브 쿼리를 지원하지 않기 때문에 Querydsl도 안된다.
+    // from 절 서브 쿼리 해결방안
+    // 1) 서브 쿼리를 join으로 변경한다(불가능할 수도 있음, 대부분 가능).
+    // 2) 애플리케이션에서 쿼리를 2번 분리해서 실행한다.
+    // 3) nativeSQL을 사용한다(1, 2번 방법이 안되면 사용하자).
+
+    // 참고 : db는 데이터만 필터링해서 가져오는 용도로 사용하고, 로직들은 애플리케이션이나 화면에서 푸는 것을 고려해보자(from 절 서브 쿼리를 줄일 수 있음).
+    //       데이터를 화면에 딱 맞게 가져오려고 하면 SQL이 너무 복잡해져서 재사용성이 떨어질 수 있다.
+
+    // 참고 : 한 번의 쿼리로 모든 데이터를 가져오려고만 하지 말고 복잡한 쿼리는 여러 번 나누어서 실행하는 것도 고려해보자(무조건 한 방 쿼리가 좋은 것은 아님, SQL AntiPatterns 책 참고).
+
+
+    //
 
 
 }
