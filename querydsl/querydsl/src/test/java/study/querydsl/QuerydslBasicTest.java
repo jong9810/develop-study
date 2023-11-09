@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.QMemberDto;
 import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
@@ -763,7 +764,28 @@ public class QuerydslBasicTest {
         }
     }
 
+    // 3) @QueryProjection
+    // * 장점
+    // 1) DTO 형식에 맞지 않는 경우 컴파일 오류를 낸다(생성자 조회 방식은 런타임 오류 발생).
+    // 2) 생성자 호출을 보장해준다.
+    // * 단점
+    // 1) DTO의 Q파일을 생성해야 한다.
+    // 2) @QueryProjection 어노테이션을 DTO 파일에 정의함으로써 DTO가 Querydsl에 의존성을 가지게 된다(Querydsl을 사용하지 않으면 에러 발생, DTO는 리포지토리 외의 계층에도 사용함).
+    @Test
+    void findDtoByQueryProjection() throws Exception {
+        //when
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
 
+        //then
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    // 참고 : distinct는 querydsl에서 .distinct() 메서드를 필드 뒤에 붙이면 된다.
     
     
 }
