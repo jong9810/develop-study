@@ -141,7 +141,7 @@ public class MemberJpaRepository {
     // Where 다중 파라미터로 동적 쿼리를 작성하면 조건을 조합할 수 있다.
     // 기본적으로 필요한 조건들을 모아서 isValid()로 묶어서 사용할 수 있다.
     private BooleanExpression ageBetween(Integer ageGoe, Integer ageLoe) {
-        ageGoe(ageGoe).and(ageLoe(ageLoe));
+        return ageGoe(ageGoe).and(ageLoe(ageLoe));
     }
     private BooleanExpression usernameEq(String username) {
         return hasText(username) ? member.username.eq(username) : null;
