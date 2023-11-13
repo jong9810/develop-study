@@ -128,4 +128,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private BooleanExpression ageLoe(Integer ageLoe) {
         return ageLoe != null ? member.age.loe(ageLoe) : null;
     }
+
+    // 참고 : 정렬(Sort)은 조건이 조금만 복잡해져도 Pageable의 Sort 기능을 사용하기 어렵다.
+    //       루트 엔티티 범위를 벗어나는(join을 하는) 동적 정렬 기능이 필요하면 스프링 데이터 페이징이 제공하는 Sort를 사용하기 보다는 파라미터를 받아서 직접 처리하는 것을 권장한다.
+
 }
