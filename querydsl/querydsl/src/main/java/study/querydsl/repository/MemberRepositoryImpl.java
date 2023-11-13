@@ -2,15 +2,18 @@ package study.querydsl.repository;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import study.querydsl.dto.MemberSearchCondition;
 import study.querydsl.dto.MemberTeamDto;
 import study.querydsl.dto.QMemberTeamDto;
+import study.querydsl.entity.Member;
 
 import java.util.List;
 
@@ -74,6 +77,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
     // 카운트 쿼리를 최적화하고 싶을 때 searchPageComplex 처럼 카운트 쿼리를 직접 작성할 수 있다(데이터가 많아서 최적화가 꼭 필요한 경우에만 사용).
     // ex) 카운트 쿼리를 먼저 실행하고, 데이터 개수가 0개이면 컨텐트 쿼리를 실행하지 않는다.
+    // count 쿼리를 생략 가능한 경우
+    // 1) 페이지 시작이면서 컨텐츠 사이즈가 페이지 사이즈보다 작을 때(페이지가 1개인 경우)
+    // 2) 마지막 페이지일 때(offset + 컨텐츠 사이즈를 하면 전체 사이즈가 나옴)
     @Override
     public Page<MemberTeamDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
         List<MemberTeamDto> content = queryFactory
@@ -93,16 +99,18 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        long total = queryFactory
+        JPAQuery<Member> countQuery = queryFactory
                 .selectFrom(member)
                 .leftJoin(member.team, team)
                 .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
                         ageGoe(condition.getAgeGoe()),
-                        ageLoe(condition.getAgeLoe()))
-                .fetchCount();
+                        ageLoe(condition.getAgeLoe()));
 
-        return new PageImpl<>(content, pageable, total);
+        //return new PageImpl<>(content, pageable, total);
+
+        // 카운트 쿼리가 생략 가능한 경우 카운트 쿼리를 생략한다.
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
     private BooleanExpression usernameEq(String username) {
