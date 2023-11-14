@@ -368,8 +368,8 @@ public class QuerydslBasicTest {
                 .select(member, team)
                 .from(member)
                 .leftJoin(member.team, team).on(team.name.eq("teamA")) // 외부 조인 on 절
-                //.join(member.team, team).where(team.name.eq("teamA")) // 내부 조인 on 절
-                //.join(member.team, team).on(team.name.eq("teamA")) // 내부 조인 where 절
+                //.join(member.team, team).where(team.name.eq("teamA")) // 내부 조인 where 절
+                //.join(member.team, team).on(team.name.eq("teamA")) // 내부 조인 on 절
                 .fetch();
 
         //then
@@ -420,7 +420,7 @@ public class QuerydslBasicTest {
                 .where(member.username.eq("member1"))
                 .fetchOne();
 
-        boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());// 찾은 회원의 team 필드가 로딩이 되었는지 안되었는지 boolean으로 반환.
+        boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam()); // 찾은 회원의 team 필드가 로딩이 되었는지 안되었는지 boolean으로 반환.
 
         //then
         assertThat(loaded).as("페치 조인 미적용").isFalse();
@@ -742,7 +742,7 @@ public class QuerydslBasicTest {
 
     // 참고 : DTO 필드 이름과 엔티티 필드 이름이 다른 경우 DTO 필드 이름을 as() 안에 넣어주면 된다.
     // 참고 : 서브 쿼리를 사용해서 DTO 필드에 값을 넣어주고 싶은 경우에는 ExpressionUtils.as()를 사용한다.
-    //       첫 번째 파라미터에 서브 쿼리(JPAExpressions), 두 번쨰 파라미터에 값을 넣어줄 DTO 필드 이름을 문자열로 넣어주면 된다.
+    //       첫 번째 파라미터에 서브 쿼리(JPAExpressions), 두 번째 파라미터에 값을 넣어줄 DTO 필드 이름을 문자열로 넣어주면 된다.
     @Test
     void findUserDto() throws Exception {
         //given
