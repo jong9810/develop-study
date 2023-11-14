@@ -107,7 +107,6 @@ public class MemberRepositoryImpl extends QuerydslRepositorySupport implements M
     // 2) Querydsl 4.x버전에 나온 JPAQueryFactory로 시작할 수 없다(select()로 시작할 수 없음, from()으로 시작해야함).
     // 3) QueryFactory를 제공하지 않는다.
     // 4) 스프링 데이터 Sort 기능이 제대로 동작하지 않는다.
-    @Override
     public Page<MemberTeamDto> searchPageSimple2(MemberSearchCondition condition, Pageable pageable) {
         JPQLQuery<MemberTeamDto> jpaQuery = from(member)
                 .leftJoin(member.team, team)
