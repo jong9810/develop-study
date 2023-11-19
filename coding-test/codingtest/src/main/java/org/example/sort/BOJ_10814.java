@@ -20,12 +20,7 @@ public class BOJ_10814 {
             String name = st.nextToken();
             list.add(new Member(age, name));
         }
-        list.sort(((o1, o2) -> {
-            if (o1.age == o2.age) {
-                return o1.order - o2.order;
-            }
-            return o1.age - o2.age;
-        } ));
+        list.sort((o1, o2) -> o1.age - o2.age);
         for (Member member : list) {
             sb.append(member.getAge()).append(" ").append(member.getName()).append("\n");
         }
@@ -34,28 +29,15 @@ public class BOJ_10814 {
     private static class Member {
         private int age;
         private String name;
-        private int order = 0;
-
         public Member(int age, String name) {
             this.age = age;
             this.name = name;
-            order++;
         }
-
         public int getAge() {
             return age;
         }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-
         public String getName() {
             return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
         }
     }
 }
