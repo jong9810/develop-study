@@ -1,9 +1,9 @@
-package org.example;
+package org.example.sort;
 
 import java.io.*;
 import java.util.*;
 
-// TreeMap과 Comparator를 사용하여 HashMap을 정렬해보았다.
+// TreeMap, TreeSet과 Comparator를 사용하여 HashMap을 정렬해보았다.
 public class BOJ_20920 {
     /*/ 방법 1.
     public static void main(String[] args) throws IOException {
