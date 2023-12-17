@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 // Top-down
+// dp를 2차원 배열로 선언할 때 색의 개수는 3개밖에 되지 않기 때문에
+// [N][2]로 색과 비용을 저장하는 것보다
+// [N][3]으로 임의의 i에 대해 [i][0], [i][1], [i][2]에
+// 각 색에 대한 최소 비용을 저장하는 것이 더 코드를 짜기 수월하다.
+// 색이 아주 많거나 개수가 정해지지 않은 경우에는 [N][2]에 색을 저장하는 방법도 고려해볼만 할 것 같다.
 public class BOJ_1149 {
     public final static int RED = 0;
     public final static int GREEN = 1;

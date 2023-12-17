@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+// Top-down
+// 동적 프로그래밍은 점화식 규칙만 맞게 찾으면 코드 짜는 건 어렵지 않다.
 public class BOJ_9461 {
     public static long[] dp = new long[101];
     public static void main(String[] args) throws IOException {

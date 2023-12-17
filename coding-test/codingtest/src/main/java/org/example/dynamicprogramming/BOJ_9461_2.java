@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class BOJ_9461_2 {
-    public static long[] dp = new long[101];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
+        long[] dp = new long[101];
         dp[1] = 1;
         dp[2] = 1;
         dp[3] = 1;

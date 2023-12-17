@@ -20,7 +20,6 @@ public class BOJ_1904_2 {
             dp[i] = -1;
         }
 
-
         System.out.println(ftn(N));
         br.close();
     }

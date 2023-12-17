@@ -3,6 +3,8 @@ package org.example.dynamicprogramming;
 import java.io.*;
 import java.util.StringTokenizer;
 
+// 이 문제는 수식이 길어서 어려워보일 수 있지만
+// 수식을 이해할 필요가 전혀 없고 동적 프로그래밍 방법(메모이제이션)을 기존 코드에 적용하기만 하면 된다.
 public class BOJ_9184 {
     public static int[][][] memo = new int[21][21][21];
 
