@@ -1,12 +1,16 @@
 package org.example.string;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class BOJ_2444 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static StringBuilder sb = new StringBuilder();
 
-        int n = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n - 1; i++) {
             oneLine(n, i);
         }
@@ -15,23 +19,18 @@ public class BOJ_2444 {
             oneLine(n, i);
         }
 
-        sc.close();
+        System.out.println(sb);
+        br.close();
     }
 
     private static void middleLine(int n) {
-        for (int i = 0; i < 2 * n - 1; i++) {
-            System.out.print("*");
-        }
-        System.out.println();
+        sb.append("*".repeat(2 * n - 1));
+        sb.append("\n");
     }
 
     private static void oneLine(int n, int i) {
-        for (int j = 0; j < n - i - 1; j++) {
-            System.out.print(" ");
-        }
-        for (int j = 0; j < 2 * i + 1; j++) {
-            System.out.print("*");
-        }
-        System.out.println();
+        sb.append(" ".repeat(n - i - 1));
+        sb.append("*".repeat(2 * i + 1));
+        sb.append("\n");;
     }
 }
