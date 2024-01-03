@@ -1,25 +1,32 @@
 package org.example.math;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class BOJ_2501 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int K = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
         int cnt = 0;
-        boolean flag = false;
+        boolean isExist = false;
         for (int i = 1; i <= N; i++) {
             if (N % i == 0) {
                 cnt++;
                 if (cnt == K) {
                     System.out.println(i);
-                    flag = true;
+                    isExist = true;
                     break;
                 }
             }
         }
-        if (!flag) System.out.println(0);
-        sc.close();
+
+        if (!isExist) System.out.println(0);
+        br.close();
     }
 }
