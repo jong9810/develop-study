@@ -9,24 +9,31 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-// 설정 파일은 역할과 구현이 잘 드러나는 것이 좋다. 
+// 설정 파일은 역할과 구현이 잘 드러나는 것이 좋다.
 // --> MemberRepository와 DiscountPolicy 객체는 역할이므로 메서드로 빼서 어떤 구현을 선택했는지 잘 보이게 리팩토링.
+@Configuration
 public class AppConfig {
 
+    @Bean
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
 
+    @Bean
     public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
 //        return new JdbcMemberRepository();
     }
 
+    @Bean
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
+    @Bean
     public DiscountPolicy discountPolicy() {
 //        return new FixDiscountPolicy();
         return new RateDiscountPolicy();
