@@ -1,7 +1,11 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import hello.core.order.OrderService;
+import hello.core.order.OrderServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +20,19 @@ import org.springframework.context.annotation.FilterType;
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class AutoAppConfig {
+
+    /*
+    // 필드 주입 예제
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    DiscountPolicy discountPolicy;
+
+    @Bean
+    OrderService orderService(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        return new OrderServiceImpl(memberRepository, discountPolicy);
+    }
+     */
 
     // 주의!! 의도적인 경우보다 여러 설정들이 꼬여서 충돌이 나는 경우가 더 많다(찾아내기 굉장히 어려움)!
     // 만약 자동 등록 빈과 수동 등록 빈의 이름이 같은 경우에는, 수동 등록빈이 우선권을 가진다(Spring Framework의 코어 모듈에서).
