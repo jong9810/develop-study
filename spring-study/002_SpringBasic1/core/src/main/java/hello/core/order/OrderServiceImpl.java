@@ -4,10 +4,11 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor // final 키워드가 붙은 모든 필드를 파라미터로 받는 생성자를 만들어줌.
+//@RequiredArgsConstructor // final 키워드가 붙은 모든 필드를 파라미터로 받는 생성자를 만들어줌.
 public class OrderServiceImpl implements OrderService {
 
     // * 필드 주입(거의 안 쓰임 <- 안티 패턴, 스프링 환경이 아닌 경우 테스트하기 어려움)
@@ -30,17 +31,19 @@ public class OrderServiceImpl implements OrderService {
         this.discountPolicy = discountPolicy;
     }
 */
-
-/*
+    
     // * 생성자 주입
     // OrderServiceImpl이 생성될 때 의존 관계가 같이 주입된다.
     //@Autowired // 생성자가 딱 1개만 있는 경우 @Autowired 생략 가능.
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    // @Autowired는 먼저 타입이 같은 빈을 찾고 빈이 2개 이상인 경우 필드명 또는 파라미터명이 같은 빈을 찾는다.
+    public OrderServiceImpl(
+            MemberRepository memberRepository,
+            DiscountPolicy discountPolicy
+    ) {
         System.out.println("1. OrderServiceImpl.OrderServiceImpl");
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
-*/
 
 /*
     // * 일반 메서드 주입(잘 사용하지 않음 -> 수정자나 생성자 주입으로 다 해결 가능)
