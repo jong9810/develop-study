@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -38,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     // @Autowired는 먼저 타입이 같은 빈을 찾고 빈이 2개 이상인 경우 필드명 또는 파라미터명이 같은 빈을 찾는다.
     public OrderServiceImpl(
             MemberRepository memberRepository,
-            DiscountPolicy discountPolicy
+            @MainDiscountPolicy DiscountPolicy discountPolicy
     ) {
         System.out.println("1. OrderServiceImpl.OrderServiceImpl");
         this.memberRepository = memberRepository;
