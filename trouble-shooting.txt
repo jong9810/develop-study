@@ -1,0 +1,4 @@
+# 01/22
+에러 : java.lang.IllegalStateException: Cannot resolve parameter names for constructor public com.example.demo.dto.board.BoardWriteDto(java.lang.String,java.lang.String,java.lang.String)
+원인 : BoardWriteDto에 lombok의 @Setter와 @AllArgsConstructor를 함께 정의해놓아서 @ModelAttribute가 제대로 작동하지 않음.
+해결 : @AllArgsConstructor를 없애고 @Setter만 남겨서 에러를 해결함.
