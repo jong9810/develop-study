@@ -1,4 +1,31 @@
+#01/23
+오동작 발견 : 게시글 수정시 조회수가 여러 번 증가함.
+
+원인 : BoardServiceImpl의 getOneBoard(Long boardId) : 게시글 id로 게시글을 조회하고 조회수를 증가시킴.
+	getOneBoard 메서드를 게시글 조회뿐만 아니라 게시글 수정 폼을 가져올 때도 사용해서 조회수가 여러 번 증가하게 됨.
+
+해결 : getOneBoard(Long boardId)와 getOneBoardAndAddViews(Long boardId)를 나누어서 게시글을 조회만 하는 메서드와 조회수도 증가시키는 메서드로 나눔.
+
+설명 : 조회수를 증가시키고 db에 저장하려면 트랜잭션 안에서 로직이 호출되어야 하므로 컨트롤러 계층이 아닌 서비스 계층에 메서드를 하나 더 만드는 방법을 선택했다.
+
+
 # 01/22
 에러 : java.lang.IllegalStateException: Cannot resolve parameter names for constructor public com.example.demo.dto.board.BoardWriteDto(java.lang.String,java.lang.String,java.lang.String)
-원인 : BoardWriteDto에 lombok의 @Setter와 @AllArgsConstructor를 함께 정의해놓아서 @ModelAttribute가 제대로 작동하지 않음.
-해결 : @AllArgsConstructor를 없애고 @Setter만 남겨서 에러를 해결함.
+
+원인 : BoardWriteDto에 lombok의 @Setter와 @AllArgsConstructor를 함께 정의해놓아서 @ModelAttribute가 제대로 작동하지 않음.(X)
+	@AllArgsConstructor만 정의해놓아서 기본 생성자가 사라짐. -> @ModelAttribute가 객체를 생성하지 못함. -> 오류(O)
+
+해결 : @AllArgsConstructor를 없애고 @Setter만 남겨서 에러를 해결함.(X)
+	DTO 객체에 @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor를 붙임.(O)
+
+설명 : @ModelAttribute는 기본 생성자가 아닌 생성자가 있으면 생성자를 통해서 파라미터 바인딩을 시도하고, 
+      	생성자가 없을 경우 setter를 통해 파라미터 바인딩을 한다. -> 생성자를 통해 주입을 받으면 테스트 코드에서도 생성자를 사용 가능하다.
+
+
+
+
+
+
+
+
+
