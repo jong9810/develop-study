@@ -1,3 +1,24 @@
+#01/25
+에러 : org.springframework.web.servlet.resource.NoResourceFoundException: No static resource board/update/1.
+
+원인 : 게시글 수정 url을 board/update/{id} 에서 board/edit/{id}로 바꿨는데, template 파일에는 수정하지 않아서 발생한 오류였다.
+
+해결 : boardEditForm.html에 form 태그의 action 속성을 board/edit/${board.id}로 바꿈.
+
+#01/24
+에러 : org.thymeleaf.exceptions.TemplateInputException: An error happened during template parsing (template: "class path resource [templates/home.html]")
+	Caused by: org.attoparser.ParseException: Error resolving fragment: "~{'fragments/header' :: header}": template or fragment could not be resolved (template: "home" - line 3, col 7)
+
+상황 : 강의에서 제공한 home.html 코드를 복사 붙여넣기 해서 넣고 실행했더니 위 오류가 발생함.
+	파일 내용을 다 지우고 hello만 적어놓고 실행할 때는 잘 실행됨.
+
+원인 : home.html 파일 코드에 <div th:replace="fragments/header :: header"/>코드가 있었는데 
+	fragments/header.html 파일이 없어서 오류가 뜬 것으로 예상됨.
+
+해결 : fragments디렉토리에 bodyHeader.html 파일도 복붙하니 오류가 해결 되었음.
+
+정리 : TemplateInputException은 html파일이 없거나 문제가 있는 경우에 발생한다.
+
 #01/23
 오동작 발견 : 게시글 수정시 조회수가 여러 번 증가함.
 
