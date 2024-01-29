@@ -14,11 +14,12 @@ public class BOJ_4134_2 {
 
             if (number >= 0 && number <= 2) {
                 sb.append(2).append("\n");
+                continue;
             }
 
             while (true) {
                 boolean isPrime = true;
-                for (int i = 3; i < Math.sqrt(number); i++) {
+                for (int i = 2; i <= Math.sqrt(number); i++) {
                     if (number % i == 0) {
                         isPrime = false;
                         break;
