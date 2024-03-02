@@ -1,3 +1,16 @@
+#03/02
+에러 : java.lang.IllegalArgumentException: Name for argument of type [java.lang.String] not specified, and parameter name information not available via reflection. Ensure that the compiler uses the '-parameters' flag.
+
+원인 : Spring boot 컨트롤러에 @RequestParam을 정의할 때 value 속성을 명시해주지 않아서 바인딩할 파라미터를 찾지 못함.
+
+해결 : @RequestParam(value = "파라미터명")으로 url 파라미터 앞에 파라미터명을 명시해줘서 해결.
+
+에러 : Failed to launch 'localhost:8080/bible/search?oldNew=OLD&doc=psa&startChapter=150&startVerse=1&endChapter=150&endVerse=5' because the scheme does not have a registered handler.
+
+원인 : http://를 호스트명 앞에 적어주어야 하는데 적지 않음..
+
+해결 : http://를 location.href로 이동할 url 앞에 추가함.
+
 #02/21
 성장 : Spring boot에서 외부 API를 호출하기 위해 WebClient 사용법을 공부해서 적용했다.
 	반환받은 데이터를 바인딩하기 위해 record 클래스를 공부하고 사용하지는 않았다(대신 class에 @Data를 사용함) 	.
