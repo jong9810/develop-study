@@ -3,6 +3,7 @@ package com.example.springjwt.config;
 import com.example.springjwt.jwt.JwtFilter;
 import com.example.springjwt.jwt.JwtUtil;
 import com.example.springjwt.jwt.LoginFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +41,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        // cors 설정
+        http
+                .cors((cors) -> cors
+                        .configurationSource(new CorsConfigurationSource() {
+                            @Override
+                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                                CorsConfiguration configuration = new CorsConfiguration();
+
+                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // 허용할 포트(프론트엔드 서버 등)
+                                configuration.setAllowedMethods(Collections.singletonList("*")); // 허용할 http 메소드
+                                configuration.setAllowCredentials(true); //credential 설정
+                                configuration.setAllowedHeaders(Collections.singletonList("*")); // 허용할 헤더
+                                configuration.setMaxAge(3600L); // 허용을 물고있을 시간
+
+                                configuration.setExposedHeaders(Collections.singletonList("Authorization")); // 외부에 노출을 허용할 헤더
+                                return configuration;
+                            }
+                        }));
 
         // csrf disable
         // 세션 방식에서는 세션이 고정되기 때문에 csrf 공격에 취약하지만,
