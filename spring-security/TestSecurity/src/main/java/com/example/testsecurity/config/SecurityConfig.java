@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // Spring Security 버전마다 SecurityConfig 구현 방법이 조금 달라서 버전에 맞는 방법을 찾아보면서 작성해야 한다.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -25,6 +26,17 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated());
+
+        // csrf disable
+        http
+                .csrf((auth) -> auth.disable());
+
+        // 커스텀 로그인 설정
+        http
+                .formLogin((auth) -> auth
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        .permitAll());
 
         return http.build();
     }
