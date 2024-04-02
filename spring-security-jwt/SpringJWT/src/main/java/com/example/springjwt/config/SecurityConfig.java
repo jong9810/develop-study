@@ -103,5 +103,6 @@ public class SecurityConfig {
 
 // JWT의 궁극적인 목표?
 // https://www.youtube.com/watch?v=qIG-GNorXG4&list=PLJkjrxxiBSFCcOjy0AAVGNtIa08VLk1EJ&index=14
+// https://substantial-park-a17.notion.site/14-JWT-3721466022d24a2fad0e7272e5b15c76?pvs=4
 // JWT 방식과 세션 방식(Redis)를 같이 사용해서 JWT의 장점과 세션 방식의 장점을 모두 사용하는 것이 좋다.
 // 하나의 방식만 고집하게 되면 결국 목적을 잃고 '만드는 사람'이 아니라 '만드는 동물'이 되어 버릴 수도 있다.
