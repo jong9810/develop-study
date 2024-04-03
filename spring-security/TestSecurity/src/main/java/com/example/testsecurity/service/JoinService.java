@@ -35,7 +35,7 @@ public class JoinService {
         UserEntity data = new UserEntity();
         data.setUsername(username);
         data.setPassword(bCryptPasswordEncoder.encode(joinDto.getPassword()));
-        data.setRole("ROLE_USER");
+        data.setRole("ROLE_ADMIN");
 
         userRepository.save(data);
     }
