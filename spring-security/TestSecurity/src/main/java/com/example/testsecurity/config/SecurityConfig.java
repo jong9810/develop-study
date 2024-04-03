@@ -34,16 +34,33 @@ public class SecurityConfig {
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated());
 
-        // csrf disable
+        // 2. csrf disable
         http
                 .csrf((auth) -> auth.disable());
 
-        // 커스텀 로그인 설정
+        // 3. 커스텀 로그인 설정
         http
                 .formLogin((auth) -> auth
                         .loginPage("/login")
                         .loginProcessingUrl("/loginProc")
                         .permitAll());
+
+        // 4. 다중 로그인 설정
+        // maximumSessions(정수) : 하나의 아이디에 대해 다중 로그인 허용 개수.
+        // maxSessionsPreventsLogin(불린) : 다중 로그인 개수를 초과하였을 때 새로운 로그인 시도를 차단할 것인지.
+        //                                 true; 새로운 로그인 차단, false; 기존 세션 하나 삭제하고 새로운 로그인 허용.
+        http
+                .sessionManagement((auth) -> auth
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true));
+
+        // 5. 세션 고정 공격에 대해 보호
+        // none() : 로그인 시 세션 정보를 변경하지 않음.
+        // newSession() : 로그인 시 세션을 새로 생성.
+        // changeSessionId() : 로그인 시 동일한 세션에 대해 id를 변경.
+        http
+                .sessionManagement((auth) -> auth
+                        .sessionFixation().changeSessionId());
 
         return http.build();
     }
