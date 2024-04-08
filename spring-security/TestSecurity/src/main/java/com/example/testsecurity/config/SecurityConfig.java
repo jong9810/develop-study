@@ -34,9 +34,10 @@ public class SecurityConfig {
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated());
 
-        // 2. csrf disable
-        http
-                .csrf((auth) -> auth.disable());
+        // 2. csrf 설정
+        // api 서버의 경우 보통 세션을 stateless 상태로 관리하기 때문에 csrf 설정을 disable해도 보안상 문제가 없다.
+//        http
+//                .csrf((auth) -> auth.disable());
 
         // 3. 커스텀 로그인 설정
         http
