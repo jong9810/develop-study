@@ -2,6 +2,7 @@ package com.example.testsecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -44,11 +45,16 @@ public class SecurityConfig {
 //                .csrf((auth) -> auth.disable());
 
         // 3. 커스텀 로그인 설정
-        http
-                .formLogin((auth) -> auth
-                        .loginPage("/login")
-                        .loginProcessingUrl("/loginProc")
-                        .permitAll());
+//        http
+//                .formLogin((auth) -> auth
+//                        .loginPage("/login")
+//                        .loginProcessingUrl("/loginProc")
+//                        .permitAll());
+
+        // * HTTP Basic 방식 로그인(주로 MSA 아키텍쳐에서 사용)
+        // https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html
+            http
+                    .httpBasic(Customizer.withDefaults());
 
         // 4. 다중 로그인 설정
         // maximumSessions(정수) : 하나의 아이디에 대해 다중 로그인 허용 개수.
