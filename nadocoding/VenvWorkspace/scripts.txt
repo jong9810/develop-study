@@ -1,0 +1,12 @@
+# 가상환경 만들기
+python -m venv 폴더명
+python -m venv 폴더명 --system-site-packages
+
+# 가상환경 삭제
+rmdir 폴더명
+
+# 가상환경 실행
+경로/activate
+
+# 가상환경 종료
+deactivate
