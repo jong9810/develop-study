@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BootApplication {
 
+	// 아래의 코드 한 줄로 인해 수 많은 일들이 발생하지만 핵심은 2가지이다.
+	// 1) 스프링 컨테이너를 생성한다,
+	// 2) WAS(내장 톰캣)를 생성한다.
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
 	}
