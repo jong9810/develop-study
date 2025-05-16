@@ -3,36 +3,35 @@ package org.example;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = Integer.parseInt(br.readLine());
+        int N = Integer.parseInt(br.readLine());
+        int[][] arr = new int [N][2];
 
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            String word = br.readLine();
+        StringTokenizer st;
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            arr[i][0] = Integer.parseInt(st.nextToken());
+            arr[i][1] = Integer.parseInt(st.nextToken());
+        }
 
-            int[] idxArr = new int[26];
-            boolean isGroup = true;
-            for (int j = 1; j <= word.length(); j++) {
-                int alp = word.charAt(j - 1) - 'a';
-                if (idxArr[alp] == 0 || idxArr[alp] + 1 == j) {
-                    idxArr[alp] = j;
-                } else {
-                    isGroup = false;
-                    break;
-                }
-            }
+        int result = 100 * N;
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                int diffX = Math.abs(arr[j][0] - arr[i][0]);
+                int diffY = Math.abs(arr[j][1] - arr[i][1]);
 
-            if (isGroup) {
-                count++;
+                if (diffX >= 10 || diffY >= 10) continue;
+
+                result -= (10 - diffX) * (10 - diffY);
             }
         }
-        System.out.println(count);
-
+        System.out.println(result);
         br.close();
     }
 }
